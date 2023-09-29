@@ -37,6 +37,7 @@ public class App extends Application {
             System.out.println("this is a test too");
         }
         launch();
+        System.out.println("new test");
     }
 
 }
