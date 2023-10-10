@@ -34,10 +34,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        System.out.println("Test");
-        for (int i = 0; i < 10; i++){
-            System.out.println("this is a test too");
-        }
         launch();
     }
 
