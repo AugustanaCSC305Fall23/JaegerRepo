@@ -17,10 +17,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("primary"), 1000, 700);
         stage.setScene(scene);
         stage.setMinWidth(1000);
-        stage.setMinHeight(600);
+        stage.setMinHeight(700);
         stage.show();
     }
 
@@ -39,7 +39,6 @@ public class App extends Application {
             System.out.println("this is a test too");
         }
         launch();
-        System.out.println("new test");
     }
 
 }
