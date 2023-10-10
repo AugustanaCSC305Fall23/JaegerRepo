@@ -183,12 +183,30 @@
             </ImageView>
             <HBox alignment="CENTER" prefHeight="150.0" prefWidth="289.0">
                <children>
-                  <TextField prefHeight="26.0" prefWidth="183.0" />
-                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" style="-fx-background-color: #9472C1; -fx-background-radius: 8;" text="Search" textFill="WHITE">
+                  <TextField prefHeight="26.0" prefWidth="183.0">
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets />
                      </HBox.margin>
-                  </Button>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TextField>
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #EBDDFA; -fx-background-radius: 15;">
+                     <children>
+                        <ImageView fitHeight="33.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/search.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" prefHeight="22.0" prefWidth="71.0" text="Search" textAlignment="CENTER" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets bottom="58.0" left="15.0" top="58.0" />
+                     </HBox.margin>
+                  </HBox>
                </children>
             </HBox>
          </children>
