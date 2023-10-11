@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 public class PrimaryController {
 
@@ -30,7 +31,10 @@ public class PrimaryController {
 
     }
 
-
-
+    @FXML
+    private void addLessonPlanPopUpWindow() throws IOException {
+        Stage stage = (Stage) cardGrid.getScene().getWindow();
+        App.popUpWindow("addLessonPlanPopUp.fxml", stage);
+    }
 
 }

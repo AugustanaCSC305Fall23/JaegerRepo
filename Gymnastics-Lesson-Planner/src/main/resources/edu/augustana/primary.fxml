@@ -90,7 +90,7 @@
                               <Image url="@images/DEMO1Pack/2.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="159.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="159.0" layoutY="158.0" onMouseClicked="#addLessonPlanPopUpWindow" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/add.png" />
                            </image>
@@ -106,7 +106,7 @@
                               <Image url="@images/DEMO1Pack/3.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#addLessonPlanPopUpWindow" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/add.png" />
                            </image>
@@ -120,7 +120,7 @@
                               <Image url="@images/DEMO1Pack/5.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#addLessonPlanPopUpWindow" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/add.png" />
                            </image>
@@ -134,7 +134,7 @@
                               <Image url="@images/DEMO1Pack/6.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#addLessonPlanPopUpWindow" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/add.png" />
                            </image>
@@ -148,7 +148,7 @@
                               <Image url="@images/DEMO1Pack/14.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#addLessonPlanPopUpWindow" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/add.png" />
                            </image>
@@ -162,7 +162,7 @@
                               <Image url="@images/DEMO1Pack/9.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="165.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="165.0" layoutY="158.0" onMouseClicked="#addLessonPlanPopUpWindow" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/add.png" />
                            </image>
