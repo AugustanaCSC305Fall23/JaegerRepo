@@ -18,6 +18,11 @@ public class AddLessonPlanPopUpController {
     private void initialize(){
 
    }
+    @FXML
+    private void lessonSelected(){
+        Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
+        currWindow.close();
+    }
 
     @FXML
     private void newLessonPlanPopUpWindow() throws IOException {
