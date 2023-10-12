@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -24,11 +25,12 @@ public class AddLessonPlanPopUpController {
         fxmlLoader.setLocation(getClass().getResource("createNewLessonPlanPopUp.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         Stage stage = new Stage();
-        stage.setTitle("New Window");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle("Create new lesson plan");
         stage.setScene(scene);
         stage.show();
-
-
+        Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
+        currWindow.close();
     }
 
 

@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #E4CCFF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #E4CCFF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.CreateNewLessonPlanPopUpController">
    <children>
       <VBox alignment="CENTER" prefHeight="72.0" prefWidth="600.0">
          <children>
@@ -20,9 +19,9 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="138.0" prefWidth="600.0">
          <children>
-            <TextField prefHeight="26.0" prefWidth="463.0" promptText="Name" />
+            <TextField fx:id="lessonName" prefHeight="26.0" prefWidth="463.0" promptText="Name" />
          </children>
       </VBox>
-      <Button mnemonicParsing="false" style="-fx-background-radius: 10; -fx-background-color: white; -fx-text-fill: black;" text="Create" textFill="#463b3b" />
+      <Button fx:id="createNewLessonButton" mnemonicParsing="false" onAction="#createnewLesson" prefHeight="28.0" prefWidth="154.0" style="-fx-background-radius: 10; -fx-background-color: white; -fx-text-fill: black;" text="Create" textFill="#463b3b" />
    </children>
 </VBox>
