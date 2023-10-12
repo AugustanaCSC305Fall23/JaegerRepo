@@ -1,14 +1,16 @@
 package edu.augustana;
 
-import java.io.IOException;
-import java.nio.channels.Pipe;
-
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class PrimaryController {
 
@@ -20,6 +22,7 @@ public class PrimaryController {
 
     @FXML
     private VBox filters;
+
     @FXML
     private void switchToSecondary() throws IOException {
         System.out.println("This is a test");
@@ -27,14 +30,21 @@ public class PrimaryController {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
 
     }
 
     @FXML
     private void addLessonPlanPopUpWindow() throws IOException {
-        Stage stage = (Stage) cardGrid.getScene().getWindow();
-        App.popUpWindow("addLessonPlanPopUp.fxml", stage);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("addLessonPlanPopUp.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Stage stage = new Stage();
+        stage.setTitle("New Window");
+        stage.setScene(scene);
+        stage.show();
+
+
     }
 
 }
