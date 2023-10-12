@@ -15,7 +15,7 @@
       </Label>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="647.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 1" textFill="#2d2b2b">
+            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 1" textFill="#2d2b2b">
                <font>
                   <Font name="Segoe Print Bold" size="12.0" />
                </font>
@@ -23,7 +23,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="613.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 2" textFill="#2d2b2b">
+            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 2" textFill="#2d2b2b">
                <font>
                   <Font name="Segoe Print Bold" size="12.0" />
                </font>
@@ -31,7 +31,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="798.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 3" textFill="#2d2b2b">
+            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 3" textFill="#2d2b2b">
                <font>
                   <Font name="Segoe Print Bold" size="12.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="792.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 4" textFill="#2d2b2b">
+            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 4" textFill="#2d2b2b">
                <font>
                   <Font name="Segoe Print Bold" size="12.0" />
                </font>
