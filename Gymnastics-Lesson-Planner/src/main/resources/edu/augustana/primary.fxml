@@ -16,10 +16,42 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="906.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.PrimaryController">
+<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.PrimaryController">
    <left>
       <VBox fx:id="filters" alignment="TOP_CENTER" fillWidth="false" prefHeight="478.0" prefWidth="218.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
+            <ImageView fitHeight="121.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logo.png" />
+               </image>
+            </ImageView>
+            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="289.0">
+               <children>
+                  <TextField prefHeight="26.0" prefWidth="183.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TextField>
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="40.0" style="-fx-background-color: #EBDDFA; -fx-background-radius: 15;">
+                     <children>
+                        <ImageView fitHeight="33.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/search.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets bottom="58.0" left="15.0" top="58.0" />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+            </HBox>
             <Label alignment="CENTER" prefHeight="31.0" prefWidth="122.0" style="-fx-background-color: E4CCFF; -fx-background-radius: 10; -fx-text-fill: black;" text="Filters" textFill="WHITE">
                <font>
                   <Font size="21.0" />
@@ -186,60 +218,7 @@
          </children>
       </AnchorPane>
    </bottom>
-   <top>
-      <HBox alignment="CENTER" prefHeight="92.0" prefWidth="906.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="167.0">
-               <children>
-                  <ImageView fitHeight="57.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/menu.png" />
-                     </image>
-                  </ImageView>
-                  <Button mnemonicParsing="false" onMouseClicked="#switchToSecondary" prefHeight="31.0" prefWidth="74.0" style="-fx-background-color: #9472C1; -fx-background-radius: 8;" text="Home" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <ImageView fitHeight="140.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/logo.png" />
-               </image>
-               <HBox.margin>
-                  <Insets left="170.0" right="40.0" />
-               </HBox.margin>
-            </ImageView>
-            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="289.0">
-               <children>
-                  <TextField prefHeight="26.0" prefWidth="183.0">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </TextField>
-                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="120.0" style="-fx-background-color: #EBDDFA; -fx-background-radius: 15;">
-                     <children>
-                        <ImageView fitHeight="33.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/search.png" />
-                           </image>
-                        </ImageView>
-                        <Label alignment="CENTER" prefHeight="22.0" prefWidth="71.0" text="Search" textAlignment="CENTER" />
-                     </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets bottom="58.0" left="15.0" top="58.0" />
-                     </HBox.margin>
-                  </HBox>
-               </children>
-            </HBox>
-         </children>
-      </HBox>
-   </top>
+   <right>
+      <VBox prefHeight="426.0" prefWidth="176.0" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>
