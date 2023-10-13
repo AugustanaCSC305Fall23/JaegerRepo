@@ -32,11 +32,20 @@ public class PrimaryController {
 
     @FXML
     private void initialize() {
-
     }
 
+
     @FXML
-    private void addLessonPlanPopUpWindow() throws IOException {
+    private void plusClicked() throws IOException {
+        if (App.isLessonSelected()){
+            System.out.println("lesson clicked");
+        }else{
+            showAddLessonPlanPopUpWindow();
+        }
+    }
+
+
+    private void showAddLessonPlanPopUpWindow() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("addLessonPlanPopUp.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
@@ -45,7 +54,6 @@ public class PrimaryController {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
-
     }
 
 }

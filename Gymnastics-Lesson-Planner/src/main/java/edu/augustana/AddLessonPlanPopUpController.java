@@ -21,6 +21,7 @@ public class AddLessonPlanPopUpController {
     @FXML
     private void lessonSelected(){
         Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
+        App.lessonSelected(true);
         currWindow.close();
     }
 
