@@ -19,6 +19,7 @@ public class App extends Application {
 
     private static Scene scene;
     private static boolean selected;
+
     @Override
     public void start(Stage stage) throws IOException {
         selected = false;
