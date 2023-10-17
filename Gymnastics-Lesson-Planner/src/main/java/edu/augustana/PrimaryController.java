@@ -61,12 +61,6 @@ public class PrimaryController {
         HashMap<String, Card> cards = App.getCardHashMap();
         HBox row = new HBox();
         for (String cardId : cards.keySet()){
-            ImageView plusButton = new ImageView();
-            plusButton.setImage(getImage(App.imagesFilePath + "\\add.png"));
-
-            plusButton.setPreserveRatio(true);
-            plusButton.setFitWidth(30);
-            plusButton.setFitHeight(30);
             if (currCol == 3){
                 row.setAlignment(Pos.CENTER);
                 addHBoxToGrid(cardGrid, row, currRow);
@@ -76,28 +70,11 @@ public class PrimaryController {
             }
 
             VBox imageAndButton = new VBox();
-            ImageView cardImage = new ImageView();
-            cardImage.setImage(getImage(cards.get(cardId).getFilePath()));
-            cardImage.setPreserveRatio(true);
-            cardImage.setFitWidth(250);
-
-            VBox cardImageWrapper = new VBox(cardImage);
-            VBox plusButtonWrapper = new VBox(plusButton);
-
-            VBox.setMargin(cardImageWrapper, new Insets(0, 0, 10, 0));
             imageAndButton.setPadding(new Insets(20, 20, 5, 20));
             imageAndButton.setStyle("-fx-border-color: grey");
-            plusButtonWrapper.setAlignment(Pos.BOTTOM_RIGHT);
-            plusButtonWrapper.setOnMouseClicked(event -> {
-                try {
-                    plusClicked();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
 
-            imageAndButton.getChildren().add(cardImageWrapper);
-            imageAndButton.getChildren().add(plusButtonWrapper);
+            imageAndButton.getChildren().add(prepareCardForGrid(cards, cardId));
+            imageAndButton.getChildren().add(preparePlusButtonForGrid());
             imageAndButton.setAlignment(Pos.TOP_RIGHT);
 
             row.getChildren().add(imageAndButton);
@@ -105,18 +82,50 @@ public class PrimaryController {
         }
     }
 
+    private VBox prepareCardForGrid(HashMap<String, Card> cards, String cardId) throws FileNotFoundException {
+        ImageView cardImage = new ImageView();
+        cardImage.setImage(getImage(cards.get(cardId).getFilePath()));
+        cardImage.setPreserveRatio(true);
+        cardImage.setFitWidth(250);
+
+        VBox cardImageWrapper = new VBox(cardImage);
+
+        VBox.setMargin(cardImageWrapper, new Insets(0, 0, 10, 0));
+
+
+        return cardImageWrapper;
+    }
+
+    private VBox preparePlusButtonForGrid() throws FileNotFoundException {
+        ImageView plusButton = new ImageView();
+        plusButton.setImage(getImage(App.imagesFilePath + "\\add.png"));
+
+        plusButton.setPreserveRatio(true);
+        plusButton.setFitWidth(30);
+        plusButton.setFitHeight(30);
+        VBox plusButtonWrapper = new VBox(plusButton);
+        plusButtonWrapper.setAlignment(Pos.BOTTOM_RIGHT);
+        plusButtonWrapper.setOnMouseClicked(event -> {
+            try {
+                plusClicked();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return plusButtonWrapper;
+    }
     private void addHBoxToGrid(GridPane grid,HBox row, int rowNum){
         grid.add(row, 0, rowNum);
     }
 
     @FXML
     private void plusClicked() throws IOException {
-        showAddLessonPlanPopUpWindow();
-//        if (App.isLessonSelected()){
-//            System.out.println("lesson clicked");
-//        }else{
-//            showAddLessonPlanPopUpWindow();
-//        }
+        if (App.isLessonSelected()){
+            System.out.println("lesson clicked");
+        }else{
+            showAddLessonPlanPopUpWindow();
+        }
     }
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
