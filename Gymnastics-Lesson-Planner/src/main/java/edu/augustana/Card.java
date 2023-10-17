@@ -6,34 +6,34 @@ public class Card {
     private String category;
     private String title;
     private String filePath;
-    private Character gender;
-    private Character modelSex;
+    private String gender;
+    private String modelSex;
     private String level;
     private String[] equipment;
     private String[] keywords;
 
-    public Card(String code, String event, String category, String title, String folder, String fileName, Character gender, Character modelSex, String level, String[] equipment, String[] keywords){
-        this.code = code;
-        this.event = event;
-        this.category = category;
-        this.title = title;
-        this.filePath = folder + "/" + fileName;
-        this.gender = gender;
-        this.modelSex = modelSex;
-        this.level = level;
-        this.equipment = equipment;
-        this.keywords = keywords;
+    public Card(String[] csvData){
+        this.code = csvData[0];
+        this.event = csvData[1];
+        this.category = csvData[2];
+        this.title = csvData[3];
+        this.filePath = App.imagesFilePath + "/" + csvData[4] + "/" + csvData[5];
+        this.gender = csvData[6];
+        this.modelSex = csvData[7];
+        this.level = csvData[8];
+        this.equipment = csvData[9].split(", ");
+        this.keywords = csvData[10].split(", ");
     }
 
     public String getTitle() {
         return title;
     }
 
-    public Character getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public Character getModelSex() {
+    public String getModelSex() {
         return modelSex;
     }
 

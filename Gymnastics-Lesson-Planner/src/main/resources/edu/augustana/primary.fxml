@@ -9,11 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -94,7 +90,7 @@
       </VBox>
    </left>
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="446.0" prefWidth="688.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
+      <VBox fx:id="centerArea" alignment="TOP_CENTER" prefHeight="446.0" prefWidth="688.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -108,115 +104,10 @@
                   </Label>
                   <ComboBox fx:id="pickLessonComboBox" prefWidth="150.0" />
                </children>
-            </HBox>
-            <GridPane fx:id="cardGrid" alignment="CENTER" prefHeight="379.0" prefWidth="642.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="242.80453491210938" minWidth="10.0" prefWidth="193.95230102539062" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="157.29241943359375" minWidth="0.0" prefWidth="22.854400634765625" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.642333984375" minWidth="10.0" prefWidth="195.0592041015625" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.642333984375" minWidth="8.9212646484375" prefWidth="19.9407958984375" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="296.58734130859375" minWidth="10.0" prefWidth="203.491943359375" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="235.47540283203125" minWidth="10.0" prefWidth="23.79522705078125" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints maxHeight="252.0" minHeight="10.0" prefHeight="188.8000061035156" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="184.92010498046875" minHeight="0.0" prefHeight="16.800018310546875" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="194.25961303710938" minHeight="0.0" prefHeight="173.59998168945316" vgrow="SOMETIMES" />
-              </rowConstraints>
                <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="30.0" />
                </VBox.margin>
-               <children>
-                  <Pane prefHeight="148.0" prefWidth="216.0" GridPane.rowIndex="1" />
-                  <Pane prefHeight="174.0" prefWidth="143.0" style="-fx-background-color: #f5f5f5;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Pane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="190.0" style="-fx-background-color: #E6E6E6;">
-                     <children>
-                        <ImageView fitHeight="136.0" fitWidth="178.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/DEMO1Pack/2.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="159.0" layoutY="158.0" onMouseClicked="#plusClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/add.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="174.0" prefWidth="202.0" style="-fx-background-color: #f5f5f5;" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <Pane prefHeight="148.0" prefWidth="216.0" style="-fx-background-color: #f5f5f5;" GridPane.rowIndex="1" />
-                  <Pane minWidth="-Infinity" prefHeight="200.0" prefWidth="190.0" style="-fx-background-color: #E6E6E6;" GridPane.columnIndex="2">
-                     <children>
-                        <ImageView fitHeight="136.0" fitWidth="178.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/DEMO1Pack/3.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#plusClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/add.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Pane minWidth="-Infinity" prefHeight="200.0" prefWidth="190.0" style="-fx-background-color: #E6E6E6;" GridPane.columnIndex="4">
-                     <children>
-                        <ImageView fitHeight="136.0" fitWidth="178.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/DEMO1Pack/5.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#plusClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/add.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="200.0" prefWidth="190.0" style="-fx-background-color: #E6E6E6;" GridPane.rowIndex="2">
-                     <children>
-                        <ImageView fitHeight="136.0" fitWidth="178.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/DEMO1Pack/6.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#plusClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/add.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="200.0" prefWidth="190.0" style="-fx-background-color: #E6E6E6;" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <children>
-                        <ImageView fitHeight="136.0" fitWidth="178.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/DEMO1Pack/14.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="158.0" layoutY="158.0" onMouseClicked="#plusClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/add.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="200.0" prefWidth="190.0" style="-fx-background-color: #E6E6E6;" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                     <children>
-                        <ImageView fitHeight="136.0" fitWidth="178.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/DEMO1Pack/9.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="165.0" layoutY="158.0" onMouseClicked="#plusClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/add.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-               </children>
-            </GridPane>
+            </HBox>
          </children>
       </VBox>
    </center>
@@ -233,7 +124,7 @@
       </AnchorPane>
    </bottom>
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="700.0" prefWidth="214.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="700.0" prefWidth="214.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
             <Label text="Cards Selected">
                <font>
