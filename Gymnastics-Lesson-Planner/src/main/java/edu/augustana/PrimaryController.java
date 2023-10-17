@@ -50,10 +50,9 @@ public class PrimaryController {
         addCardsToHboxToGrid(cardGrid);
     }
 
-    private ImageView getImageView(String path) throws FileNotFoundException {
-        ImageView image = new ImageView();
-        image.setImage(new Image(new FileInputStream(path)));
-        return image;
+    private Image getImage(String path) throws FileNotFoundException {
+        return new Image(new FileInputStream(path));
+
     }
 
     private void addCardsToHboxToGrid(GridPane cardGrid) throws FileNotFoundException {
@@ -62,14 +61,9 @@ public class PrimaryController {
         HashMap<String, Card> cards = App.getCardHashMap();
         HBox row = new HBox();
         for (String cardId : cards.keySet()){
-            ImageView plusButton = getImageView(App.imagesFilePath + "\\add.png");
-            plusButton.setOnMouseClicked(event -> {
-                try {
-                    plusClicked();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            ImageView plusButton = new ImageView();
+            plusButton.setImage(getImage(App.imagesFilePath + "\\add.png"));
+
             plusButton.setPreserveRatio(true);
             plusButton.setFitWidth(30);
             plusButton.setFitHeight(30);
@@ -82,20 +76,29 @@ public class PrimaryController {
             }
 
             VBox imageAndButton = new VBox();
-            ImageView cardImage = getImageView(cards.get(cardId).getFilePath());
+            ImageView cardImage = new ImageView();
+            cardImage.setImage(getImage(cards.get(cardId).getFilePath()));
             cardImage.setPreserveRatio(true);
             cardImage.setFitWidth(250);
-            VBox cardImageWrapperForMargin = new VBox(cardImage);
 
-            VBox.setMargin(cardImageWrapperForMargin, new Insets(0, 0, 10, 0));
+            VBox cardImageWrapper = new VBox(cardImage);
+            VBox plusButtonWrapper = new VBox(plusButton);
+
+            VBox.setMargin(cardImageWrapper, new Insets(0, 0, 10, 0));
             imageAndButton.setPadding(new Insets(20, 20, 5, 20));
             imageAndButton.setStyle("-fx-border-color: grey");
+            plusButtonWrapper.setAlignment(Pos.BOTTOM_RIGHT);
+            plusButtonWrapper.setOnMouseClicked(event -> {
+                try {
+                    plusClicked();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
-            imageAndButton.getChildren().add(cardImageWrapperForMargin);
-            imageAndButton.getChildren().add(plusButton);
+            imageAndButton.getChildren().add(cardImageWrapper);
+            imageAndButton.getChildren().add(plusButtonWrapper);
             imageAndButton.setAlignment(Pos.TOP_RIGHT);
-
-
 
             row.getChildren().add(imageAndButton);
             currCol++;
@@ -108,11 +111,12 @@ public class PrimaryController {
 
     @FXML
     private void plusClicked() throws IOException {
-        if (App.isLessonSelected()){
-            System.out.println("lesson clicked");
-        }else{
-            showAddLessonPlanPopUpWindow();
-        }
+        showAddLessonPlanPopUpWindow();
+//        if (App.isLessonSelected()){
+//            System.out.println("lesson clicked");
+//        }else{
+//            showAddLessonPlanPopUpWindow();
+//        }
     }
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
