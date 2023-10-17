@@ -4,18 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.PopupControl;
-import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -51,7 +44,6 @@ public class App extends Application {
             String[] cardData = line.split(",");    // use comma as separator
             Card newCard = new Card(cardData);
             cardHashMap.put(cardData[0], newCard);
-            System.out.println(cardData[0]);
         }
     }
 

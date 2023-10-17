@@ -105,14 +105,14 @@
                   <ComboBox fx:id="pickLessonComboBox" prefWidth="150.0" />
                </children>
                <VBox.margin>
-                  <Insets bottom="30.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
          </children>
       </VBox>
    </center>
    <bottom>
-      <AnchorPane prefHeight="12.0" prefWidth="906.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="12.0" prefWidth="906.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="52.0" layoutY="21.0" prefHeight="23.0" prefWidth="98.0" style="-fx-background-color: #E4CCFF; -fx-background-radius: 10;" text="Equipments:" AnchorPane.leftAnchor="52.0">
                <padding>
