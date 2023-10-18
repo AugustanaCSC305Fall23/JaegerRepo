@@ -1,22 +1,24 @@
 package edu.augustana;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Lesson {
-    private ArrayList<Card> cards;
+    private HashMap<String, Card> cardHashMap;
     private String lessonName;
 
     public Lesson(String lessonName){
-        cards = new ArrayList<>();
+        cardHashMap = new HashMap<>();
         this.lessonName = lessonName;
     }
 
-    public void addCard(Card newCard){
-        cards.add(newCard);
+    private void addCard(Card newCard){
+        cardHashMap.put(newCard.getCode(), newCard);
     }
-
-    public String getLessonName() {
+    private String getLessonName() {
         return lessonName;
     }
+
+
 
 }

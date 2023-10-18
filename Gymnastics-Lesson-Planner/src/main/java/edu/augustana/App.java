@@ -16,6 +16,7 @@ import java.util.HashMap;
  */
 public class App extends Application {
     public static final String imagesFilePath = System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\images";
+    // relative path didn't work so this finds the absolute path to the images folder regardless of the device
     private static Scene scene;
     private static boolean selected;
     private static HashMap<String, Card> cardHashMap;
@@ -36,12 +37,17 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
+    /**
+     * @throws IOException
+     *
+     * Reads the csv file and creates card objects and stores it into a hashmap
+     */
     public void readDataFromFile() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(imagesFilePath + "/Demo1/DEMO1.csv"));
         String line = br.readLine();
-        while ((line = br.readLine()) != null)   //returns a Boolean value
+        while ((line = br.readLine()) != null)
         {
-            String[] cardData = line.split(",");    // use comma as separator
+            String[] cardData = line.split(",");    // "spliting using comma cause it's a spece"
             Card newCard = new Card(cardData);
             cardHashMap.put(cardData[0], newCard);
         }
