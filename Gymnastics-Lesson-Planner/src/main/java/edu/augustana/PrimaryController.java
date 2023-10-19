@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -16,6 +17,8 @@ import javafx.stage.StageStyle;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class PrimaryController {
 
@@ -28,11 +31,49 @@ public class PrimaryController {
     @FXML
     private ComboBox<String> pickLessonComboBox;
     @FXML
+    private ScrollPane filterScrollPane;
+    @FXML
+    private VBox allOptions;
+    @FXML
     private void initialize() throws IOException {
         pickLessonComboBox.getItems().addAll("+ Create New Lesson");
         loadImagesToGridView();
+        initializefilters();
     }
 
+    private void initializefilters(){
+        HashMap<String, TreeSet<String>> filterOptions = App.getFilterOptions();
+        allOptions.setAlignment(Pos.CENTER);
+        for (String option : filterOptions.keySet()){
+            VBox newOption = new VBox();
+            newOption.setAlignment(Pos.CENTER);
+            newOption.getChildren().add(getCategoryButton(option));
+            for (String subOption : filterOptions.get(option)){
+                newOption.getChildren().add(getSubCategoryButton(subOption));
+            }
+            allOptions.getChildren().add(newOption);
+        }
+    }
+    private VBox getCategoryButton(String categoryName){
+        Button button = new Button(categoryName);
+        button.setStyle("-fx-background-color: #E4CCFF; -fx-background-radius: 10; -fx-text-fill: black; -fx-font-size: 15");
+        button.setPrefWidth(180);
+        button.setPrefHeight(35);
+        VBox buttonWrapper = new VBox(button);
+        buttonWrapper.setAlignment(Pos.CENTER);
+        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
+        return buttonWrapper;
+    }
+    private VBox getSubCategoryButton(String subCategoryName){
+        Button button = new Button(subCategoryName);
+        button.setStyle("-fx-background-color: #E4CCFF; -fx-background-radius: 10; -fx-text-fill: black; -fx-font-size: 12");
+        button.setPrefWidth(130);
+        button.setPrefHeight(16);
+        VBox buttonWrapper = new VBox(button);
+        buttonWrapper.setAlignment(Pos.CENTER);
+        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
+        return buttonWrapper;
+    }
 
     private void loadImagesToGridView() throws IOException {
         ScrollPane scrollPane = new ScrollPane(); // creating a scroll pane
@@ -102,7 +143,7 @@ public class PrimaryController {
      */
     private VBox plusButtonForGrid() throws FileNotFoundException {
         ImageView plusButton = new ImageView();
-        plusButton.setImage(new Image(App.imagesFilePath + "\\add.png"));
+        plusButton.setImage(new Image(App.imagesFilePath + "/add.png"));
 
         plusButton.setPreserveRatio(true);
         plusButton.setFitWidth(30);
