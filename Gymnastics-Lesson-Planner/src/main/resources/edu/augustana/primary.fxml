@@ -100,7 +100,7 @@
       </AnchorPane>
    </bottom>
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="700.0" prefWidth="214.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
+      <VBox fx:id="selectedArea" alignment="TOP_CENTER" prefHeight="700.0" prefWidth="214.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
             <Label text="Cards Selected">
                <font>
