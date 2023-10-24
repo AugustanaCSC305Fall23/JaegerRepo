@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,6 +27,8 @@ public class PrimaryController {
     @FXML
     private VBox centerArea;
     @FXML
+    private VBox selectedArea;
+    @FXML
     private VBox filters;
     @FXML
     private ComboBox<String> pickLessonComboBox;
@@ -38,6 +41,7 @@ public class PrimaryController {
         pickLessonComboBox.getItems().addAll("+ Create New Lesson");
         loadImagesToGridView();
         initializefilters();
+        loadSelectedCardTitle();
     }
 
     private void initializefilters(){
@@ -60,6 +64,21 @@ public class PrimaryController {
 
         }
     }
+    private void loadSelectedCardTitle() throws IOException{
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setFitToWidth(true);
+
+        GridPane cardGrid = new GridPane();
+        ColumnConstraints colConstraints = new ColumnConstraints();
+        colConstraints.setFillWidth(true);
+        colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
+        cardGrid.getColumnConstraints().add(colConstraints);
+        scrollPane.setContent(cardGrid);
+        selectedArea.getChildren().add(scrollPane);
+
+        addSelectedCardToGrid(cardGrid);
+
+    }
 
     private VBox getCategoryButton(String categoryName){
         Button button = new Button(categoryName);
@@ -79,6 +98,29 @@ public class PrimaryController {
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
     }
 
+    private void addSelectedCardToGrid(GridPane cardGrid) {
+        int currCol = 0;
+        int currRow = 0;
+
+        HashMap<String, Card> cards = App.getCardHashMap();
+
+        for (String cardId : cards.keySet()) {
+            if (currCol == 1) {
+                currCol = 0;
+                currRow++;
+            }
+
+            Label titleLabel = new Label(cards.get(cardId).getTitle());
+            titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
+            titleLabel.setAlignment(Pos.CENTER);
+            titleLabel.setPadding(new Insets(10, 0, 0, 0));
+
+
+            cardGrid.add(titleLabel, currCol, currRow);
+
+            currCol++;
+        }
+    }
     private VBox getSubCategoryButton(String subCategoryName, String categoryName){
         Button button = new Button(subCategoryName);
         button.setId("subCategoryButton");
