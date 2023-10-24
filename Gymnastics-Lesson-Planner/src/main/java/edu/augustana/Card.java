@@ -13,6 +13,7 @@ public class Card {
     private String[] keywords;
 
     public Card(String[] csvData){
+        System.out.println(csvData[7]);
         this.code = csvData[0];
         this.event = csvData[1];
         this.category = csvData[2];

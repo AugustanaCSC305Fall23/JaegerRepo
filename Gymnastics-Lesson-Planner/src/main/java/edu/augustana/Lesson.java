@@ -11,7 +11,9 @@ public class Lesson {
         cardHashMap = new HashMap<>();
         this.lessonName = lessonName;
     }
-
+    public HashMap<String, Card> getCardHashMap() {
+        return cardHashMap;
+    }
     private void addCard(Card newCard){
         cardHashMap.put(newCard.getCode(), newCard);
     }

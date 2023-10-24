@@ -17,7 +17,6 @@ import javafx.stage.StageStyle;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class PrimaryController {
@@ -44,33 +43,48 @@ public class PrimaryController {
     private void initializefilters(){
         HashMap<String, TreeSet<String>> filterOptions = App.getFilterOptions();
         allOptions.setAlignment(Pos.CENTER);
-        for (String option : filterOptions.keySet()){
-            VBox newOption = new VBox();
-            newOption.setAlignment(Pos.CENTER);
-            newOption.getChildren().add(getCategoryButton(option));
-            for (String subOption : filterOptions.get(option)){
-                newOption.getChildren().add(getSubCategoryButton(subOption));
+        for (String category : filterOptions.keySet()){
+            VBox newCategory = new VBox();
+            newCategory.setAlignment(Pos.CENTER);
+            newCategory.getChildren().add(getCategoryButton(category));
+            VBox subCategoryWrapper = new VBox();
+            subCategoryWrapper.setAlignment(Pos.CENTER);
+            subCategoryWrapper.setId(category + "FilterOptions");
+            subCategoryWrapper.setVisible(false);
+            subCategoryWrapper.managedProperty().bind(subCategoryWrapper.visibleProperty());
+            for (String subCategory : filterOptions.get(category)){
+                subCategoryWrapper.getChildren().add(getSubCategoryButton(subCategory, category));
             }
-            allOptions.getChildren().add(newOption);
+            newCategory.getChildren().add(subCategoryWrapper);
+            allOptions.getChildren().add(newCategory);
+
         }
     }
+
     private VBox getCategoryButton(String categoryName){
         Button button = new Button(categoryName);
-        button.setStyle("-fx-background-color: #E4CCFF; -fx-background-radius: 10; -fx-text-fill: black; -fx-font-size: 15");
-        button.setPrefWidth(180);
-        button.setPrefHeight(35);
+        button.setId("categoryButton");
         VBox buttonWrapper = new VBox(button);
+        buttonWrapper.setId(categoryName);
         buttonWrapper.setAlignment(Pos.CENTER);
+        button.setOnMouseClicked(event -> {changeVisibilityOfFilterOptions(button);});
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
         return buttonWrapper;
     }
-    private VBox getSubCategoryButton(String subCategoryName){
+
+    private void changeVisibilityOfFilterOptions(Button button){
+        System.out.println("here");
+        Scene scene = button.getScene();
+        VBox filterOptions = (VBox) scene.lookup("#" + button.getText()+"FilterOptions");
+        filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
+    }
+
+    private VBox getSubCategoryButton(String subCategoryName, String categoryName){
         Button button = new Button(subCategoryName);
-        button.setStyle("-fx-background-color: #E4CCFF; -fx-background-radius: 10; -fx-text-fill: black; -fx-font-size: 12");
-        button.setPrefWidth(130);
-        button.setPrefHeight(16);
+        button.setId("subCategoryButton");
         VBox buttonWrapper = new VBox(button);
         buttonWrapper.setAlignment(Pos.CENTER);
+        buttonWrapper.setId(categoryName + "FilterOption");
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
         return buttonWrapper;
     }
@@ -143,7 +157,7 @@ public class PrimaryController {
      */
     private VBox plusButtonForGrid() throws FileNotFoundException {
         ImageView plusButton = new ImageView();
-        plusButton.setImage(new Image(App.imagesFilePath + "/add.png"));
+        plusButton.setImage(new Image(App.imagesFilePath + "/images/add.png"));
 
         plusButton.setPreserveRatio(true);
         plusButton.setFitWidth(30);

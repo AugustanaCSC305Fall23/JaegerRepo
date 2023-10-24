@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.TreeSet;
  * JavaFX App
  */
 public class App extends Application {
-    public static final String imagesFilePath = System.getProperty("user.dir") + "/src/main/resources/edu/augustana/images";
+    public static final String imagesFilePath = System.getProperty("user.dir") + "/src/main/resources/edu/augustana/staticFiles";
     // relative path didn't work so this finds the absolute path to the images folder regardless of the device
     private static Scene scene;
     private static boolean selected;
@@ -38,6 +39,9 @@ public class App extends Application {
 
         readDataFromFile();
         scene = new Scene(loadFXML("primary"), 1400, 760);
+
+        File cssFile = new File(imagesFilePath + "/cssFiles/style.css");
+        scene.getStylesheets().add(cssFile.toURI().toURL().toExternalForm());
         stage.setScene(scene);
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
