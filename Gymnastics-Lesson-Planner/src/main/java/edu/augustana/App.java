@@ -33,7 +33,7 @@ public class App extends Application {
         filterOptions = new HashMap<>();
         filterOptions.put("Event", new TreeSet<>());
         filterOptions.put("Gender", new TreeSet<>());
-        filterOptions.put("Model Sex", new TreeSet<>());
+        filterOptions.put("ModelSex", new TreeSet<>());
         filterOptions.put("Level", new TreeSet<>());
         filterOptions.put("Equipments", new TreeSet<>());
 
@@ -72,7 +72,7 @@ public class App extends Application {
     private void addCardToFilterOptions(Card card){
         filterOptions.get("Event").add(card.getEvent());
         filterOptions.get("Gender").add(card.getGender());
-        filterOptions.get("Model Sex").add(card.getModelSex());
+        filterOptions.get("ModelSex").add(card.getModelSex());
         filterOptions.get("Level").add(card.getLevel());
         String[] equipments = card.getEquipment();
         for (String equipment : equipments) {
