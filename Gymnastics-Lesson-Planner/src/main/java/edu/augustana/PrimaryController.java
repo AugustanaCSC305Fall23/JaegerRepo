@@ -50,14 +50,14 @@ public class PrimaryController {
         for (String category : filterOptions.keySet()){
             VBox newCategory = new VBox();
             newCategory.setAlignment(Pos.CENTER);
-            newCategory.getChildren().add(getCategoryButton(category));
+            newCategory.getChildren().add(createCategoryButton(category));
             VBox subCategoryWrapper = new VBox();
             subCategoryWrapper.setAlignment(Pos.CENTER);
             subCategoryWrapper.setId(category + "FilterOptions");
             subCategoryWrapper.setVisible(false);
             subCategoryWrapper.managedProperty().bind(subCategoryWrapper.visibleProperty());
             for (String subCategory : filterOptions.get(category)){
-                subCategoryWrapper.getChildren().add(getSubCategoryButton(subCategory, category));
+                subCategoryWrapper.getChildren().add(createSubCategoryButton(subCategory, category));
             }
             newCategory.getChildren().add(subCategoryWrapper);
             allOptions.getChildren().add(newCategory);
@@ -80,7 +80,7 @@ public class PrimaryController {
 
     }
 
-    private VBox getCategoryButton(String categoryName){
+    private VBox createCategoryButton(String categoryName){
         Button button = new Button(categoryName);
         button.setId("categoryButton");
         VBox buttonWrapper = new VBox(button);
@@ -92,7 +92,6 @@ public class PrimaryController {
     }
 
     private void changeVisibilityOfFilterOptions(Button button){
-        System.out.println("here");
         Scene scene = button.getScene();
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText()+"FilterOptions");
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
@@ -121,7 +120,7 @@ public class PrimaryController {
             currCol++;
         }
     }
-    private VBox getSubCategoryButton(String subCategoryName, String categoryName){
+    private VBox createSubCategoryButton(String subCategoryName, String categoryName){
         Button button = new Button(subCategoryName);
         button.setId("subCategoryButton");
         VBox buttonWrapper = new VBox(button);
@@ -181,7 +180,7 @@ public class PrimaryController {
      * @returns a card wrapped in a vbox for margin reasons
      * @throws FileNotFoundException
      */
-    private VBox cardForGrid(HashMap<String, Card> cards, String cardId) throws FileNotFoundException {
+    private VBox createCardForGrid(HashMap<String, Card> cards, String cardId) throws FileNotFoundException {
         ImageView cardImage = new ImageView();
         cardImage.setImage(new Image(cards.get(cardId).getFilePath()));
         cardImage.setPreserveRatio(true);
@@ -197,7 +196,7 @@ public class PrimaryController {
      * @returns a plus button wrapped in a vbox for margin reasons
      * @throws FileNotFoundException
      */
-    private VBox plusButtonForGrid() throws FileNotFoundException {
+    private VBox createPlusButtonForGrid() throws FileNotFoundException {
         ImageView plusButton = new ImageView();
         plusButton.setImage(new Image(App.imagesFilePath + "/images/add.png"));
 
@@ -228,8 +227,8 @@ public class PrimaryController {
         imageAndButton.setPadding(new Insets(20, 20, 5, 20));
         imageAndButton.setStyle("-fx-border-color: grey");
 
-        imageAndButton.getChildren().add(cardForGrid(cards, cardId));
-        imageAndButton.getChildren().add(plusButtonForGrid());
+        imageAndButton.getChildren().add(createCardForGrid(cards, cardId));
+        imageAndButton.getChildren().add(createPlusButtonForGrid());
         imageAndButton.setAlignment(Pos.TOP_RIGHT);
 
         return imageAndButton;

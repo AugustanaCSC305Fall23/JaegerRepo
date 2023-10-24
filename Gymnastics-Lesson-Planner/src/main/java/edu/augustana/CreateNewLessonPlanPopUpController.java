@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 
 public class CreateNewLessonPlanPopUpController {
     @FXML
-    Button createNewLessonButton;
+    private Button createNewLessonButton;
 
     @FXML
-    TextField lessonName;
+    private TextField lessonName;
     @FXML
     private void createnewLesson(){
         if (!lessonName.getText().isEmpty()) {
