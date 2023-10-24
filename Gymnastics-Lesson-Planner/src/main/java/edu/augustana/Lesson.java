@@ -15,7 +15,11 @@ public class Lesson {
         return cardHashMap;
     }
     private void addCard(Card newCard){
-        cardHashMap.put(newCard.getCode(), newCard);
+        if (cardHashMap.get(newCard.getCode()) != null) {
+            cardHashMap.put(newCard.getCode(), newCard);
+        }else{
+            System.out.println("card already selected");
+        }
     }
     private String getLessonName() {
         return lessonName;
