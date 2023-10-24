@@ -225,8 +225,8 @@ public class PrimaryController {
     private VBox cardAndButtonForGrid(HashMap<String, Card> cards, String cardId) throws FileNotFoundException {
         VBox imageAndButton = new VBox();
         imageAndButton.setPadding(new Insets(20, 20, 5, 20));
-        imageAndButton.setStyle("-fx-border-color: grey");
 
+        imageAndButton.setId("imageAndButton");
         imageAndButton.getChildren().add(createCardForGrid(cards, cardId));
         imageAndButton.getChildren().add(createPlusButtonForGrid());
         imageAndButton.setAlignment(Pos.TOP_RIGHT);

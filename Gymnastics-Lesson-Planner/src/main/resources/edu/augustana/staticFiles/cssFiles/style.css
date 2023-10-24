@@ -16,6 +16,13 @@
     -fx-pref-height: 16;
 }
 
+#imageAndButton{
+-fx-border-color: grey;
+}
+#imageAndButton:hover{
+-fx-background-color: grey;
+}
+
 #hidden {
     
 }
