@@ -6,53 +6,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #E4CCFF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.AddLessonPlanPopUpController">
+<VBox fx:id="pickLessonVBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #E4CCFF;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.AddLessonPlanPopUpController">
    <children>
       <Label text="Add to">
          <font>
             <Font name="Segoe Script" size="29.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 1" textFill="#2d2b2b">
-               <font>
-                  <Font name="Segoe Print Bold" size="12.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 2" textFill="#2d2b2b">
-               <font>
-                  <Font name="Segoe Print Bold" size="12.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 3" textFill="#2d2b2b">
-               <font>
-                  <Font name="Segoe Print Bold" size="12.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#lessonSelected" prefHeight="30.0" prefWidth="249.0" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="Lesson 4" textFill="#2d2b2b">
-               <font>
-                  <Font name="Segoe Print Bold" size="12.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
       <Button fx:id="createNewLessonPlan" mnemonicParsing="false" onAction="#newLessonPlanPopUpWindow" style="-fx-background-color: #9472C1; -fx-border-radius: 10;" text="+ Create new Lesson Plan" textFill="#e3e9e9">
          <font>
             <Font name="Segoe Print" size="12.0" />
          </font>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </Button>
    </children>
 </VBox>

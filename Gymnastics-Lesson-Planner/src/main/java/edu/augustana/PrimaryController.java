@@ -247,6 +247,12 @@ public class PrimaryController {
         }
     }
 
+
+
+
+
+
+
     private void showAddLessonPlanPopUpWindow() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("addLessonPlanPopUp.fxml"));

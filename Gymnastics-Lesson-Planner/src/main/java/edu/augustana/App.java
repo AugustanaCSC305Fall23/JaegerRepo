@@ -26,6 +26,8 @@ public class App extends Application {
     private static HashMap<String, Card> cardHashMap;
     private static HashMap<String, TreeSet<String>> filterOptions;
 
+    private static HashMap<String, Lesson> lessons;
+
     @Override
     public void start(Stage stage) throws IOException {
         selected = false;
@@ -46,6 +48,10 @@ public class App extends Application {
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
         stage.show();
+    }
+
+    public static HashMap<String, Lesson> getLessons() {
+        return lessons;
     }
 
     static void setRoot(String fxml) throws IOException {

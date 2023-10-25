@@ -21,7 +21,7 @@ public class Lesson {
             System.out.println("card already selected");
         }
     }
-    private String getLessonName() {
+    public String getLessonName() {
         return lessonName;
     }
 
