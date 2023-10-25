@@ -26,7 +26,7 @@ public class App extends Application {
     private static HashMap<String, Card> cardHashMap;
     private static HashMap<String, TreeSet<String>> filterOptions;
 
-    private static HashMap<String, Lesson> lessons;
+    private static HashMap<Integer, Lesson> lessons;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -50,7 +50,7 @@ public class App extends Application {
         stage.show();
     }
 
-    public static HashMap<String, Lesson> getLessons() {
+    public static HashMap<Integer, Lesson> getLessons() {
         return lessons;
     }
 

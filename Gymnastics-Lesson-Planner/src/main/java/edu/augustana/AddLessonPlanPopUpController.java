@@ -24,39 +24,37 @@ public class AddLessonPlanPopUpController {
 
 
    @FXML
-    private void initialize(){
-    HashMap<String, Lesson> lessons = App.getLessons();
+    private void initialize() {
 
-    Lesson Lesson1 = new Lesson("Lesson 1");
-    Button lessonButton = new Button(Lesson1.getLessonName());
-    lessonButton.setMinWidth(169);
+       HashMap<Integer, Lesson> lessons = App.getLessons();
 
+       if (lessons == null){
+           lessons = new HashMap<>();
+           lessons.put(99,new Lesson("demo lesson 1"));
+           lessons.put(100,new Lesson("demo lesson 2"));
+       }
 
-       Lesson Lesson2 = new Lesson("Lesson 2");
-       Button lessonButton2 = new Button(Lesson2.getLessonName());
-       lessonButton2.setMinWidth(169);
+       ScrollPane pickLessonScroll = new ScrollPane();
+       pickLessonScroll.setFitToWidth(true);
+       pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
 
+       VBox lessonOption = new VBox(10);
+       lessonOption.setAlignment(Pos.CENTER);
+       lessonOption.setStyle("-fx-background-color: #E4CCFF");
 
+       pickLessonScroll.setContent(lessonOption);
+       pickLessonVBox.getChildren().add(1, pickLessonScroll);
 
-
-    ScrollPane pickLessonScroll = new ScrollPane();
-    pickLessonScroll.setFitToWidth(true);
-    pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
-
-    VBox lessonOption = new VBox(10);
-    lessonOption.setStyle("-fx-margin: 10 0 0 0;");
-    lessonOption.setAlignment(Pos.CENTER);
-    lessonOption.setStyle("-fx-background-color: #E4CCFF");
-
-    pickLessonScroll.setContent(lessonOption);
-    pickLessonVBox.getChildren().add(1,pickLessonScroll);
-
-    lessonButton.setOnMouseClicked(event -> {lessonSelected();});
-    lessonOption.getChildren().add(lessonButton);
-       lessonOption.getChildren().add(lessonButton2);
-
-
+       for (Lesson lesson : lessons.values()) {
+           Button lessonButton = new Button(lesson.getLessonName());
+           lessonButton.setMinWidth(169);
+           lessonButton.setOnMouseClicked(event -> {lessonSelected();});
+           lessonOption.getChildren().add(lessonButton);
+       }
    }
+
+
+
 
     @FXML
     private void lessonSelected(){
