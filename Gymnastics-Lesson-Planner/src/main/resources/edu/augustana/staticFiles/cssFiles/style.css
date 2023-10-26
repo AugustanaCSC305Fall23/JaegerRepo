@@ -27,4 +27,12 @@
 -fx-margin : 10 0 0 0;
 }
 
-
+.combo-box .combo-box-popup .list-view, .combo-box .combo-box-popup .list-cell {
+    -fx-background-color: #E4CCFF ;
+    -fx-text-fill: black ;
+    -fx-font-family: "Calibri" ;
+}
+.combo-box .combo-box-popup .list-cell:hover {
+    -fx-text-fill: white ;
+    -fx-background-color:  #9472C1 ;
+}

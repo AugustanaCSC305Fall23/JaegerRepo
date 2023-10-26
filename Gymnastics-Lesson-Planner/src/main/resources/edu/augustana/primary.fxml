@@ -70,7 +70,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label alignment="CENTER" text="Select a lesson">
+                  <Label alignment="CENTER" text="Select a course">
                      <font>
                         <Font size="31.0" />
                      </font>
@@ -78,7 +78,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ComboBox fx:id="pickLessonComboBox" prefWidth="150.0" />
+                  <ComboBox fx:id="pickCourseComboBox" prefHeight="26.0" prefWidth="196.0" />
                </children>
                <VBox.margin>
                   <Insets />

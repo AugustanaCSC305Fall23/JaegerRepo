@@ -16,48 +16,48 @@ import java.util.HashMap;
 
 public class AddLessonPlanPopUpController {
 
-   @FXML
+    @FXML
     private Button createNewLessonPlan;
 
     @FXML
     private VBox pickLessonVBox;
 
 
-   @FXML
+    @FXML
     private void initialize() {
 
-       HashMap<Integer, Lesson> lessons = App.getLessons();
+        HashMap<Integer, Lesson> lessons = App.getLessons();
 
-       if (lessons == null){
-           lessons = new HashMap<>();
-           lessons.put(99,new Lesson("demo lesson 1"));
-           lessons.put(100,new Lesson("demo lesson 2"));
-       }
+        if (lessons == null) {
+            lessons = new HashMap<>();
+            lessons.put(99, new Lesson("demo lesson 1"));
+            lessons.put(100, new Lesson("demo lesson 2"));
+        }
 
-       ScrollPane pickLessonScroll = new ScrollPane();
-       pickLessonScroll.setFitToWidth(true);
-       pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
+        ScrollPane pickLessonScroll = new ScrollPane();
+        pickLessonScroll.setFitToWidth(true);
+        pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
 
-       VBox lessonOption = new VBox(10);
-       lessonOption.setAlignment(Pos.CENTER);
-       lessonOption.setStyle("-fx-background-color: #E4CCFF");
+        VBox lessonOption = new VBox(10);
+        lessonOption.setAlignment(Pos.CENTER);
+        lessonOption.setStyle("-fx-background-color: #E4CCFF");
 
-       pickLessonScroll.setContent(lessonOption);
-       pickLessonVBox.getChildren().add(1, pickLessonScroll);
+        pickLessonScroll.setContent(lessonOption);
+        pickLessonVBox.getChildren().add(1, pickLessonScroll);
 
-       for (Lesson lesson : lessons.values()) {
-           Button lessonButton = new Button(lesson.getLessonName());
-           lessonButton.setMinWidth(169);
-           lessonButton.setOnMouseClicked(event -> {lessonSelected();});
-           lessonOption.getChildren().add(lessonButton);
-       }
-   }
-
-
+        for (Lesson lesson : lessons.values()) {
+            Button lessonButton = new Button(lesson.getLessonName());
+            lessonButton.setMinWidth(169);
+            lessonButton.setOnMouseClicked(event -> {
+                lessonSelected();
+            });
+            lessonOption.getChildren().add(lessonButton);
+        }
+    }
 
 
     @FXML
-    private void lessonSelected(){
+    private void lessonSelected() {
         Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
         App.lessonSelected(true);
         currWindow.close();

@@ -31,17 +31,34 @@ public class PrimaryController {
     @FXML
     private VBox filters;
     @FXML
-    private ComboBox<String> pickLessonComboBox;
+    private ComboBox<String> pickCourseComboBox;
     @FXML
     private ScrollPane filterScrollPane;
     @FXML
     private VBox allOptions;
     @FXML
     private void initialize() throws IOException {
-        pickLessonComboBox.getItems().addAll("+ Create New Lesson");
+        initializeDropdowns();
         loadImagesToGridView();
         initializefilters();
         loadSelectedCardTitle();
+    }
+
+    private void initializeDropdowns(){
+        pickCourseComboBox.getItems().addAll("+ Create New Course");
+        pickCourseComboBox.setOnAction(event -> {
+            try {
+                courseDropdownOptionSelected();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void courseDropdownOptionSelected() throws IOException {
+        if (pickCourseComboBox.getValue().equals("+ Create New Course")){
+            showAddLessonPlanPopUpWindow();
+        }
     }
 
     private void initializefilters(){
@@ -101,7 +118,7 @@ public class PrimaryController {
         int currCol = 0;
         int currRow = 0;
 
-        HashMap<String, Card> cards = App.getCardHashMap();
+        HashMap<String, Card> cards = App.getCardDatabase();
 
         for (String cardId : cards.keySet()) {
             if (currCol == 1) {
@@ -154,7 +171,7 @@ public class PrimaryController {
         int currRow = 0;
 
         // getting the card hashmap that was created during the initial execution
-        HashMap<String, Card> cards = App.getCardHashMap();
+        HashMap<String, Card> cards = App.getCardDatabase();
 
         HBox row = new HBox(); // using a hbox cause organizng the grid columns was a hassle so there is only one column and it has a hbox that holds 3 cards
 
@@ -246,12 +263,6 @@ public class PrimaryController {
             showAddLessonPlanPopUpWindow();
         }
     }
-
-
-
-
-
-
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
