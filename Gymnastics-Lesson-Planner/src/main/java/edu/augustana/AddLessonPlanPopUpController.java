@@ -16,27 +16,27 @@ import java.util.HashMap;
 
 public class AddLessonPlanPopUpController {
 
-   @FXML
+    @FXML
     private Button createNewLessonPlan;
 
     @FXML
     private VBox pickLessonVBox;
 
 
-   @FXML
+    @FXML
     private void initialize() {
 
-       HashMap<Integer, Lesson> lessons = App.getLessons();
+        HashMap<Integer, Lesson> lessons = App.getLessons();
 
-       if (lessons == null){
-           lessons = new HashMap<>();
-           lessons.put(99,new Lesson("demo lesson 1"));
-           lessons.put(100,new Lesson("demo lesson 2"));
-       }
+        if (lessons == null) {
+            lessons = new HashMap<>();
+            lessons.put(99, new Lesson("demo lesson 1"));
+            lessons.put(100, new Lesson("demo lesson 2"));
+        }
 
-       ScrollPane pickLessonScroll = new ScrollPane();
-       pickLessonScroll.setFitToWidth(true);
-       pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
+        ScrollPane pickLessonScroll = new ScrollPane();
+        pickLessonScroll.setFitToWidth(true);
+        pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
 
        VBox lessonOption = new VBox(10);
        lessonOption.setAlignment(Pos.CENTER);
@@ -51,13 +51,11 @@ public class AddLessonPlanPopUpController {
            lessonButton.setOnMouseClicked(event -> {lessonSelected(); App.currentSelectedLesson = lesson;});
            lessonOption.getChildren().add(lessonButton);
        }
-   }
-
-
+    }
 
 
     @FXML
-    private void lessonSelected(){
+    private void lessonSelected() {
         Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
         App.lessonSelected(true);
         currWindow.close();

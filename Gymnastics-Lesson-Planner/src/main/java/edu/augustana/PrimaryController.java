@@ -32,17 +32,34 @@ public class PrimaryController {
     @FXML
     private VBox filters;
     @FXML
-    private ComboBox<String> pickLessonComboBox;
+    private ComboBox<String> pickCourseComboBox;
     @FXML
     private ScrollPane filterScrollPane;
     @FXML
     private VBox allOptions;
     @FXML
     private void initialize() throws IOException {
-        pickLessonComboBox.getItems().addAll("+ Create New Lesson");
+        initializeDropdowns();
         loadImagesToGridView();
         initializefilters();
         loadSelectedCardTitle();
+    }
+
+    private void initializeDropdowns(){
+        pickCourseComboBox.getItems().addAll("+ Create New Course");
+        pickCourseComboBox.setOnAction(event -> {
+            try {
+                courseDropdownOptionSelected();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void courseDropdownOptionSelected() throws IOException {
+        if (pickCourseComboBox.getValue().equals("+ Create New Course")){
+            showAddLessonPlanPopUpWindow();
+        }
     }
 
     private void initializefilters(){
@@ -146,6 +163,7 @@ public class PrimaryController {
     private void addSelectedCardTitleToBox(VBox cardBox) {
         if (App.currentSelectedLesson !=null) {
             ArrayList<String> cards;
+//            HashMap<String, Card> cards = App.getCardDatabase();
 
             if (App.currentSelectedLesson.getCardIndexes() == null) {
                 cards = new ArrayList<String>();
@@ -155,7 +173,7 @@ public class PrimaryController {
 
 
             for (String cardId : cards) {
-                Card card = App.getCardHashMap().get(cardId);
+                Card card = App.getCardDatabase().get(cardId);
                 if (card != null) {
                     String cardTitle = card.getTitle();
                     Label titleLabel = new Label(cardTitle);
@@ -213,7 +231,7 @@ public class PrimaryController {
         int currRow = 0;
 
         // getting the card hashmap that was created during the initial execution
-        HashMap<String, Card> cards = App.getCardHashMap();
+        HashMap<String, Card> cards = App.getCardDatabase();
 
         HBox row = new HBox(); // using a hbox cause organizng the grid columns was a hassle so there is only one column and it has a hbox that holds 3 cards
 
@@ -322,8 +340,6 @@ public class PrimaryController {
 //            App.addCardToLesson(code);
         }
     }
-
-
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
