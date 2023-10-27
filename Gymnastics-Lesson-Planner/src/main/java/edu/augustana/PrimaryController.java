@@ -202,7 +202,6 @@ public class PrimaryController {
         cardImage.setImage(new Image(cards.get(cardId).getFilePath()));
         cardImage.setPreserveRatio(true);
         cardImage.setFitWidth(250);
-
         VBox cardImageWrapper = new VBox(cardImage);
         VBox.setMargin(cardImageWrapper, new Insets(0, 0, 10, 0));
 
@@ -215,7 +214,7 @@ public class PrimaryController {
      */
     private VBox createPlusButtonForGrid() throws FileNotFoundException {
         ImageView plusButton = new ImageView();
-        plusButton.setImage(new Image(App.imagesFilePath + "/images/add.png"));
+        plusButton.setImage(new Image(App.class.getResource("staticFiles/images/add.png").toExternalForm()));
 
         plusButton.setPreserveRatio(true);
         plusButton.setFitWidth(30);

@@ -27,12 +27,12 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         selected = false;
         cardDatabase = new CardDatabase();
-        cardDatabase.addCardPack(imagesFilePath + "/Demo1/DEMO1.csv");
+        cardDatabase.addCardPack(App.class.getResource("staticFiles/Demo1/DEMO1.csv").toExternalForm());
         filterDatabase = new FilterDatabase(cardDatabase);
 
         scene = new Scene(loadFXML("primary"), 1400, 760);
 
-        File cssFile = new File(imagesFilePath + "/cssFiles/style.css");
+        File cssFile = new File(App.class.getResource("staticFiles/cssFiles/style.css").toExternalForm().substring(6));
         scene.getStylesheets().add(cssFile.toURI().toURL().toExternalForm());
         stage.setScene(scene);
         stage.setMinWidth(1000);

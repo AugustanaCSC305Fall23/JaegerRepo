@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Card {
@@ -7,7 +8,7 @@ public class Card {
     private String event;
     private String category;
     private String title;
-    private String filePath;
+    private URL filePath;
     private String gender;
     private String modelSex;
     private String level;
@@ -19,7 +20,9 @@ public class Card {
         this.event = csvData[1];
         this.category = csvData[2];
         this.title = csvData[3];
-        this.filePath = App.imagesFilePath + "/" + csvData[4] + "/" + csvData[5];
+//        this.filePath = App.imagesFilePath + "/" + csvData[4] + "/" + csvData[5];
+        this.filePath = App.class.getResource("staticFiles/" + csvData[4] + "/" + csvData[5]);
+
         this.gender = csvData[6];
         this.modelSex = csvData[7];
         this.level = csvData[8];
@@ -52,7 +55,7 @@ public class Card {
     }
 
     public String getFilePath() {
-        return filePath;
+        return filePath.toExternalForm();
     }
 
     public String getLevel() {
