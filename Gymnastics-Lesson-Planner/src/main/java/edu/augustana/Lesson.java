@@ -28,6 +28,10 @@ public class Lesson {
         return lessonIndex;
     }
 
+    public static int getTotalLessonIndex() {
+        return TotalLessonIndex;
+    }
+
     public String getLessonName() {
         return lessonName;
     }
