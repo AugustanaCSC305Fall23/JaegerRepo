@@ -19,6 +19,7 @@ public class App extends Application {
     // relative path didn't work so this finds the absolute path to the images folder regardless of the device
     private static Scene scene;
     private static boolean selected;
+    public  static Lesson currentSelectedLesson = new Lesson("Demo");
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<Integer, Lesson> lessons;
@@ -42,6 +43,12 @@ public class App extends Application {
 
     public static HashMap<Integer, Lesson> getLessons() {
         return lessons;
+    }
+
+    public static void addCardToLesson(String code) throws IOException {
+        Card cardToAdd = cardDatabase.getCards().get(code);
+        currentSelectedLesson.addCard(cardToAdd);
+        setRoot("primary");
     }
 
     static void setRoot(String fxml) throws IOException {

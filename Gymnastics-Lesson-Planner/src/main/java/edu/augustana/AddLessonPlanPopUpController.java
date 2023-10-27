@@ -38,21 +38,19 @@ public class AddLessonPlanPopUpController {
         pickLessonScroll.setFitToWidth(true);
         pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
 
-        VBox lessonOption = new VBox(10);
-        lessonOption.setAlignment(Pos.CENTER);
-        lessonOption.setStyle("-fx-background-color: #E4CCFF");
+       VBox lessonOption = new VBox(10);
+       lessonOption.setAlignment(Pos.CENTER);
+       lessonOption.setStyle("-fx-background-color: #E4CCFF");
 
-        pickLessonScroll.setContent(lessonOption);
-        pickLessonVBox.getChildren().add(1, pickLessonScroll);
+       pickLessonScroll.setContent(lessonOption);
+       pickLessonVBox.getChildren().add(1, pickLessonScroll);
 
-        for (Lesson lesson : lessons.values()) {
-            Button lessonButton = new Button(lesson.getLessonName());
-            lessonButton.setMinWidth(169);
-            lessonButton.setOnMouseClicked(event -> {
-                lessonSelected();
-            });
-            lessonOption.getChildren().add(lessonButton);
-        }
+       for (Lesson lesson : lessons.values()) {
+           Button lessonButton = new Button(lesson.getLessonName());
+           lessonButton.setMinWidth(169);
+           lessonButton.setOnMouseClicked(event -> {lessonSelected(); App.currentSelectedLesson = lesson;});
+           lessonOption.getChildren().add(lessonButton);
+       }
     }
 
 

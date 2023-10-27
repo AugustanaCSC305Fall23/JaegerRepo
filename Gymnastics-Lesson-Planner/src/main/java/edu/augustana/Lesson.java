@@ -1,24 +1,24 @@
 package edu.augustana;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Lesson {
-    private HashMap<String, Card> cardHashMap;
+    private ArrayList<String> cardIndexes ;
     private String lessonName;
     private static int TotalLessonIndex = 0;
     private int lessonIndex;
     public Lesson(String lessonName){
-        cardHashMap = new HashMap<>();
+        cardIndexes = new ArrayList<>();
         this.lessonName = lessonName;
         Lesson.TotalLessonIndex++;
         lessonIndex = Lesson.TotalLessonIndex;
     }
-    public HashMap<String, Card> getCardHashMap() {
-        return cardHashMap;
+    public ArrayList<String> getCardIndexes() {
+        return cardIndexes;
     }
-    private void addCard(Card newCard){
-        if (cardHashMap.get(newCard.getCode()) != null) {
-            cardHashMap.put(newCard.getCode(), newCard);
+    public void addCard(Card newCard){
+        if (!cardIndexes.contains(newCard.getCode())) {
+            cardIndexes.add(newCard.getCode());
         }else{
             System.out.println("card already selected");
         }
