@@ -334,7 +334,7 @@ public class PrimaryController {
 
         if (App.isLessonSelected()){
             App.addCardToLesson(code);
-            System.out.println(code +" added");
+            System.out.println(code +" added in lesson "+ App.currentSelectedLesson.getLessonName());
         }else{
             showAddLessonPlanPopUpWindow();
 //            App.addCardToLesson(code);

@@ -99,6 +99,13 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
+    public static void addLessonToLessons(Lesson lessonToAdd){
+        if (lessons == null){
+            App.lessons = new HashMap<Integer,Lesson>();
+        }
+        lessons.put(lessonToAdd.getTotalLessonIndex(), lessonToAdd);
+
+    }
 
     public static void main(String[] args) {
         launch();
