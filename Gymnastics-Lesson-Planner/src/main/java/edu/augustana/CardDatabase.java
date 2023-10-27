@@ -14,7 +14,8 @@ public class CardDatabase {
     }
 
     public void addCardPack(String filePath) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(filePath.substring(6)));
+        System.out.println(filePath);
+        BufferedReader br = new BufferedReader(new FileReader("/"+ filePath));
         String line = br.readLine();
         while ((line = br.readLine()) != null) {
             String[] cardData = line.split(",");    // "splitting using comma because it's a csv"

@@ -15,7 +15,7 @@ import java.util.TreeSet;
  * JavaFX App
  */
 public class App extends Application {
-    public static final String imagesFilePath = System.getProperty("user.dir") + "/src/main/resources/edu/augustana/staticFiles";
+    public static String imagesFilePath;
     // relative path didn't work so this finds the absolute path to the images folder regardless of the device
     private static Scene scene;
     private static boolean selected;
@@ -24,16 +24,22 @@ public class App extends Application {
     private static FilterDatabase filterDatabase;
     private static HashMap<Integer, Lesson> lessons;
 
+    public static final String[] OS = System.getProperty("os.name").split(",");
+
     @Override
     public void start(Stage stage) throws IOException {
+        imagesFilePath = App.class.getResource("").toExternalForm().substring(6);
+        if (!OS[0].equals("Windows")){
+            imagesFilePath = "/" + imagesFilePath;
+        }
         selected = false;
         cardDatabase = new CardDatabase();
-        cardDatabase.addCardPack(App.class.getResource("staticFiles/Demo1/DEMO1.csv").toExternalForm());
+        cardDatabase.addCardPack(imagesFilePath + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
 
         scene = new Scene(loadFXML("primary"), 1400, 760);
 
-        File cssFile = new File(App.class.getResource("staticFiles/cssFiles/style.css").toExternalForm().substring(6));
+        File cssFile = new File(imagesFilePath + "staticFiles/cssFiles/style.css");
         scene.getStylesheets().add(cssFile.toURI().toURL().toExternalForm());
         stage.setScene(scene);
         stage.setMinWidth(1000);
