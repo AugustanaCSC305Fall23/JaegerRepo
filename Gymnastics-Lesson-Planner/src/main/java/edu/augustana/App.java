@@ -10,9 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeSet;
 
 /**
@@ -26,6 +24,7 @@ public class App extends Application {
     private static HashMap<String, Card> cardHashMap;
     private static HashMap<String, TreeSet<String>> filterOptions;
 
+    public  static Lesson currentSelectedLesson = new Lesson("Demo");
     private static HashMap<Integer, Lesson> lessons;
 
     @Override
@@ -52,6 +51,12 @@ public class App extends Application {
 
     public static HashMap<Integer, Lesson> getLessons() {
         return lessons;
+    }
+
+    public static void addCardToLesson(String code) throws IOException {
+        Card cardToAdd = cardHashMap.get(code);
+        currentSelectedLesson.addCard(cardToAdd);
+        setRoot("primary");
     }
 
     static void setRoot(String fxml) throws IOException {

@@ -48,7 +48,7 @@ public class AddLessonPlanPopUpController {
        for (Lesson lesson : lessons.values()) {
            Button lessonButton = new Button(lesson.getLessonName());
            lessonButton.setMinWidth(169);
-           lessonButton.setOnMouseClicked(event -> {lessonSelected();});
+           lessonButton.setOnMouseClicked(event -> {lessonSelected(); App.currentSelectedLesson = lesson;});
            lessonOption.getChildren().add(lessonButton);
        }
    }
