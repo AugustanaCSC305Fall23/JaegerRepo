@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.TreeSet;
 
 public class PrimaryController {
-
+    public static final String borderColor = "grey";
     @FXML
     private BorderPane window;
     @FXML
@@ -107,7 +107,7 @@ public class PrimaryController {
     private Label cardTitleBox(Card card){
         String cardTitle = card.getTitle();
         Label titleLabel = new Label(cardTitle);
-        titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
+        titleLabel.setStyle("-fx-border-color:" + borderColor + "; -fx-padding: 5px;");
         titleLabel.setAlignment(Pos.CENTER);
         titleLabel.setPadding(new Insets(10, 0, 0, 0));
 
@@ -129,7 +129,9 @@ public class PrimaryController {
         ScrollPane scrollPane = new ScrollPane(); // creating a scroll pane
         scrollPane.setFitToWidth(true);
 
+
         GridPane cardGrid = new GridPane(); // creating a gridpane
+        cardGrid.setStyle("-fx-border-color:" + borderColor);
 
         // centers the grid pane
         ColumnConstraints colConstraints = new ColumnConstraints();
@@ -147,7 +149,6 @@ public class PrimaryController {
         // indexes to keep track of the location in grid
         int currCol = 0;
         int currRow = 0;
-
         // getting the card hashmap that was created during the initial execution
         HashMap<String, Card> cards = App.getCardDatabase();
 
@@ -157,16 +158,23 @@ public class PrimaryController {
         for (String cardId : cards.keySet()){
             if (currCol == 3){
                 //creating a new hbox or row after 3 cards are added
-                row.setAlignment(Pos.CENTER);
-                addHBoxToGrid(cardGrid, row, currRow);
+                cardGrid.add(row, 0, currRow);
                 row = new HBox();
+
                 currCol = 0;
                 currRow++;
             }
             // adding a card to the hbox or row
+            row.setAlignment(Pos.CENTER);
+            row.setSpacing(9);
             row.getChildren().add(cardAndButtonForGrid(cards, cardId));
             currCol++;
         }
+        if (!row.getChildren().isEmpty()){
+            cardGrid.add(row, 0, currRow);
+
+        }
+
     }
 
     /**
@@ -181,7 +189,8 @@ public class PrimaryController {
         cardImage.setPreserveRatio(true);
         cardImage.setFitWidth(250);
         VBox cardImageWrapper = new VBox(cardImage);
-        VBox.setMargin(cardImageWrapper, new Insets(0, 0, 10, 0));
+        cardImageWrapper.setAlignment(Pos.CENTER);
+        cardImageWrapper.setFillWidth(true);
 
         return cardImageWrapper;
     }
@@ -198,7 +207,6 @@ public class PrimaryController {
         plusButton.setFitWidth(30);
         plusButton.setFitHeight(30);
         VBox plusButtonWrapper = new VBox(plusButton);
-        VBox.setMargin(plusButtonWrapper, new Insets(0, 30, 0, 0));
         plusButtonWrapper.setAlignment(Pos.BOTTOM_RIGHT);
         plusButtonWrapper.setOnMouseClicked(event -> {
             try {
@@ -220,8 +228,8 @@ public class PrimaryController {
      */
     private VBox cardAndButtonForGrid(HashMap<String, Card> cards, String cardId) throws FileNotFoundException {
         VBox imageAndButton = new VBox();
-        imageAndButton.setPadding(new Insets(20, 20, 5, 20));
-
+        imageAndButton.setFillWidth(true);
+        imageAndButton.setPadding(new Insets(20, 40, 5, 40));
         imageAndButton.setId("imageAndButton");
         imageAndButton.getChildren().add(createCardForGrid(cards, cardId));
         HBox titleAndButton = new HBox();
@@ -233,13 +241,7 @@ public class PrimaryController {
         titleAndButton.getChildren().add(idWrapper);
         titleAndButton.getChildren().add(createPlusButtonForGrid());
         imageAndButton.getChildren().add(titleAndButton);
-        imageAndButton.setAlignment(Pos.TOP_RIGHT);
-
         return imageAndButton;
-    }
-
-    private void addHBoxToGrid(GridPane grid,HBox row, int rowNum){
-        grid.add(row, 0, rowNum);
     }
 
     @FXML
