@@ -37,6 +37,7 @@
 
 #imageAndButton{
 -fx-border-color: grey;
+-fx-padding: 10;
 }
 #imageAndButton:hover{
 -fx-background-color: grey;

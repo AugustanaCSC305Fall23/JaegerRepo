@@ -4,16 +4,18 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Card {
-    private String code;
-    private String event;
-    private String category;
-    private String title;
-    private URL filePath;
-    private String gender;
-    private String modelSex;
-    private String level;
-    private String[] equipments;
-    private String[] keywords;
+    private final String code;
+    private final String event;
+    private final String category;
+    private final String title;
+    private final URL filePath;
+    private final String gender;
+    private final String modelSex;
+    private final String level;
+    private final String[] equipments;
+    private final String[] keywords;
+    private final int cardId;
+    private static int cardIndex = 0;
 
     public Card(String[] csvData){
         this.code = csvData[0];
@@ -28,6 +30,12 @@ public class Card {
         this.level = csvData[8];
         this.equipments = csvData[9].split(", ");
         this.keywords = csvData[10].split(", ");
+        cardId = cardIndex;
+        cardIndex++;
+    }
+
+    public int getCardId() {
+        return cardId;
     }
 
     public String getTitle() {

@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import static edu.augustana.App.toTitleCase;
 
 public class FilterDatabase {
-    private HashMap<String, TreeSet<String>> filterOptions;
+    private final HashMap<String, TreeSet<String>> filterOptions;
 
     public FilterDatabase(CardDatabase cards){
         filterOptions = new HashMap<>();
@@ -20,8 +20,8 @@ public class FilterDatabase {
         addFilterOptions(cards.getCards());
     }
 
-    public void addFilterOptions(HashMap<String, Card> cards){
-        for (String cardId: cards.keySet()) {
+    public void addFilterOptions(HashMap<Integer, Card> cards){
+        for (int cardId: cards.keySet()) {
             filterOptions.get("Event").add(cards.get(cardId).getEvent());
             filterOptions.get("Gender").add(cards.get(cardId).getGender());
             filterOptions.get("ModelSex").add(cards.get(cardId).getModelSex());
