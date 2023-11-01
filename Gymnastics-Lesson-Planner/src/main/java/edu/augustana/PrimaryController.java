@@ -240,6 +240,7 @@ public class PrimaryController {
         idWrapper.setPadding(new Insets(0, 200, 0, 0));
         titleAndButton.getChildren().add(idWrapper);
         titleAndButton.getChildren().add(createPlusButtonForGrid());
+        titleAndButton.setPadding(new Insets(5, 0, 0, 0));
         imageAndButton.getChildren().add(titleAndButton);
         return imageAndButton;
     }
@@ -257,6 +258,7 @@ public class PrimaryController {
             System.out.println(code +" added in lesson "+ App.currentSelectedLesson.getLessonName());
         }else{
             showAddLessonPlanPopUpWindow();
+            addCardToLesson(code);
         }
     }
 

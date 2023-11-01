@@ -16,7 +16,6 @@ import java.util.TreeSet;
  */
 public class App extends Application {
     public static String imagesFilePath;
-    // relative path didn't work so this finds the absolute path to the images folder regardless of the device
     private static Scene scene;
     private static boolean selected;
     public  static Lesson currentSelectedLesson = new Lesson("Demo");
