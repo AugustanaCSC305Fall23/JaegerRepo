@@ -38,11 +38,16 @@ public class PrimaryController {
     @FXML
     private VBox allOptions;
     @FXML
+    private ScrollPane selectedAreaScrollPane;
+    @FXML
+    private VBox cardBox;
+
+    @FXML
     private void initialize() throws IOException {
-        initializeDropdowns();
         loadImagesToGridView();
         initializefilters();
         loadSelectedCardTitle();
+        initializeDropdowns();
     }
 
     private void initializeDropdowns(){
@@ -82,42 +87,21 @@ public class PrimaryController {
 
         }
     }
-//    private void loadSelectedCardTitle() throws IOException{
-//        ScrollPane scrollPane = new ScrollPane();
-//        scrollPane.setFitToWidth(true);
-//
-//        GridPane cardGrid = new GridPane();
-//        ColumnConstraints colConstraints = new ColumnConstraints();
-//        colConstraints.setFillWidth(true);
-//        colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
-//        cardGrid.getColumnConstraints().add(colConstraints);
-//        scrollPane.setContent(cardGrid);
-//        selectedArea.getChildren().add(scrollPane);
-//
-//        for (String cardId : App.currentSelectedLesson.getCardIndexes()){
-//
-//        }
-//        addSelectedCardTitleToGrid(cardGrid);
-//
-//    }
+
 
     private void loadSelectedCardTitle() throws IOException {
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setFitToWidth(true);
+        selectedAreaScrollPane = new ScrollPane();
+        selectedAreaScrollPane.setFitToWidth(true);
 
-        VBox cardBox = new VBox();
+        cardBox = new VBox();
         cardBox.setSpacing(4);
         cardBox.setFillWidth(true);
 
-        scrollPane.setContent(cardBox);
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
+        selectedAreaScrollPane.setContent(cardBox);
+        VBox.setVgrow(selectedAreaScrollPane, Priority.ALWAYS);
 
-        selectedArea.getChildren().add(scrollPane);
+        selectedArea.getChildren().add(selectedAreaScrollPane);
 
-//        for (String cardId : App.currentSelectedLesson.getCardIndexes()) {
-//        }
-
-        addSelectedCardTitleToBox(cardBox);
     }
 
     private VBox createCategoryButton(String categoryName){
@@ -137,66 +121,17 @@ public class PrimaryController {
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
     }
 
-//    private void addSelectedCardTitleToGrid(GridPane cardGrid) {
-//        int currCol = 0;
-//        int currRow = 0;
-//
-//        HashMap<String, Card> cards = App.getCardHashMap();
-//
-//        for (String cardId : cards.keySet()) {
-//            if (currCol == 1) {
-//                currCol = 0;
-//                currRow++;
-//            }
-//
-//            Label titleLabel = new Label(cards.get(cardId).getTitle());
-//            titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
-//            titleLabel.setAlignment(Pos.CENTER);
-//            titleLabel.setPadding(new Insets(10, 0, 0, 0));
-//
-//            cardGrid.add(titleLabel, currCol, currRow);
-//
-//            currCol++;
-//        }
-//    }
+    private Label cardTitleBox(Card card){
+        String cardTitle = card.getTitle();
+        Label titleLabel = new Label(cardTitle);
+        titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
+        titleLabel.setAlignment(Pos.CENTER);
+        titleLabel.setPadding(new Insets(10, 0, 0, 0));
 
-    private void addSelectedCardTitleToBox(VBox cardBox) {
-        if (App.currentSelectedLesson !=null) {
-            ArrayList<String> cards;
-//            HashMap<String, Card> cards = App.getCardDatabase();
-
-            if (App.currentSelectedLesson.getCardIndexes() == null) {
-                cards = new ArrayList<String>();
-            } else {
-                cards = App.currentSelectedLesson.getCardIndexes();
-            }
-
-
-            for (String cardId : cards) {
-                Card card = App.getCardDatabase().get(cardId);
-                if (card != null) {
-                    String cardTitle = card.getTitle();
-                    Label titleLabel = new Label(cardTitle);
-                    titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
-                    titleLabel.setAlignment(Pos.CENTER);
-                    titleLabel.setPadding(new Insets(10, 0, 0, 0));
-
-                    cardBox.getChildren().add(titleLabel);
-                }
-            }
-        }
-
-
-
-//        for (String cardId : cardz.keySet()) {
-//            Label titleLabel = new Label(cardz.get(cardId).getTitle());
-//            titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
-//            titleLabel.setAlignment(Pos.CENTER);
-//            titleLabel.setPadding(new Insets(10, 0, 0, 0));
-//
-//            cardBox.getChildren().add(titleLabel);
-//        }
+        return titleLabel;
     }
+
+
     private VBox createSubCategoryButton(String subCategoryName, String categoryName){
         Button button = new Button(subCategoryName);
         button.setId("subCategoryButton");
@@ -327,17 +262,23 @@ public class PrimaryController {
     @FXML
     private void plusClicked(VBox plusButtonWrapper) throws IOException {
         HBox plusButtonParent = (HBox) plusButtonWrapper.getParent();
+        Scene scene = plusButtonWrapper.getScene();
         VBox plusButtonParentParent = (VBox) plusButtonParent.getParent();
         HBox titleAndButtonHBox = (HBox) plusButtonParentParent.getChildren().get(1);
         String code = ((Label)((VBox)titleAndButtonHBox.getChildren().get(0)).getChildren().get(0)).getText();
 
         if (App.isLessonSelected()){
-            App.addCardToLesson(code);
+            addCardToLesson(code);
             System.out.println(code +" added in lesson "+ App.currentSelectedLesson.getLessonName());
         }else{
             showAddLessonPlanPopUpWindow();
-//            App.addCardToLesson(code);
         }
+    }
+
+    public void addCardToLesson(String code) throws IOException {
+        Card cardToAdd = App.getCardDatabase().get(code);
+        App.currentSelectedLesson.addCard(cardToAdd);
+        cardBox.getChildren().add(cardTitleBox(cardToAdd));
     }
 
     private void showAddLessonPlanPopUpWindow() throws IOException {

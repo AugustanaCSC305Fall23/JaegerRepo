@@ -51,12 +51,6 @@ public class App extends Application {
         return lessons;
     }
 
-    public static void addCardToLesson(String code) throws IOException {
-        Card cardToAdd = cardDatabase.getCards().get(code);
-        currentSelectedLesson.addCard(cardToAdd);
-        setRoot("primary");
-    }
-
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
