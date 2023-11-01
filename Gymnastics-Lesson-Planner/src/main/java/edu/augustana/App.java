@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.TreeSet;
 
 /**
@@ -16,9 +17,8 @@ import java.util.TreeSet;
  */
 public class App extends Application {
     public static String imagesFilePath;
-    private static Scene scene;
     private static boolean selected;
-    public  static Lesson currentSelectedLesson = new Lesson("Demo");
+    public  static Lesson currentSelectedLesson = new Lesson("");
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<Integer, Lesson> lessons;
@@ -27,7 +27,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        imagesFilePath = App.class.getResource("").toExternalForm().substring(6);
+        imagesFilePath = Objects.requireNonNull(App.class.getResource("")).toExternalForm().substring(6);
         if (!OS[0].equals("Windows")){
             imagesFilePath = "/" + imagesFilePath;
         }
@@ -36,7 +36,7 @@ public class App extends Application {
         cardDatabase.addCardPack(imagesFilePath + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
 
-        scene = new Scene(loadFXML("primary"), 1400, 760);
+        Scene scene = new Scene(loadFXML(), 1400, 760);
 
         File cssFile = new File(imagesFilePath + "staticFiles/cssFiles/style.css");
         scene.getStylesheets().add(cssFile.toURI().toURL().toExternalForm());
@@ -50,9 +50,6 @@ public class App extends Application {
         return lessons;
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
 
     public static String toTitleCase(String input) {
         if (input == null || input.isEmpty()) {
@@ -82,7 +79,7 @@ public class App extends Application {
         return filterDatabase.getFilterOptions();
     }
 
-    public static HashMap<String, Card> getCardDatabase() {
+    public static HashMap<Integer, Card> getCardDatabase() {
         return cardDatabase.getCards();
     }
 
@@ -94,15 +91,15 @@ public class App extends Application {
         return selected;
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+    private static Parent loadFXML() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary" + ".fxml"));
         return fxmlLoader.load();
     }
     public static void addLessonToLessons(Lesson lessonToAdd){
         if (lessons == null){
-            App.lessons = new HashMap<Integer,Lesson>();
+            App.lessons = new HashMap<>();
         }
-        lessons.put(lessonToAdd.getTotalLessonIndex(), lessonToAdd);
+        lessons.put(Lesson.getTotalLessonIndex(), lessonToAdd);
 
     }
 

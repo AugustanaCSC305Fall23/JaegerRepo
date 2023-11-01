@@ -3,22 +3,22 @@ package edu.augustana;
 import java.util.ArrayList;
 
 public class Lesson {
-    private ArrayList<String> cardIndexes ;
-    private String lessonName;
+    private final ArrayList<Integer> cardIndexes ;
+    private final String lessonName;
     private static int TotalLessonIndex = 0;
-    private int lessonIndex;
+    private final int lessonIndex;
     public Lesson(String lessonName){
         cardIndexes = new ArrayList<>();
         this.lessonName = lessonName;
         Lesson.TotalLessonIndex++;
         lessonIndex = Lesson.TotalLessonIndex;
     }
-    public ArrayList<String> getCardIndexes() {
+    public ArrayList<Integer> getCardIndexes() {
         return cardIndexes;
     }
     public void addCard(Card newCard){
-        if (!cardIndexes.contains(newCard.getCode())) {
-            cardIndexes.add(newCard.getCode());
+        if (!cardIndexes.contains(newCard.getCardId())) {
+            cardIndexes.add(newCard.getCardId());
         }else{
             System.out.println("card already selected");
         }
