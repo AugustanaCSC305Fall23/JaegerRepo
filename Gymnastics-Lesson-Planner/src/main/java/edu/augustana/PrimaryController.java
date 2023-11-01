@@ -46,7 +46,6 @@ public class PrimaryController {
     private void initialize() throws IOException {
         loadImagesToGridView();
         initializefilters();
-        loadSelectedCardTitle();
         initializeDropdowns();
     }
 
@@ -86,22 +85,6 @@ public class PrimaryController {
             allOptions.getChildren().add(newCategory);
 
         }
-    }
-
-
-    private void loadSelectedCardTitle() throws IOException {
-        selectedAreaScrollPane = new ScrollPane();
-        selectedAreaScrollPane.setFitToWidth(true);
-
-        cardBox = new VBox();
-        cardBox.setSpacing(4);
-        cardBox.setFillWidth(true);
-
-        selectedAreaScrollPane.setContent(cardBox);
-        VBox.setVgrow(selectedAreaScrollPane, Priority.ALWAYS);
-
-        selectedArea.getChildren().add(selectedAreaScrollPane);
-
     }
 
     private VBox createCategoryButton(String categoryName){

@@ -107,9 +107,9 @@
                   <Font size="26.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="selectedAreaScrollPane" prefHeight="716.0" prefWidth="213.0">
+            <ScrollPane fx:id="selectedAreaScrollPane" fitToWidth="true" prefHeight="716.0" prefWidth="213.0" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="cardBox" prefHeight="200.0" prefWidth="100.0" />
+                  <VBox fx:id="cardBox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" />
                </content>
             </ScrollPane>
          </children></VBox>
