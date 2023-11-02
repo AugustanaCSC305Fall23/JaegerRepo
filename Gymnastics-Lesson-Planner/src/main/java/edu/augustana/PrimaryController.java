@@ -86,7 +86,12 @@ public class PrimaryController {
         VBox buttonWrapper = new VBox(button);
         buttonWrapper.setId(categoryName);
         buttonWrapper.setAlignment(Pos.CENTER);
-        button.setOnMouseClicked(event -> changeVisibilityOfFilterOptions(button));
+        button.setOnMouseClicked(event -> {
+            changeVisibilityOfFilterOptions(button);
+            if (button.getId().equals("categoryButton")){
+                button.setId("categoryButtonClicked");
+            }else {button.setId("categoryButton");}
+        });
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
         return buttonWrapper;
     }
@@ -108,9 +113,15 @@ public class PrimaryController {
     }
 
 
+
     private VBox createSubCategoryButton(String subCategoryName, String categoryName){
         Button button = new Button(subCategoryName);
         button.setId("subCategoryButton");
+        button.setOnMouseClicked(event -> {
+            if (button.getId().equals("subCategoryButton")){
+                button.setId("subCategoryButtonClicked");
+            }else {button.setId("subCategoryButton");}
+        });
         VBox buttonWrapper = new VBox(button);
         buttonWrapper.setAlignment(Pos.CENTER);
         buttonWrapper.setId(categoryName + "FilterOption");
