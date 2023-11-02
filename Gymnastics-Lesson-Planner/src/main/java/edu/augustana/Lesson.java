@@ -16,11 +16,13 @@ public class Lesson {
     public ArrayList<Integer> getCardIndexes() {
         return cardIndexes;
     }
-    public void addCard(Card newCard){
+    public boolean addCard(Card newCard){
         if (!cardIndexes.contains(newCard.getCardId())) {
             cardIndexes.add(newCard.getCardId());
+            return true;
         }else{
             System.out.println("card already selected");
+            return false;
         }
     }
 

@@ -24,7 +24,7 @@ public class PrimaryController {
     @FXML
     private ComboBox<String> pickCourseComboBox;
     @FXML
-    private VBox allOptions;
+    private VBox allFilterOptions;
     @FXML
     private VBox cardBox;
 
@@ -37,6 +37,10 @@ public class PrimaryController {
 
     private void initializeDropdowns(){
         pickCourseComboBox.getItems().addAll("+ Create New Course");
+        HashMap<String, Lesson> lessons = App.getLessons();
+        for (String id : lessons.keySet()){
+            pickCourseComboBox.getItems().add(lessons.get(id).getLessonName());
+        }
         pickCourseComboBox.setOnAction(event -> {
             try {
                 courseDropdownOptionSelected();
@@ -47,14 +51,17 @@ public class PrimaryController {
     }
 
     private void courseDropdownOptionSelected() throws IOException {
-        if (pickCourseComboBox.getValue().equals("+ Create New Course")){
+        String selectedOption = pickCourseComboBox.getValue();
+        if (selectedOption.equals("+ Create New Course")){
             showAddLessonPlanPopUpWindow();
+        } else {
+            changeSelectedLesson(App.getLessons().get(selectedOption));
         }
     }
 
     private void initializeFilters(){
         HashMap<String, TreeSet<String>> filterOptions = App.getFilterOptions();
-        allOptions.setAlignment(Pos.CENTER);
+        allFilterOptions.setAlignment(Pos.CENTER);
         for (String category : filterOptions.keySet()){
             VBox newCategory = new VBox();
             newCategory.setAlignment(Pos.CENTER);
@@ -68,7 +75,7 @@ public class PrimaryController {
                 subCategoryWrapper.getChildren().add(createSubCategoryButton(subCategory, category));
             }
             newCategory.getChildren().add(subCategoryWrapper);
-            allOptions.getChildren().add(newCategory);
+            allFilterOptions.getChildren().add(newCategory);
 
         }
     }
@@ -116,7 +123,6 @@ public class PrimaryController {
         scrollPane.setFitToWidth(true);
 
         GridPane cardGrid = new GridPane(); // creating a gridPane
-        cardGrid.setStyle("-fx-border-color:" + borderColor);
         cardGrid.setVgap(10);
 
         // centers the grid pane
@@ -152,7 +158,7 @@ public class PrimaryController {
             }
             // adding a card to the HBox or row
             row.setAlignment(Pos.CENTER);
-            row.setSpacing(70);
+            row.setSpacing(50);
             CardView newCardView = new CardView(cards.get(cardId));
             newCardView.getButtonAndCode().setOnMouseClicked(event -> {
                 try {
@@ -172,17 +178,18 @@ public class PrimaryController {
 
     private void plusClicked(CardView cardView) throws IOException {
         if (App.isLessonSelected()){
-            addCardToLesson(cardView.getCardId());
+            addCardToLesson(cardView.getCardId(), false);
         }else{
             showAddLessonPlanPopUpWindow();
-            addCardToLesson(cardView.getCardId());
         }
     }
 
-    public void addCardToLesson(int code){
+    public void addCardToLesson(int code, boolean forceAdd){
         Card cardToAdd = App.getCardDatabase().get(code);
-        App.currentSelectedLesson.addCard(cardToAdd);
-        cardBox.getChildren().add(cardTitleBox(cardToAdd));
+        boolean added = App.getCurrentSelectedLesson().addCard(cardToAdd);
+        if (added || forceAdd) {
+            cardBox.getChildren().add(cardTitleBox(cardToAdd));
+        }
     }
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
@@ -195,4 +202,15 @@ public class PrimaryController {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void changeSelectedLesson(Lesson lesson){
+        App.setCurrentSelectedLesson(lesson);
+        while (!cardBox.getChildren().isEmpty()) {
+            cardBox.getChildren().remove(0);
+        }
+        for (int index : lesson.getCardIndexes()){
+            addCardToLesson(index, true);
+        }
+    }
+
 }

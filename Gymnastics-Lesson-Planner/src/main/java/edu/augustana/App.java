@@ -18,10 +18,10 @@ import java.util.TreeSet;
 public class App extends Application {
     public static String imagesFilePath;
     private static boolean selected;
-    public  static Lesson currentSelectedLesson = new Lesson("");
+    private  static Lesson currentSelectedLesson = new Lesson("");
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
-    private static HashMap<Integer, Lesson> lessons;
+    private static HashMap<String, Lesson> lessons;
 
     public static final String[] OS = System.getProperty("os.name").split(",");
 
@@ -36,6 +36,10 @@ public class App extends Application {
         cardDatabase.addCardPack(imagesFilePath + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
 
+        lessons = new HashMap<>();
+        lessons.put("demo lesson 1", new Lesson("demo lesson 1"));
+        lessons.put("demo lesson 2", new Lesson("demo lesson 2"));
+
         Scene scene = new Scene(loadFXML(), 1400, 760);
 
         File cssFile = new File(imagesFilePath + "staticFiles/cssFiles/style.css");
@@ -46,7 +50,7 @@ public class App extends Application {
         stage.show();
     }
 
-    public static HashMap<Integer, Lesson> getLessons() {
+    public static HashMap<String, Lesson> getLessons() {
         return lessons;
     }
 
@@ -99,8 +103,16 @@ public class App extends Application {
         if (lessons == null){
             App.lessons = new HashMap<>();
         }
-        lessons.put(Lesson.getTotalLessonIndex(), lessonToAdd);
+        lessons.put(lessonToAdd.getLessonName(), lessonToAdd);
 
+    }
+    public static void setCurrentSelectedLesson(Lesson lesson){
+        currentSelectedLesson = lesson;
+        selected = true;
+    }
+
+    public static Lesson getCurrentSelectedLesson() {
+        return currentSelectedLesson;
     }
 
     public static void main(String[] args) {

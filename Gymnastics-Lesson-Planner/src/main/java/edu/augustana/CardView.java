@@ -38,6 +38,7 @@ public class CardView {
         HBox buttonAndCode = new HBox(new Label(cardCode), addButton);
         buttonAndCode.setAlignment(Pos.CENTER);
         buttonAndCode.setSpacing(200);
+
         return buttonAndCode;
     }
     public HBox getButtonAndCode(){

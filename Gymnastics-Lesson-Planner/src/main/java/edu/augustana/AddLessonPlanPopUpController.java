@@ -25,13 +25,7 @@ public class AddLessonPlanPopUpController {
     @FXML
     private void initialize() {
 
-        HashMap<Integer, Lesson> lessons = App.getLessons();
-
-        if (lessons == null) {
-            lessons = new HashMap<>();
-            lessons.put(99, new Lesson("demo lesson 1"));
-            lessons.put(100, new Lesson("demo lesson 2"));
-        }
+        HashMap<String, Lesson> lessons = App.getLessons();
 
         ScrollPane pickLessonScroll = new ScrollPane();
         pickLessonScroll.setFitToWidth(true);
@@ -48,17 +42,16 @@ public class AddLessonPlanPopUpController {
             Button lessonButton = new Button(lesson.getLessonName());
             lessonButton.setMinWidth(169);
             lessonButton.setOnMouseClicked(event -> {
-                lessonSelected();
-                App.currentSelectedLesson = lesson;
+                lessonSelected(lesson);
             });
             lessonOption.getChildren().add(lessonButton);
         }
     }
 
-
     @FXML
-    private void lessonSelected() {
+    private void lessonSelected(Lesson lesson) {
         Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
+        App.setCurrentSelectedLesson(lesson);
         App.lessonSelected(true);
         currWindow.close();
     }
@@ -76,6 +69,4 @@ public class AddLessonPlanPopUpController {
         Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
         currWindow.close();
     }
-
-
 }
