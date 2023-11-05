@@ -9,8 +9,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 /**
  * JavaFX App
@@ -79,7 +80,7 @@ public class App extends Application {
         return result.toString();
     }
 
-    public static HashMap<String, TreeSet<String>> getFilterOptions() {
+    public static HashMap<String, TreeMap<String, HashSet<Card>>> getFilterOptions() {
         return filterDatabase.getFilterOptions();
     }
 

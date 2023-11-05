@@ -15,7 +15,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.TreeMap;
 
 public class PrimaryController {
     public static final String borderColor = "grey";
@@ -30,9 +31,10 @@ public class PrimaryController {
 
     @FXML
     private void initialize(){
-        loadImagesToGridView();
+        loadCardsToGridView();
         initializeFilters();
         initializeDropdowns();
+
     }
 
     private void initializeDropdowns(){
@@ -60,7 +62,7 @@ public class PrimaryController {
     }
 
     private void initializeFilters(){
-        HashMap<String, TreeSet<String>> filterOptions = App.getFilterOptions();
+        HashMap<String, TreeMap <String, HashSet<Card>>> filterOptions = App.getFilterOptions();
         allFilterOptions.setAlignment(Pos.CENTER);
         for (String category : filterOptions.keySet()){
             VBox newCategory = new VBox();
@@ -71,8 +73,10 @@ public class PrimaryController {
             subCategoryWrapper.setId(category + "FilterOptions");
             subCategoryWrapper.setVisible(false);
             subCategoryWrapper.managedProperty().bind(subCategoryWrapper.visibleProperty());
-            for (String subCategory : filterOptions.get(category)){
-                subCategoryWrapper.getChildren().add(createSubCategoryButton(subCategory, category));
+            for (String subCategory : filterOptions.get(category).keySet()){
+                //
+                SubCategoryButton subButton = new SubCategoryButton(subCategory,category);
+                subCategoryWrapper.getChildren().add(subButton.getSubCategoryButtonWrapper());
             }
             newCategory.getChildren().add(subCategoryWrapper);
             allFilterOptions.getChildren().add(newCategory);
@@ -80,7 +84,7 @@ public class PrimaryController {
         }
     }
 
-    private VBox createCategoryButton(String categoryName){
+    public VBox createCategoryButton(String categoryName){
         Button button = new Button(categoryName);
         button.setId("categoryButton");
         VBox buttonWrapper = new VBox(button);
@@ -96,6 +100,21 @@ public class PrimaryController {
         return buttonWrapper;
     }
 
+
+//    private VBox createSubCategoryButton(String subCategoryName, String categoryName){
+//        javafx.scene.control.Button button = new javafx.scene.control.Button(subCategoryName);
+//        button.setId("subCategoryButton");
+//        button.setOnMouseClicked(event -> {
+//            if (button.getId().equals("subCategoryButton")){
+//                button.setId("subCategoryButtonClicked");
+//            }else {button.setId("subCategoryButton");}
+//        });
+//        VBox buttonWrapper = new VBox(button);
+//        buttonWrapper.setAlignment(Pos.CENTER);
+//        buttonWrapper.setId(categoryName + "FilterOption");
+//        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
+//        return buttonWrapper;
+//    }
     private void changeVisibilityOfFilterOptions(Button button){
         Scene scene = button.getScene();
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText()+"FilterOptions");
@@ -114,22 +133,9 @@ public class PrimaryController {
 
 
 
-    private VBox createSubCategoryButton(String subCategoryName, String categoryName){
-        Button button = new Button(subCategoryName);
-        button.setId("subCategoryButton");
-        button.setOnMouseClicked(event -> {
-            if (button.getId().equals("subCategoryButton")){
-                button.setId("subCategoryButtonClicked");
-            }else {button.setId("subCategoryButton");}
-        });
-        VBox buttonWrapper = new VBox(button);
-        buttonWrapper.setAlignment(Pos.CENTER);
-        buttonWrapper.setId(categoryName + "FilterOption");
-        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
-        return buttonWrapper;
-    }
 
-    private void loadImagesToGridView(){
+
+    private void loadCardsToGridView(){
         ScrollPane scrollPane = new ScrollPane(); // creating a scroll pane
         scrollPane.setFitToWidth(true);
 
