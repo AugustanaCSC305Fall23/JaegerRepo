@@ -1,13 +1,15 @@
 package edu.augustana;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.TreeSet;
 
@@ -19,12 +21,14 @@ public class App extends Application {
     // relative path didn't work so this finds the absolute path to the images folder regardless of the device
     private static Scene scene;
     private static boolean selected;
-    public  static Lesson currentSelectedLesson = new Lesson("Demo");
+    public  static Lesson currentSelectedLesson;
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<Integer, Lesson> lessons;
 
     public static final String[] OS = System.getProperty("os.name").split(",");
+
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -101,6 +105,8 @@ public class App extends Application {
         return selected;
     }
 
+    public static Lesson getCurrentSelectedLesson(){ return currentSelectedLesson; }
+
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
@@ -112,6 +118,9 @@ public class App extends Application {
         lessons.put(lessonToAdd.getTotalLessonIndex(), lessonToAdd);
 
     }
+
+
+
 
     public static void main(String[] args) {
         launch();

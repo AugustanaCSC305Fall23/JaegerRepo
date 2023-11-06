@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -16,7 +17,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -232,8 +235,7 @@ public class PrimaryController {
 
         // getting the card hashmap that was created during the initial execution
         HashMap<String, Card> cards = App.getCardDatabase();
-
-        HBox row = new HBox(); // using a hbox cause organizng the grid columns was a hassle so there is only one column and it has a hbox that holds 3 cards
+         HBox row = new HBox(); // using a hbox cause organizng the grid columns was a hassle so there is only one column and it has a hbox that holds 3 cards
 
         // looping through the cards hashmap and adding it to the grid
         for (String cardId : cards.keySet()){
@@ -350,4 +352,6 @@ public class PrimaryController {
         stage.setScene(scene);
         stage.show();
     }
+    
+
 }
