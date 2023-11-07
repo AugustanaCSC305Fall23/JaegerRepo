@@ -1,6 +1,14 @@
 package edu.augustana;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
 
 public class Lesson {
     private final ArrayList<Integer> cardIndexes ;
@@ -38,7 +46,11 @@ public class Lesson {
         return lessonName;
     }
 
-
-
-
+    public void saveToFile(File logFile) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String serializedMovieLogText = gson.toJson(this);
+        PrintWriter writer = new PrintWriter(new FileWriter(logFile));
+        writer.println(serializedMovieLogText);
+        writer.close();
+    }
 }

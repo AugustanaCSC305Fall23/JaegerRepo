@@ -22,6 +22,7 @@ public class App extends Application {
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<String, Lesson> lessons;
+    private static File currentLessonLogFile = null;
 
     public static final String[] OS = System.getProperty("os.name").split(",");
 
@@ -119,7 +120,10 @@ public class App extends Application {
     }
 
 
-
+    public static void saveCurrentLessonLogToFile(File chosenFile) throws IOException {
+        currentSelectedLesson.saveToFile(chosenFile);
+        currentLessonLogFile = chosenFile;
+    }
 
     public static void main(String[] args) {
         launch();

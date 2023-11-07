@@ -11,8 +11,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 
 import java.io.*;
@@ -236,11 +238,20 @@ public class PrimaryController {
 
     @FXML
     public void saveLessonAction() throws IOException {
-        String fileName= App.getCurrentSelectedLesson().getLessonName() + ".txt" ;
-        FileOutputStream fos = new FileOutputStream(App.imagesFilePath + "/staticFiles/savedLessons" + fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(App.getCurrentSelectedLesson());
-        oos.close();
+//        String fileName= App.getCurrentSelectedLesson().getLessonName() + ".Lesson" ;
+//        FileOutputStream fos = new FileOutputStream(App.imagesFilePath + "/staticFiles/savedLessons" + fileName);
+//        ObjectOutputStream oos = new ObjectOutputStream(fos);
+//        oos.writeObject(App.getCurrentSelectedLesson());
+//        oos.close();
+//        App.getCurrentSelectedLesson().saveToFile(new File(fileName));
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Movie Log File");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Movie Logs (*.movielog)", "*.movielog");
+        fileChooser.getExtensionFilters().add(filter);
+        Window mainWindow = pickCourseComboBox.getScene().getWindow();
+        File chosenFile = fileChooser.showSaveDialog(mainWindow);
+        System.out.println(chosenFile.getAbsolutePath());
+        App.saveCurrentLessonLogToFile(chosenFile);
     }
 
     @FXML
