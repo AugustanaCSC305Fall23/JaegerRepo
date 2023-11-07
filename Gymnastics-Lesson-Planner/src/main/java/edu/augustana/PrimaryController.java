@@ -27,7 +27,8 @@ public class PrimaryController {
     @FXML
     private VBox centerArea;
     @FXML
-    private ComboBox<String> pickCourseComboBox;
+    private HBox selectCourseLessonHbox;
+    private static ComboBox<String> pickCourseComboBox = null;
     @FXML
     private VBox allFilterOptions;
     @FXML
@@ -42,6 +43,8 @@ public class PrimaryController {
     }
 
     private void initializeDropdowns(){
+        pickCourseComboBox = new ComboBox<>();
+        selectCourseLessonHbox.getChildren().add(pickCourseComboBox);
         pickCourseComboBox.getItems().addAll("+ Create New Course");
         HashMap<String, Lesson> lessons = App.getLessons();
         for (String id : lessons.keySet()){
@@ -238,18 +241,14 @@ public class PrimaryController {
 
     @FXML
     public void saveLessonAction() throws IOException {
-//        String fileName= App.getCurrentSelectedLesson().getLessonName() + ".Lesson" ;
-//        FileOutputStream fos = new FileOutputStream(App.imagesFilePath + "/staticFiles/savedLessons" + fileName);
-//        ObjectOutputStream oos = new ObjectOutputStream(fos);
-//        oos.writeObject(App.getCurrentSelectedLesson());
-//        oos.close();
-//        App.getCurrentSelectedLesson().saveToFile(new File(fileName));
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Movie Log File");
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Movie Logs (*.movielog)", "*.movielog");
-        fileChooser.getExtensionFilters().add(filter);
-        Window mainWindow = pickCourseComboBox.getScene().getWindow();
-        File chosenFile = fileChooser.showSaveDialog(mainWindow);
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save Movie Log File");
+//        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Movie Logs (*.movielog)", "*.movielog");
+//        fileChooser.getExtensionFilters().add(filter);
+//        Window mainWindow = pickCourseComboBox.getScene().getWindow();
+//        File chosenFile = fileChooser.showSaveDialog(mainWindow);
+        File chosenFile = new File(App.pathToResourcesFolder + "/staticFiles/savedLessons/" + App.getCurrentSelectedLesson().getLessonName() + ".lesson");
+        chosenFile.createNewFile();
         System.out.println(chosenFile.getAbsolutePath());
         App.saveCurrentLessonLogToFile(chosenFile);
     }

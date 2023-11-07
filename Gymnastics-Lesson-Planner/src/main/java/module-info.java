@@ -3,6 +3,6 @@ module edu.augustana {
     requires javafx.fxml;
     requires com.google.gson;
 
-    opens edu.augustana to javafx.fxml;
+    opens edu.augustana to javafx.fxml, com.google.gson;
     exports edu.augustana;
 }

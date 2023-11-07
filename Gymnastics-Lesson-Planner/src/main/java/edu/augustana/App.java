@@ -16,9 +16,10 @@ import java.util.TreeMap;
  * JavaFX App
  */
 public class App extends Application {
-    public static String imagesFilePath;
+    public static String pathToTargetFolder;
+    public static String pathToResourcesFolder;
     private static boolean selected;
-    private  static Lesson currentSelectedLesson = new Lesson("");
+    private  static Lesson currentSelectedLesson = null;
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<String, Lesson> lessons;
@@ -30,13 +31,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        imagesFilePath = Objects.requireNonNull(App.class.getResource("")).toExternalForm().substring(6);
+        pathToTargetFolder = Objects.requireNonNull(App.class.getResource("")).toExternalForm().substring(6);
         if (!OS[0].equals("Windows")){
-            imagesFilePath = "/" + imagesFilePath;
+            pathToTargetFolder = "/" + pathToTargetFolder;
         }
+        pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
         selected = false;
         cardDatabase = new CardDatabase();
-        cardDatabase.addCardPack(imagesFilePath + "staticFiles/Demo1/DEMO1.csv");
+        cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
 
         lessons = new HashMap<>();
@@ -45,7 +47,7 @@ public class App extends Application {
 
         Scene scene = new Scene(loadFXML("primary"), 1400, 760);
 
-        File cssFile = new File(imagesFilePath + "staticFiles/cssFiles/style.css");
+        File cssFile = new File(pathToTargetFolder + "staticFiles/cssFiles/style.css");
         scene.getStylesheets().add(cssFile.toURI().toURL().toExternalForm());
         stage.setScene(scene);
         stage.setMinWidth(1000);
