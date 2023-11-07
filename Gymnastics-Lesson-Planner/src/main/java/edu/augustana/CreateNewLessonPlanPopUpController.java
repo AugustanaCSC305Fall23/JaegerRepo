@@ -12,16 +12,14 @@ public class CreateNewLessonPlanPopUpController {
     @FXML
     private TextField lessonName;
     @FXML
-    private void createnewLesson(){
+    private void createNewLesson(){
         if (!lessonName.getText().isEmpty()) {
             Stage currWindow = (Stage) createNewLessonButton.getScene().getWindow();
             Lesson lesson = new Lesson (lessonName.getText());
             App.addLessonToLessons(lesson);
 
-            System.out.println(lesson.getLessonName());
-            App.currentSelectedLesson = lesson;
+            App.setCurrentSelectedLesson(lesson);
             currWindow.close();
-            App.lessonSelected(true);
         }
     }
 

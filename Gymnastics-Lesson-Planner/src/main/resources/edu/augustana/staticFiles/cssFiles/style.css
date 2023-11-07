@@ -7,6 +7,15 @@
     -fx-pref-height: 35;    
 }
 
+#categoryButtonClicked {
+    -fx-background-color: #d1a8ff;
+    -fx-background-radius: 10;
+    -fx-text-fill: black;
+    -fx-font-size: 15;
+    -fx-pref-width: 180;
+    -fx-pref-height: 35;
+}
+
 #subCategoryButton {
     -fx-background-color: #E4CCFF; 
     -fx-background-radius: 10; 
@@ -16,8 +25,19 @@
     -fx-pref-height: 16;
 }
 
+#subCategoryButtonClicked{
+    -fx-background-color: #d1a8ff;
+    -fx-background-radius: 10;
+    -fx-text-fill: black;
+    -fx-font-size: 12;
+    -fx-pref-width: 130;
+    -fx-pref-height: 16;
+}
+
+
 #imageAndButton{
 -fx-border-color: grey;
+-fx-padding: 10;
 }
 #imageAndButton:hover{
 -fx-background-color: grey;

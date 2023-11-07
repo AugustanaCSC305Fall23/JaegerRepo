@@ -26,6 +26,6 @@
                </VBox.margin></TextField>
          </children>
       </VBox>
-      <Button fx:id="createNewLessonButton" mnemonicParsing="false" onAction="#createnewLesson" prefHeight="28.0" prefWidth="154.0" style="-fx-background-radius: 10; -fx-background-color: white; -fx-text-fill: black;" text="Create" textFill="#463b3b" />
+      <Button fx:id="createNewLessonButton" mnemonicParsing="false" onAction="#createNewLesson" prefHeight="28.0" prefWidth="154.0" style="-fx-background-radius: 10; -fx-background-color: white; -fx-text-fill: black;" text="Create" textFill="#463b3b" />
    </children>
 </VBox>

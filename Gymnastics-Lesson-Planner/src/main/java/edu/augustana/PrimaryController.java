@@ -10,46 +10,41 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+
+import java.io.*;
 import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.TreeMap;
 
 public class PrimaryController {
-
-    @FXML
-    private BorderPane window;
+    public static final String borderColor = "grey";
     @FXML
     private VBox centerArea;
     @FXML
-    private VBox selectedArea;
-    @FXML
-    private VBox filters;
-    @FXML
     private ComboBox<String> pickCourseComboBox;
     @FXML
-    private ScrollPane filterScrollPane;
+    private VBox allFilterOptions;
     @FXML
-    private VBox allOptions;
+    private VBox cardBox;
+
     @FXML
-    private void initialize() throws IOException {
+    private void initialize(){
+        loadCardsToGridView();
+        initializeFilters();
         initializeDropdowns();
-        loadImagesToGridView();
-        initializefilters();
-        loadSelectedCardTitle();
+
     }
 
     private void initializeDropdowns(){
         pickCourseComboBox.getItems().addAll("+ Create New Course");
+        HashMap<String, Lesson> lessons = App.getLessons();
+        for (String id : lessons.keySet()){
+            pickCourseComboBox.getItems().add(lessons.get(id).getLessonName());
+        }
         pickCourseComboBox.setOnAction(event -> {
             try {
                 courseDropdownOptionSelected();
@@ -60,14 +55,17 @@ public class PrimaryController {
     }
 
     private void courseDropdownOptionSelected() throws IOException {
-        if (pickCourseComboBox.getValue().equals("+ Create New Course")){
+        String selectedOption = pickCourseComboBox.getValue();
+        if (selectedOption.equals("+ Create New Course")){
             showAddLessonPlanPopUpWindow();
+        } else {
+            changeSelectedLesson(App.getLessons().get(selectedOption));
         }
     }
 
-    private void initializefilters(){
-        HashMap<String, TreeSet<String>> filterOptions = App.getFilterOptions();
-        allOptions.setAlignment(Pos.CENTER);
+    private void initializeFilters(){
+        HashMap<String, TreeMap <String, HashSet<Card>>> filterOptions = App.getFilterOptions();
+        allFilterOptions.setAlignment(Pos.CENTER);
         for (String category : filterOptions.keySet()){
             VBox newCategory = new VBox();
             newCategory.setAlignment(Pos.CENTER);
@@ -77,268 +75,139 @@ public class PrimaryController {
             subCategoryWrapper.setId(category + "FilterOptions");
             subCategoryWrapper.setVisible(false);
             subCategoryWrapper.managedProperty().bind(subCategoryWrapper.visibleProperty());
-            for (String subCategory : filterOptions.get(category)){
-                subCategoryWrapper.getChildren().add(createSubCategoryButton(subCategory, category));
+            for (String subCategory : filterOptions.get(category).keySet()){
+                //
+                SubCategoryButton subButton = new SubCategoryButton(subCategory,category);
+                subCategoryWrapper.getChildren().add(subButton.getSubCategoryButtonWrapper());
             }
             newCategory.getChildren().add(subCategoryWrapper);
-            allOptions.getChildren().add(newCategory);
+            allFilterOptions.getChildren().add(newCategory);
 
         }
     }
-//    private void loadSelectedCardTitle() throws IOException{
-//        ScrollPane scrollPane = new ScrollPane();
-//        scrollPane.setFitToWidth(true);
-//
-//        GridPane cardGrid = new GridPane();
-//        ColumnConstraints colConstraints = new ColumnConstraints();
-//        colConstraints.setFillWidth(true);
-//        colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
-//        cardGrid.getColumnConstraints().add(colConstraints);
-//        scrollPane.setContent(cardGrid);
-//        selectedArea.getChildren().add(scrollPane);
-//
-//        for (String cardId : App.currentSelectedLesson.getCardIndexes()){
-//
-//        }
-//        addSelectedCardTitleToGrid(cardGrid);
-//
-//    }
 
-    private void loadSelectedCardTitle() throws IOException {
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setFitToWidth(true);
-
-        VBox cardBox = new VBox();
-        cardBox.setSpacing(4);
-        cardBox.setFillWidth(true);
-
-        scrollPane.setContent(cardBox);
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
-
-        selectedArea.getChildren().add(scrollPane);
-
-//        for (String cardId : App.currentSelectedLesson.getCardIndexes()) {
-//        }
-
-        addSelectedCardTitleToBox(cardBox);
-    }
-
-    private VBox createCategoryButton(String categoryName){
+    public VBox createCategoryButton(String categoryName){
         Button button = new Button(categoryName);
         button.setId("categoryButton");
         VBox buttonWrapper = new VBox(button);
         buttonWrapper.setId(categoryName);
         buttonWrapper.setAlignment(Pos.CENTER);
-        button.setOnMouseClicked(event -> {changeVisibilityOfFilterOptions(button);});
+        button.setOnMouseClicked(event -> {
+            changeVisibilityOfFilterOptions(button);
+            if (button.getId().equals("categoryButton")){
+                button.setId("categoryButtonClicked");
+            }else {button.setId("categoryButton");}
+        });
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
         return buttonWrapper;
     }
 
+
+//    private VBox createSubCategoryButton(String subCategoryName, String categoryName){
+//        javafx.scene.control.Button button = new javafx.scene.control.Button(subCategoryName);
+//        button.setId("subCategoryButton");
+//        button.setOnMouseClicked(event -> {
+//            if (button.getId().equals("subCategoryButton")){
+//                button.setId("subCategoryButtonClicked");
+//            }else {button.setId("subCategoryButton");}
+//        });
+//        VBox buttonWrapper = new VBox(button);
+//        buttonWrapper.setAlignment(Pos.CENTER);
+//        buttonWrapper.setId(categoryName + "FilterOption");
+//        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
+//        return buttonWrapper;
+//    }
     private void changeVisibilityOfFilterOptions(Button button){
         Scene scene = button.getScene();
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText()+"FilterOptions");
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
     }
 
-//    private void addSelectedCardTitleToGrid(GridPane cardGrid) {
-//        int currCol = 0;
-//        int currRow = 0;
-//
-//        HashMap<String, Card> cards = App.getCardHashMap();
-//
-//        for (String cardId : cards.keySet()) {
-//            if (currCol == 1) {
-//                currCol = 0;
-//                currRow++;
-//            }
-//
-//            Label titleLabel = new Label(cards.get(cardId).getTitle());
-//            titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
-//            titleLabel.setAlignment(Pos.CENTER);
-//            titleLabel.setPadding(new Insets(10, 0, 0, 0));
-//
-//            cardGrid.add(titleLabel, currCol, currRow);
-//
-//            currCol++;
-//        }
-//    }
+    private Label cardTitleBox(Card card){
+        String cardTitle = card.getTitle();
+        Label titleLabel = new Label(cardTitle);
+        titleLabel.setStyle("-fx-border-color:" + borderColor + "; -fx-padding: 5px;");
+        titleLabel.setAlignment(Pos.CENTER);
+        titleLabel.setPadding(new Insets(10, 0, 0, 0));
 
-    private void addSelectedCardTitleToBox(VBox cardBox) {
-        if (App.currentSelectedLesson !=null) {
-            ArrayList<String> cards;
-//            HashMap<String, Card> cards = App.getCardDatabase();
-
-            if (App.currentSelectedLesson.getCardIndexes() == null) {
-                cards = new ArrayList<String>();
-            } else {
-                cards = App.currentSelectedLesson.getCardIndexes();
-            }
-
-
-            for (String cardId : cards) {
-                Card card = App.getCardDatabase().get(cardId);
-                if (card != null) {
-                    String cardTitle = card.getTitle();
-                    Label titleLabel = new Label(cardTitle);
-                    titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
-                    titleLabel.setAlignment(Pos.CENTER);
-                    titleLabel.setPadding(new Insets(10, 0, 0, 0));
-
-                    cardBox.getChildren().add(titleLabel);
-                }
-            }
-        }
-
-
-
-//        for (String cardId : cardz.keySet()) {
-//            Label titleLabel = new Label(cardz.get(cardId).getTitle());
-//            titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
-//            titleLabel.setAlignment(Pos.CENTER);
-//            titleLabel.setPadding(new Insets(10, 0, 0, 0));
-//
-//            cardBox.getChildren().add(titleLabel);
-//        }
-    }
-    private VBox createSubCategoryButton(String subCategoryName, String categoryName){
-        Button button = new Button(subCategoryName);
-        button.setId("subCategoryButton");
-        VBox buttonWrapper = new VBox(button);
-        buttonWrapper.setAlignment(Pos.CENTER);
-        buttonWrapper.setId(categoryName + "FilterOption");
-        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
-        return buttonWrapper;
+        return titleLabel;
     }
 
-    private void loadImagesToGridView() throws IOException {
+
+
+
+
+    private void loadCardsToGridView(){
         ScrollPane scrollPane = new ScrollPane(); // creating a scroll pane
         scrollPane.setFitToWidth(true);
 
-        GridPane cardGrid = new GridPane(); // creating a gridpane
+        GridPane cardGrid = new GridPane(); // creating a gridPane
+        cardGrid.setVgap(10);
 
         // centers the grid pane
         ColumnConstraints colConstraints = new ColumnConstraints();
         colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
         cardGrid.getColumnConstraints().add(colConstraints);
 
-        // adding the gridpane in the scroll pane and the scroll pane into the center area
+        // adding the gridPane in the scroll pane and the scroll pane into the center area
         scrollPane.setContent(cardGrid);
         centerArea.getChildren().add(scrollPane);
 
         addCardsToHBoxToGrid(cardGrid);
     }
 
-    private void addCardsToHBoxToGrid(GridPane cardGrid) throws FileNotFoundException {
+    private void addCardsToHBoxToGrid(GridPane cardGrid){
         // indexes to keep track of the location in grid
         int currCol = 0;
         int currRow = 0;
-
         // getting the card hashmap that was created during the initial execution
-        HashMap<String, Card> cards = App.getCardDatabase();
-         HBox row = new HBox(); // using a hbox cause organizng the grid columns was a hassle so there is only one column and it has a hbox that holds 3 cards
+        HashMap<Integer, Card> cards = App.getCardDatabase();
+
+        HBox row = new HBox(); // using a HBox cause organizing the grid columns was a hassle so there is only one column, and it has a HBox that holds 3 cards
 
         // looping through the cards hashmap and adding it to the grid
-        for (String cardId : cards.keySet()){
+        for (int cardId : cards.keySet()){
             if (currCol == 3){
-                //creating a new hbox or row after 3 cards are added
-                row.setAlignment(Pos.CENTER);
-                addHBoxToGrid(cardGrid, row, currRow);
+                //creating a new HBox or row after 3 cards are added
+                cardGrid.add(row, 0, currRow);
                 row = new HBox();
+
                 currCol = 0;
                 currRow++;
             }
-            // adding a card to the hbox or row
-            row.getChildren().add(cardAndButtonForGrid(cards, cardId));
+            // adding a card to the HBox or row
+            row.setAlignment(Pos.CENTER);
+            row.setSpacing(50);
+            CardView newCardView = new CardView(cards.get(cardId));
+            newCardView.getButtonAndCode().setOnMouseClicked(event -> {
+                try {
+                    plusClicked(newCardView);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            row.getChildren().add(newCardView.getCardView());
             currCol++;
+        }
+        if (!row.getChildren().isEmpty()){
+            cardGrid.add(row, 0, currRow);
+
         }
     }
 
-    /**
-     * @param cards
-     * @param cardId
-     * @returns a card wrapped in a vbox for margin reasons
-     * @throws FileNotFoundException
-     */
-    private VBox createCardForGrid(HashMap<String, Card> cards, String cardId) throws FileNotFoundException {
-        ImageView cardImage = new ImageView();
-        cardImage.setImage(new Image(cards.get(cardId).getFilePath()));
-        cardImage.setPreserveRatio(true);
-        cardImage.setFitWidth(250);
-        VBox cardImageWrapper = new VBox(cardImage);
-        VBox.setMargin(cardImageWrapper, new Insets(0, 0, 10, 0));
-
-        return cardImageWrapper;
-    }
-
-    /**
-     * @returns a plus button wrapped in a vbox for margin reasons
-     * @throws FileNotFoundException
-     */
-    private VBox createPlusButtonForGrid() throws FileNotFoundException {
-        ImageView plusButton = new ImageView();
-        plusButton.setImage(new Image(App.class.getResource("staticFiles/images/add.png").toExternalForm()));
-
-        plusButton.setPreserveRatio(true);
-        plusButton.setFitWidth(30);
-        plusButton.setFitHeight(30);
-        VBox plusButtonWrapper = new VBox(plusButton);
-        VBox.setMargin(plusButtonWrapper, new Insets(0, 30, 0, 0));
-        plusButtonWrapper.setAlignment(Pos.BOTTOM_RIGHT);
-        plusButtonWrapper.setOnMouseClicked(event -> {
-            try {
-                plusClicked(plusButtonWrapper);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        return plusButtonWrapper;
-    }
-
-    /**
-     * @param cards
-     * @param cardId
-     * @returns a vbox wrapped plus button and card inside another vbox
-     * @throws FileNotFoundException
-     */
-    private VBox cardAndButtonForGrid(HashMap<String, Card> cards, String cardId) throws FileNotFoundException {
-        VBox imageAndButton = new VBox();
-        imageAndButton.setPadding(new Insets(20, 20, 5, 20));
-
-        imageAndButton.setId("imageAndButton");
-        imageAndButton.getChildren().add(createCardForGrid(cards, cardId));
-        HBox titleAndButton = new HBox();
-        titleAndButton.setAlignment(Pos.CENTER);
-        Label id = new Label(cards.get(cardId).getCode());
-        VBox idWrapper = new VBox(id);
-        idWrapper.setAlignment(Pos.CENTER);
-        idWrapper.setPadding(new Insets(0, 200, 0, 0));
-        titleAndButton.getChildren().add(idWrapper);
-        titleAndButton.getChildren().add(createPlusButtonForGrid());
-        imageAndButton.getChildren().add(titleAndButton);
-        imageAndButton.setAlignment(Pos.TOP_RIGHT);
-
-        return imageAndButton;
-    }
-
-    private void addHBoxToGrid(GridPane grid,HBox row, int rowNum){
-        grid.add(row, 0, rowNum);
-    }
-
-    @FXML
-    private void plusClicked(VBox plusButtonWrapper) throws IOException {
-        HBox plusButtonParent = (HBox) plusButtonWrapper.getParent();
-        VBox plusButtonParentParent = (VBox) plusButtonParent.getParent();
-        HBox titleAndButtonHBox = (HBox) plusButtonParentParent.getChildren().get(1);
-        String code = ((Label)((VBox)titleAndButtonHBox.getChildren().get(0)).getChildren().get(0)).getText();
-
+    private void plusClicked(CardView cardView) throws IOException {
         if (App.isLessonSelected()){
-            App.addCardToLesson(code);
-            System.out.println(code +" added in lesson "+ App.currentSelectedLesson.getLessonName());
+            addCardToLesson(cardView.getCardId(), false);
         }else{
             showAddLessonPlanPopUpWindow();
-//            App.addCardToLesson(code);
+        }
+    }
+
+    public void addCardToLesson(int code, boolean forceAdd){
+        Card cardToAdd = App.getCardDatabase().get(code);
+        boolean added = App.getCurrentSelectedLesson().addCard(cardToAdd);
+        if (added || forceAdd) {
+            cardBox.getChildren().add(cardTitleBox(cardToAdd));
         }
     }
 
@@ -352,6 +221,47 @@ public class PrimaryController {
         stage.setScene(scene);
         stage.show();
     }
-    
+
+    public void changeSelectedLesson(Lesson lesson){
+        App.setCurrentSelectedLesson(lesson);
+        while (!cardBox.getChildren().isEmpty()) {
+            cardBox.getChildren().remove(0);
+        }
+        for (int index : lesson.getCardIndexes()){
+            addCardToLesson(index, true);
+        }
+    }
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    public void saveLessonAction() throws IOException {
+        String fileName= App.getCurrentSelectedLesson().getLessonName() + ".txt" ;
+        FileOutputStream fos = new FileOutputStream(App.imagesFilePath + "/staticFiles/savedLessons" + fileName);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(App.getCurrentSelectedLesson());
+        oos.close();
+    }
+
+    @FXML
+    private Button saveAsButton;
+
+    @FXML
+    public void saveAsLessonAction() throws IOException {
+        showAddLessonPlanPopUpWindow();
+        saveLessonAction();
+    }
+
+    @FXML
+    private Button editButton;
+
+    @FXML
+    public void editLessonAction() throws IOException, ClassNotFoundException {
+        String fileName= App.getCurrentSelectedLesson().getLessonName() + ".txt" ;
+        FileInputStream fos = new FileInputStream(fileName);
+        ObjectInputStream oos = new ObjectInputStream(fos);
+        oos.readObject();
+        oos.close();
+    }
 
 }

@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -26,37 +25,33 @@ public class AddLessonPlanPopUpController {
     @FXML
     private void initialize() {
 
-        HashMap<Integer, Lesson> lessons = App.getLessons();
-
-        if (lessons == null) {
-            lessons = new HashMap<>();
-            lessons.put(99, new Lesson("demo lesson 1"));
-            lessons.put(100, new Lesson("demo lesson 2"));
-        }
+        HashMap<String, Lesson> lessons = App.getLessons();
 
         ScrollPane pickLessonScroll = new ScrollPane();
         pickLessonScroll.setFitToWidth(true);
         pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
 
-       VBox lessonOption = new VBox(10);
-       lessonOption.setAlignment(Pos.CENTER);
-       lessonOption.setStyle("-fx-background-color: #E4CCFF");
+        VBox lessonOption = new VBox(10);
+        lessonOption.setAlignment(Pos.CENTER);
+        lessonOption.setStyle("-fx-background-color: #E4CCFF");
 
-       pickLessonScroll.setContent(lessonOption);
-       pickLessonVBox.getChildren().add(1, pickLessonScroll);
+        pickLessonScroll.setContent(lessonOption);
+        pickLessonVBox.getChildren().add(1, pickLessonScroll);
 
-       for (Lesson lesson : lessons.values()) {
-           Button lessonButton = new Button(lesson.getLessonName());
-           lessonButton.setMinWidth(169);
-           lessonButton.setOnMouseClicked(event -> {lessonSelected(); App.currentSelectedLesson = lesson;});
-           lessonOption.getChildren().add(lessonButton);
-       }
+        for (Lesson lesson : lessons.values()) {
+            Button lessonButton = new Button(lesson.getLessonName());
+            lessonButton.setMinWidth(169);
+            lessonButton.setOnMouseClicked(event -> {
+                lessonSelected(lesson);
+            });
+            lessonOption.getChildren().add(lessonButton);
+        }
     }
 
-
     @FXML
-    private void lessonSelected() {
+    private void lessonSelected(Lesson lesson) {
         Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
+        App.setCurrentSelectedLesson(lesson);
         App.lessonSelected(true);
         currWindow.close();
     }
@@ -74,6 +69,4 @@ public class AddLessonPlanPopUpController {
         Stage currWindow = (Stage) createNewLessonPlan.getScene().getWindow();
         currWindow.close();
     }
-
-
 }
