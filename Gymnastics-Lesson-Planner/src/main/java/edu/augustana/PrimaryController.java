@@ -33,6 +33,8 @@ public class PrimaryController {
     private VBox allFilterOptions;
     @FXML
     private VBox cardBox;
+    @FXML
+    private HBox equipmentsBox;
 
     @FXML
     private void initialize(){
@@ -128,9 +130,8 @@ public class PrimaryController {
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
     }
 
-    private Label cardTitleBox(Card card){
-        String cardTitle = card.getTitle();
-        Label titleLabel = new Label(cardTitle);
+    private Label cardTitleBox(String title){
+        Label titleLabel = new Label(title);
         titleLabel.setStyle("-fx-border-color:" + borderColor + "; -fx-padding: 5px;");
         titleLabel.setAlignment(Pos.CENTER);
         titleLabel.setPadding(new Insets(10, 0, 0, 0));
@@ -203,6 +204,7 @@ public class PrimaryController {
     private void plusClicked(CardView cardView) throws IOException {
         if (App.isLessonSelected()){
             addCardToLesson(cardView.getCardId(), false);
+            addEquipmentToEquipmentBar(cardView.getCardId());
         }else{
             showAddLessonPlanPopUpWindow();
         }
@@ -212,10 +214,17 @@ public class PrimaryController {
         Card cardToAdd = App.getCardDatabase().get(code);
         boolean added = App.getCurrentSelectedLesson().addCard(cardToAdd);
         if (added || forceAdd) {
-            cardBox.getChildren().add(cardTitleBox(cardToAdd));
+            cardBox.getChildren().add(cardTitleBox(cardToAdd.getTitle()));
         }
     }
 
+    public void addEquipmentToEquipmentBar(int code){
+        Card equipmentToAdd = App.getCardDatabase().get(code);
+        for (String e: equipmentToAdd.getEquipment()){
+            equipmentsBox.getChildren().add(cardTitleBox(e));
+        }
+
+    }
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();

@@ -127,11 +127,19 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="61.0" BorderPane.alignment="CENTER">
          <children>
-            <Label style="-fx-background-color: #E4CCFF; -fx-background-radius: 10;" text="Equipments:">
+            <Label prefHeight="0.0" prefWidth="90.0" style="-fx-background-color: #E4CCFF; -fx-background-radius: 10;" text="Equipments:">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
             </Label>
+            <ScrollPane style="-fx-border-color: grey;" vbarPolicy="NEVER">
+               <content>
+                  <HBox fx:id="equipmentsBox" alignment="CENTER" spacing="10.0" />
+               </content>
+            </ScrollPane>
          </children>
       </HBox>
    </bottom>
