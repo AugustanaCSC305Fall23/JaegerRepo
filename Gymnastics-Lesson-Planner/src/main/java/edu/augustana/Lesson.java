@@ -15,7 +15,9 @@ public class Lesson {
     private final String lessonName;
     private static int TotalLessonIndex = 0;
     private final int lessonIndex;
+    private ArrayList<String> equipments;
     public Lesson(String lessonName){
+        equipments = new ArrayList<>();
         cardIndexes = new ArrayList<>();
         this.lessonName = lessonName;
         Lesson.TotalLessonIndex++;
@@ -52,5 +54,15 @@ public class Lesson {
         PrintWriter writer = new PrintWriter(new FileWriter(logFile));
         writer.println(serializedMovieLogText);
         writer.close();
+    }
+    public boolean addEquipment(String newEquipment){
+        if (equipments.contains(newEquipment)){
+            return false;
+        }
+        equipments.add(newEquipment);
+        return true;
+    }
+    public ArrayList<String> getEquipments() {
+        return equipments;
     }
 }

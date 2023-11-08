@@ -108,22 +108,7 @@ public class PrimaryController {
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
         return buttonWrapper;
     }
-
-
-//    private VBox createSubCategoryButton(String subCategoryName, String categoryName){
-//        javafx.scene.control.Button button = new javafx.scene.control.Button(subCategoryName);
-//        button.setId("subCategoryButton");
-//        button.setOnMouseClicked(event -> {
-//            if (button.getId().equals("subCategoryButton")){
-//                button.setId("subCategoryButtonClicked");
-//            }else {button.setId("subCategoryButton");}
-//        });
-//        VBox buttonWrapper = new VBox(button);
-//        buttonWrapper.setAlignment(Pos.CENTER);
-//        buttonWrapper.setId(categoryName + "FilterOption");
-//        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
-//        return buttonWrapper;
-//    }
+    
     private void changeVisibilityOfFilterOptions(Button button){
         Scene scene = button.getScene();
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText()+"FilterOptions");
@@ -221,9 +206,10 @@ public class PrimaryController {
     public void addEquipmentToEquipmentBar(int code){
         Card equipmentToAdd = App.getCardDatabase().get(code);
         for (String e: equipmentToAdd.getEquipment()){
-            equipmentsBox.getChildren().add(cardTitleBox(e));
+            if (App.getCurrentSelectedLesson().addEquipment(e)) {
+                equipmentsBox.getChildren().add(cardTitleBox(e));
+            }
         }
-
     }
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
