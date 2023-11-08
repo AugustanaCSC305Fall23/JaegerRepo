@@ -24,10 +24,9 @@ public class App extends Application {
     private static FilterDatabase filterDatabase;
     private static HashMap<String, Lesson> lessons;
     private static File currentLessonLogFile = null;
+    public static SubCategoryButton currentSelectedEquipment;
 
     public static final String[] OS = System.getProperty("os.name").split(",");
-
-
 
     @Override
     public void start(Stage stage) throws IOException {

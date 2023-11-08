@@ -172,27 +172,27 @@ public class PrimaryController {
 
         // looping through the cards hashmap and adding it to the grid
         for (int cardId : cards.keySet()){
-            if (currCol == 3){
-                //creating a new HBox or row after 3 cards are added
-                cardGrid.add(row, 0, currRow);
-                row = new HBox();
+                if (currCol == 3){
+                    //creating a new HBox or row after 3 cards are added
+                    cardGrid.add(row, 0, currRow);
+                    row = new HBox();
 
-                currCol = 0;
-                currRow++;
-            }
-            // adding a card to the HBox or row
-            row.setAlignment(Pos.CENTER);
-            row.setSpacing(50);
-            CardView newCardView = new CardView(cards.get(cardId));
-            newCardView.getButtonAndCode().setOnMouseClicked(event -> {
-                try {
-                    plusClicked(newCardView);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    currCol = 0;
+                    currRow++;
                 }
-            });
-            row.getChildren().add(newCardView.getCardView());
-            currCol++;
+                // adding a card to the HBox or row
+                row.setAlignment(Pos.CENTER);
+                row.setSpacing(50);
+                CardView newCardView = new CardView(cards.get(cardId));
+                newCardView.getButtonAndCode().setOnMouseClicked(event -> {
+                    try {
+                        plusClicked(newCardView);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                row.getChildren().add(newCardView.getCardView());
+                currCol++;
         }
         if (!row.getChildren().isEmpty()){
             cardGrid.add(row, 0, currRow);
@@ -215,6 +215,7 @@ public class PrimaryController {
             cardBox.getChildren().add(cardTitleBox(cardToAdd));
         }
     }
+
 
     private void showAddLessonPlanPopUpWindow() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -241,12 +242,6 @@ public class PrimaryController {
 
     @FXML
     public void saveLessonAction() throws IOException {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save Movie Log File");
-//        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Movie Logs (*.movielog)", "*.movielog");
-//        fileChooser.getExtensionFilters().add(filter);
-//        Window mainWindow = pickCourseComboBox.getScene().getWindow();
-//        File chosenFile = fileChooser.showSaveDialog(mainWindow);
         File chosenFile = new File(App.pathToResourcesFolder + "/staticFiles/savedLessons/" + App.getCurrentSelectedLesson().getLessonName() + ".lesson");
         chosenFile.createNewFile();
         System.out.println(chosenFile.getAbsolutePath());
