@@ -28,6 +28,8 @@ public class PrimaryController {
     private VBox allFilterOptions;
     @FXML
     private VBox cardBox;
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     private void initialize(){
@@ -74,14 +76,47 @@ public class PrimaryController {
             subCategoryWrapper.setVisible(false);
             subCategoryWrapper.managedProperty().bind(subCategoryWrapper.visibleProperty());
             for (String subCategory : filterOptions.get(category).keySet()){
-                //
+
                 SubCategoryButton subButton = new SubCategoryButton(subCategory,category);
+
                 subCategoryWrapper.getChildren().add(subButton.getSubCategoryButtonWrapper());
+                Button button = (Button) subButton.getSubCategoryButtonWrapper().getChildren().get(0);
+                button.setOnMouseClicked(event -> {
+                    ClickSubCategoryButton(subButton, button);});
             }
             newCategory.getChildren().add(subCategoryWrapper);
             allFilterOptions.getChildren().add(newCategory);
 
         }
+    }
+    private void ClickSubCategoryButton(SubCategoryButton subButton, Button button) {
+        if (!subButton.isButtonClicked) {
+            subButton.on();
+            addFilteredData();
+        }else{
+            subButton.off();
+            scrollPane.setContent(null);
+            scrollPane.setContent(App.allCardsLoadedGridPane);
+        }
+    }
+
+    private void addFilteredData(){
+        if (App.equipmentFilterValue != null){
+            App.filteredData.put(App.equipmentFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Equipments").get(App.equipmentFilterValue.subCategoryButtonName));
+        }
+        if (App.eventFilterValue != null){
+            App.filteredData.put(App.eventFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Event").get(App.eventFilterValue.subCategoryButtonName));
+        }
+        if (App.genderFilterValue != null){
+            App.filteredData.put(App.genderFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Gender").get(App.genderFilterValue.subCategoryButtonName));
+        }
+        if (App.levelFilterValue != null){
+            App.filteredData.put(App.levelFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Level").get(App.levelFilterValue.subCategoryButtonName));
+        }
+        if (App.modelSexFilterValue != null){
+            App.filteredData.put(App.modelSexFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("ModelSex").get(App.modelSexFilterValue.subCategoryButtonName));
+        }
+        addCardsToHBoxToGrid(new GridPane());
     }
 
     public VBox createCategoryButton(String categoryName){
@@ -100,21 +135,6 @@ public class PrimaryController {
         return buttonWrapper;
     }
 
-
-//    private VBox createSubCategoryButton(String subCategoryName, String categoryName){
-//        javafx.scene.control.Button button = new javafx.scene.control.Button(subCategoryName);
-//        button.setId("subCategoryButton");
-//        button.setOnMouseClicked(event -> {
-//            if (button.getId().equals("subCategoryButton")){
-//                button.setId("subCategoryButtonClicked");
-//            }else {button.setId("subCategoryButton");}
-//        });
-//        VBox buttonWrapper = new VBox(button);
-//        buttonWrapper.setAlignment(Pos.CENTER);
-//        buttonWrapper.setId(categoryName + "FilterOption");
-//        VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
-//        return buttonWrapper;
-//    }
     private void changeVisibilityOfFilterOptions(Button button){
         Scene scene = button.getScene();
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText()+"FilterOptions");
@@ -131,12 +151,7 @@ public class PrimaryController {
         return titleLabel;
     }
 
-
-
-
-
     private void loadCardsToGridView(){
-        ScrollPane scrollPane = new ScrollPane(); // creating a scroll pane
         scrollPane.setFitToWidth(true);
 
         GridPane cardGrid = new GridPane(); // creating a gridPane
@@ -148,13 +163,13 @@ public class PrimaryController {
         cardGrid.getColumnConstraints().add(colConstraints);
 
         // adding the gridPane in the scroll pane and the scroll pane into the center area
-        scrollPane.setContent(cardGrid);
-        centerArea.getChildren().add(scrollPane);
 
         addCardsToHBoxToGrid(cardGrid);
     }
 
-    private void addCardsToHBoxToGrid(GridPane cardGrid){
+    private void addCardsToHBoxToGrid(GridPane cardGrid) {
+        scrollPane.setContent(null);
+        scrollPane.setContent(cardGrid);
         // indexes to keep track of the location in grid
         int currCol = 0;
         int currRow = 0;
@@ -163,35 +178,80 @@ public class PrimaryController {
 
         HBox row = new HBox(); // using a HBox cause organizing the grid columns was a hassle so there is only one column, and it has a HBox that holds 3 cards
 
-        // looping through the cards hashmap and adding it to the grid
-        for (int cardId : cards.keySet()){
-            if (currCol == 3){
-                //creating a new HBox or row after 3 cards are added
-                cardGrid.add(row, 0, currRow);
-                row = new HBox();
+        if (App.filteredData.isEmpty()) {
+            // looping through the cards hashmap and adding it to the grid
+            for (int cardId : cards.keySet()) {
 
-                currCol = 0;
-                currRow++;
-            }
-            // adding a card to the HBox or row
-            row.setAlignment(Pos.CENTER);
-            row.setSpacing(50);
-            CardView newCardView = new CardView(cards.get(cardId));
-            newCardView.getButtonAndCode().setOnMouseClicked(event -> {
-                try {
-                    plusClicked(newCardView);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+
+                if (currCol == 3) {
+                    //creating a new HBox or row after 3 cards are added
+                    cardGrid.add(row, 0, currRow);
+                    row = new HBox();
+
+                    currCol = 0;
+                    currRow++;
                 }
-            });
-            row.getChildren().add(newCardView.getCardView());
-            currCol++;
-        }
-        if (!row.getChildren().isEmpty()){
-            cardGrid.add(row, 0, currRow);
+                // adding a card to the HBox or row
+                row.setAlignment(Pos.CENTER);
+                row.setSpacing(50);
+                CardView newCardView = new CardView(cards.get(cardId));
+                newCardView.getButtonAndCode().setOnMouseClicked(event -> {
+                    try {
+                        plusClicked(newCardView);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                row.getChildren().add(newCardView.getCardView());
+                currCol++;
 
+
+            }
+            if (!row.getChildren().isEmpty()) {
+                cardGrid.add(row, 0, currRow);
+            }
+            if (App.allCardsLoadedGridPane == null){
+                App.allCardsLoadedGridPane = cardGrid;
+            }
+
+        } else {
+            for (String subCategoryName: App.filteredData.keySet()) {
+                for (Card card: App.filteredData.get(subCategoryName)) {
+                    System.out.println(card);
+                    if (currCol == 3) {
+                        //creating a new HBox or row after 3 cards are added
+                        cardGrid.add(row, 0, currRow);
+                        row = new HBox();
+
+                        currCol = 0;
+                        currRow++;
+                    }
+                    // adding a card to the HBox or row
+                    row.setAlignment(Pos.CENTER);
+                    row.setSpacing(50);
+                    CardView newCardView = new CardView(card);
+                    newCardView.getButtonAndCode().setOnMouseClicked(event -> {
+                        try {
+                            plusClicked(newCardView);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    row.getChildren().add(newCardView.getCardView());
+                    currCol++;
+
+                }
+            }
+            if (!row.getChildren().isEmpty()) {
+                cardGrid.add(row, 0, currRow);
+
+            }
         }
     }
+//
+//    public boolean isCardFiltered(int cardId){
+//        if ()
+//    }
 
     private void plusClicked(CardView cardView) throws IOException {
         if (App.isLessonSelected()){
@@ -228,6 +288,9 @@ public class PrimaryController {
         for (int index : lesson.getCardIndexes()){
             addCardToLesson(index, true);
         }
+    }
+    public VBox getCardBox(){
+        return cardBox;
     }
 
 }

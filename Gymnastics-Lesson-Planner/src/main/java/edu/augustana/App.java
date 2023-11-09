@@ -4,14 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * JavaFX App
@@ -23,7 +21,13 @@ public class App extends Application {
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<String, Lesson> lessons;
-
+    public static SubCategoryButton equipmentFilterValue;
+    public static SubCategoryButton eventFilterValue;
+    public static SubCategoryButton modelSexFilterValue;
+    public static SubCategoryButton levelFilterValue;
+    public static SubCategoryButton genderFilterValue;
+    public static GridPane allCardsLoadedGridPane = null;
+    public static HashMap<String, HashSet<Card>> filteredData = new HashMap<>();
     public static final String[] OS = System.getProperty("os.name").split(",");
 
     @Override
@@ -114,6 +118,10 @@ public class App extends Application {
 
     public static Lesson getCurrentSelectedLesson() {
         return currentSelectedLesson;
+    }
+
+    public static FilterDatabase getFilterDatabase() {
+        return filterDatabase;
     }
 
     public static void main(String[] args) {

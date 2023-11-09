@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.TreeMap;
 
 public class FilterDatabase {
-    private final HashMap<String, TreeMap<String, HashSet<Card>>> filterOptions;
+    private HashMap<String, TreeMap<String, HashSet<Card>>> filterOptions =  new HashMap<>();
 
     public FilterDatabase(CardDatabase cards){
         filterOptions = new HashMap<>();
@@ -27,6 +27,7 @@ public class FilterDatabase {
             String modelSex = cards.get(cardId).getModelSex();
             String level = cards.get(cardId).getLevel();
 
+
             addToFilterOptions("Event", event, currCard);
             addToFilterOptions("Gender", gender, currCard);
             addToFilterOptions("ModelSex", modelSex, currCard);
@@ -43,6 +44,7 @@ public class FilterDatabase {
                 }
             }
         }
+        System.out.println(filterOptions.get("Event"));
     }
 
     private void addToFilterOptions(String category, String categoryValue, Card card){

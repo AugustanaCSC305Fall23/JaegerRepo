@@ -7,20 +7,61 @@ import javafx.scene.layout.VBox;
 
 public class SubCategoryButton {
     public boolean isButtonClicked;
-    public String buttonName;
+    public String subCategoryButtonName;
     public VBox buttonWrapper;
-
+    public String buttonCategory;
+    public Button mainButton;
 
     public boolean isButtonClicked() {
         return isButtonClicked;
     }
 
-    public void setButtonClicked(boolean buttonClicked) {
-        isButtonClicked = buttonClicked;
+    public void on(){
+        isButtonClicked = true;
+        mainButton.setId("subCategoryButtonClicked");
+        if (App.equipmentFilterValue != null){
+            App.equipmentFilterValue.off();
+        }
+        if (App.eventFilterValue != null){
+            App.eventFilterValue.off();
+        }
+        if (App.modelSexFilterValue != null){
+            App.modelSexFilterValue.off();
+        }
+        if (App.levelFilterValue != null){
+            App.levelFilterValue.off();
+        }
+        if (App.genderFilterValue != null){
+            App.genderFilterValue.off();
+        }
+
+        switch (buttonCategory) {
+            case "Equipments":
+                App.equipmentFilterValue = this;
+                break;
+            case "Event":
+                App.eventFilterValue = this;
+                break;
+            case "ModelSex":
+                App.modelSexFilterValue = this;
+                break;
+            case "Level":
+                App.levelFilterValue = this;
+                break;
+            case "Gender":
+                App.genderFilterValue = this;
+                break;
+        }
+    }
+
+    public void off(){
+        isButtonClicked = false;
+        mainButton.setId("subCategoryButton");
+        App.filteredData.remove(subCategoryButtonName);
     }
 
     public String getButtonName() {
-        return buttonName;
+        return subCategoryButtonName;
     }
 
     public VBox getButtonWrapper() {
@@ -29,23 +70,17 @@ public class SubCategoryButton {
 
     public SubCategoryButton(String subCategoryName, String categoryName){
         javafx.scene.control.Button button = new javafx.scene.control.Button(subCategoryName);
+        mainButton = button;
+        this.subCategoryButtonName = subCategoryName;
+        buttonCategory = categoryName;
         button.setId("subCategoryButton");
-        setButtonClicked(false);
-        button.setOnMouseClicked(event -> {
-            ClickButton(button);
-        });
+        off();
         buttonWrapper = new VBox(button);
         buttonWrapper.setAlignment(Pos.CENTER);
         buttonWrapper.setId(categoryName + "FilterOption");
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
     }
-    private void ClickButton(Button button){
-        if (button.getId().equals("subCategoryButton")){
-            setButtonClicked(true);
-            button.setId("subCategoryButtonClicked");
-        }else {button.setId("subCategoryButton");
-            setButtonClicked(false);}
-    }
+
     public VBox getSubCategoryButtonWrapper(){
         return buttonWrapper;
     }
