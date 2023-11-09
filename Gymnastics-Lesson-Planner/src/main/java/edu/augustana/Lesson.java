@@ -48,13 +48,6 @@ public class Lesson {
         return lessonName;
     }
 
-    public void saveToFile(File logFile) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String serializedMovieLogText = gson.toJson(this);
-        PrintWriter writer = new PrintWriter(new FileWriter(logFile));
-        writer.println(serializedMovieLogText);
-        writer.close();
-    }
     public boolean addEquipment(String newEquipment){
         if (equipments.contains(newEquipment)){
             return false;

@@ -38,9 +38,10 @@ public class PrimaryController {
     private VBox pickLessonVBox;
     private Button createNewLessonButton;
     private TextField lessonName;
-
-
-
+    private Button createNewCoursePlanButton;
+    private VBox pickCourseVBox;
+    private Button createNewCourseButton;
+    private TextField courseName;
     @FXML
     private void initialize() {
         loadCardsToGridView();
@@ -48,32 +49,6 @@ public class PrimaryController {
 //        initializeDropdowns();
 
     }
-
-//    private void initializeDropdowns() {
-//        pickCourseComboBox = new ComboBox<>();
-//        selectCourseLessonHbox.getChildren().add(pickCourseComboBox);
-//        pickCourseComboBox.getItems().addAll("+ Create New Course");
-//        HashMap<String, Lesson> lessons = App.getLessons();
-//        for (String id : lessons.keySet()) {
-//            pickCourseComboBox.getItems().add(lessons.get(id).getLessonName());
-//        }
-//        pickCourseComboBox.setOnAction(event -> {
-//            try {
-//                courseDropdownOptionSelected();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//    }
-
-//    private void courseDropdownOptionSelected() throws IOException {
-//        String selectedOption = pickCourseComboBox.getValue();
-//        if (selectedOption.equals("+ Create New Course")) {
-//            showAddLessonPlanPopUpWindow();
-//        } else {
-//            changeSelectedLesson(App.getLessons().get(selectedOption));
-//        }
-//    }
 
     private void initializeFilters() {
         HashMap<String, TreeMap<String, HashSet<CardView>>> filterOptions = App.getFilterOptions();
@@ -104,44 +79,9 @@ public class PrimaryController {
     }
 
     private void clickSubCategoryButton(SubCategoryButton subButton, Button button) {
-//        if (!subButton.buttonClicked) {
-//            subButton.click();
-//            addFilteredData();
-//        } else {
-//            subButton.click();
-//            scrollPane.setContent(null);
-//            scrollPane.setContent(App.allCardsLoadedGridPane);
-//        }
         subButton.click();
         addCardsToHBoxToGrid(new GridPane());
-//        if (subButton.isButtonClicked()){
-//            addCardsToHBoxToGrid(new GridPane());
-//        }else{
-//            addCardsToHBoxToGrid(new GridPane());
-//            scrollPane.setContent(null);
-//            scrollPane.setContent(App.allCardsLoadedGridPane);
-
     }
-
-//
-//    private void addFilteredData() {
-//        if (App.equipmentFilterValue != null) {
-//            App.filteredData.put(App.equipmentFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Equipments").get(App.equipmentFilterValue.subCategoryButtonName));
-//        }
-//        if (App.eventFilterValue != null) {
-//            App.filteredData.put(App.eventFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Event").get(App.eventFilterValue.subCategoryButtonName));
-//        }
-//        if (App.genderFilterValue != null) {
-//            App.filteredData.put(App.genderFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Gender").get(App.genderFilterValue.subCategoryButtonName));
-//        }
-//        if (App.levelFilterValue != null) {
-//            App.filteredData.put(App.levelFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Level").get(App.levelFilterValue.subCategoryButtonName));
-//        }
-//        if (App.modelSexFilterValue != null) {
-//            App.filteredData.put(App.modelSexFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("ModelSex").get(App.modelSexFilterValue.subCategoryButtonName));
-//        }
-//        addCardsToHBoxToGrid(new GridPane());
-//    }
 
     public VBox createCategoryButton(String categoryName) {
         Button button = new Button(categoryName);
@@ -338,11 +278,11 @@ public class PrimaryController {
     private Button saveButton;
 
     @FXML
-    public void saveLessonAction() throws IOException {
-        File chosenFile = new File(App.pathToResourcesFolder + "/staticFiles/savedLessons/" + App.getCurrentSelectedLesson().getLessonName() + ".lesson");
+    public void saveCourseAction() throws IOException {
+        File chosenFile = new File(App.pathToResourcesFolder + "/staticFiles/savedCourses/" + App.getCurrentSelectedCourse().getCourseName()+ ".course");
         chosenFile.createNewFile();
         System.out.println(chosenFile.getAbsolutePath());
-        App.saveCurrentLessonLogToFile(chosenFile);
+        App.saveCurrentCourseLogToFile(chosenFile);
     }
 
     @FXML
@@ -351,7 +291,7 @@ public class PrimaryController {
     @FXML
     public void saveAsLessonAction() throws IOException {
         showAddLessonPlanPopUpWindow();
-        saveLessonAction();
+        saveCourseAction();
     }
 
     @FXML
@@ -510,6 +450,11 @@ public class PrimaryController {
                 throw new RuntimeException(e);
             }
         });
+        createNewCoursePlanButton = new Button("+ Load New Course");
+
+        createNewCoursePlanButton.setFont(new Font("Segoe Script", 12));
+        createNewCoursePlanButton.setPrefWidth(172.8);
+        createNewCoursePlanButton.setPrefHeight(30.4);
         vBoxForContent.getChildren().add(label);
         vBoxForContent.getChildren().add(pickCourseVBox);
         vBoxForContent.getChildren().add(createNewCoursePlanButton);
@@ -598,11 +543,5 @@ public class PrimaryController {
             currWindow.close();
         }
     }
-
-
-    private Button createNewCoursePlanButton;
-    private VBox pickCourseVBox;
-    private Button createNewCourseButton;
-    private TextField courseName;
 
 }

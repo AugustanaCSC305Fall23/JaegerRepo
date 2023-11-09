@@ -1,5 +1,12 @@
 package edu.augustana;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,5 +29,13 @@ public class Course {
 
     public void addLesson(Lesson newLesson){
         lessonsInCourse.add(newLesson);
+    }
+
+    public void saveToFile(File logFile) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String serializedMovieLogText = gson.toJson(this);
+        PrintWriter writer = new PrintWriter(new FileWriter(logFile));
+        writer.println(serializedMovieLogText);
+        writer.close();
     }
 }

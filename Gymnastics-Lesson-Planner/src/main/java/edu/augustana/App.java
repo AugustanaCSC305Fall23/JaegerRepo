@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
@@ -144,8 +143,8 @@ public class App extends Application {
     public static FilterDatabase getFilterDatabase() {
         return filterDatabase;
     }
-    public static void saveCurrentLessonLogToFile(File chosenFile) throws IOException {
-        currentSelectedLesson.saveToFile(chosenFile);
+    public static void saveCurrentCourseLogToFile(File chosenFile) throws IOException {
+        currentSelectedCourse.saveToFile(chosenFile);
         currentLessonLogFile = chosenFile;
     }
 

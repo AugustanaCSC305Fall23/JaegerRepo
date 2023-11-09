@@ -73,7 +73,7 @@
    <center>
       <VBox fx:id="centerArea" alignment="TOP_CENTER" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="selectCourseLessonHbox" alignment="CENTER" prefHeight="72.0" spacing="100.0">
+            <HBox fx:id="selectCourseLessonHbox" alignment="CENTER" prefHeight="0.0" spacing="100.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -98,6 +98,9 @@
                         <Button mnemonicParsing="false" onAction="#showAddLessonPlanPopUpWindow" text="Select/Create Lesson" />
                      </children></HBox>
                </children>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
             </HBox>
             <ScrollPane fx:id="scrollPane" vbarPolicy="NEVER" />
          </children>
@@ -115,7 +118,7 @@
                <children>
                   <Button mnemonicParsing="false" style="-fx-background-color: E4CCFF;" text="Edit" />
                   <Button mnemonicParsing="false" style="-fx-background-color: E4CCFF;" text="Save as" />
-                  <Button fx:id="saveLessonButton" mnemonicParsing="false" onAction="#saveLessonAction" style="-fx-background-color: E4CCFF;" text="Save" />
+                  <Button fx:id="saveLessonButton" mnemonicParsing="false" onAction="#saveCourseAction" style="-fx-background-color: E4CCFF;" text="Save" />
                </children>
             </HBox>
             <ScrollPane fx:id="selectedAreaScrollPane" fitToWidth="true" prefHeight="716.0" prefWidth="213.0" VBox.vgrow="ALWAYS">
