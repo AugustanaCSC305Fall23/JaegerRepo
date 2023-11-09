@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -10,10 +11,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
-import java.io.IOException;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeMap;
@@ -23,26 +27,31 @@ public class PrimaryController {
     @FXML
     private VBox centerArea;
     @FXML
-    private ComboBox<String> pickCourseComboBox;
+    private HBox selectCourseLessonHbox;
+    private static ComboBox<String> pickCourseComboBox = null;
     @FXML
     private VBox allFilterOptions;
     @FXML
     private VBox cardBox;
     @FXML
     private ScrollPane scrollPane;
+    private HBox equipmentsBox;
+
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         loadCardsToGridView();
         initializeFilters();
         initializeDropdowns();
 
     }
 
-    private void initializeDropdowns(){
+    private void initializeDropdowns() {
+        pickCourseComboBox = new ComboBox<>();
+        selectCourseLessonHbox.getChildren().add(pickCourseComboBox);
         pickCourseComboBox.getItems().addAll("+ Create New Course");
         HashMap<String, Lesson> lessons = App.getLessons();
-        for (String id : lessons.keySet()){
+        for (String id : lessons.keySet()) {
             pickCourseComboBox.getItems().add(lessons.get(id).getLessonName());
         }
         pickCourseComboBox.setOnAction(event -> {
@@ -56,17 +65,17 @@ public class PrimaryController {
 
     private void courseDropdownOptionSelected() throws IOException {
         String selectedOption = pickCourseComboBox.getValue();
-        if (selectedOption.equals("+ Create New Course")){
+        if (selectedOption.equals("+ Create New Course")) {
             showAddLessonPlanPopUpWindow();
         } else {
             changeSelectedLesson(App.getLessons().get(selectedOption));
         }
     }
 
-    private void initializeFilters(){
-        HashMap<String, TreeMap <String, HashSet<Card>>> filterOptions = App.getFilterOptions();
+    private void initializeFilters() {
+        HashMap<String, TreeMap<String, HashSet<Card>>> filterOptions = App.getFilterOptions();
         allFilterOptions.setAlignment(Pos.CENTER);
-        for (String category : filterOptions.keySet()){
+        for (String category : filterOptions.keySet()) {
             VBox newCategory = new VBox();
             newCategory.setAlignment(Pos.CENTER);
             newCategory.getChildren().add(createCategoryButton(category));
@@ -75,51 +84,53 @@ public class PrimaryController {
             subCategoryWrapper.setId(category + "FilterOptions");
             subCategoryWrapper.setVisible(false);
             subCategoryWrapper.managedProperty().bind(subCategoryWrapper.visibleProperty());
-            for (String subCategory : filterOptions.get(category).keySet()){
+            for (String subCategory : filterOptions.get(category).keySet()) {
 
-                SubCategoryButton subButton = new SubCategoryButton(subCategory,category);
+                SubCategoryButton subButton = new SubCategoryButton(subCategory, category);
 
                 subCategoryWrapper.getChildren().add(subButton.getSubCategoryButtonWrapper());
                 Button button = (Button) subButton.getSubCategoryButtonWrapper().getChildren().get(0);
                 button.setOnMouseClicked(event -> {
-                    ClickSubCategoryButton(subButton, button);});
+                    ClickSubCategoryButton(subButton, button);
+                });
             }
             newCategory.getChildren().add(subCategoryWrapper);
             allFilterOptions.getChildren().add(newCategory);
 
         }
     }
+
     private void ClickSubCategoryButton(SubCategoryButton subButton, Button button) {
         if (!subButton.isButtonClicked) {
             subButton.on();
             addFilteredData();
-        }else{
+        } else {
             subButton.off();
             scrollPane.setContent(null);
             scrollPane.setContent(App.allCardsLoadedGridPane);
         }
     }
 
-    private void addFilteredData(){
-        if (App.equipmentFilterValue != null){
+    private void addFilteredData() {
+        if (App.equipmentFilterValue != null) {
             App.filteredData.put(App.equipmentFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Equipments").get(App.equipmentFilterValue.subCategoryButtonName));
         }
-        if (App.eventFilterValue != null){
+        if (App.eventFilterValue != null) {
             App.filteredData.put(App.eventFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Event").get(App.eventFilterValue.subCategoryButtonName));
         }
-        if (App.genderFilterValue != null){
+        if (App.genderFilterValue != null) {
             App.filteredData.put(App.genderFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Gender").get(App.genderFilterValue.subCategoryButtonName));
         }
-        if (App.levelFilterValue != null){
+        if (App.levelFilterValue != null) {
             App.filteredData.put(App.levelFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Level").get(App.levelFilterValue.subCategoryButtonName));
         }
-        if (App.modelSexFilterValue != null){
+        if (App.modelSexFilterValue != null) {
             App.filteredData.put(App.modelSexFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("ModelSex").get(App.modelSexFilterValue.subCategoryButtonName));
         }
         addCardsToHBoxToGrid(new GridPane());
     }
 
-    public VBox createCategoryButton(String categoryName){
+    public VBox createCategoryButton(String categoryName) {
         Button button = new Button(categoryName);
         button.setId("categoryButton");
         VBox buttonWrapper = new VBox(button);
@@ -127,23 +138,24 @@ public class PrimaryController {
         buttonWrapper.setAlignment(Pos.CENTER);
         button.setOnMouseClicked(event -> {
             changeVisibilityOfFilterOptions(button);
-            if (button.getId().equals("categoryButton")){
+            if (button.getId().equals("categoryButton")) {
                 button.setId("categoryButtonClicked");
-            }else {button.setId("categoryButton");}
+            } else {
+                button.setId("categoryButton");
+            }
         });
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
         return buttonWrapper;
     }
 
-    private void changeVisibilityOfFilterOptions(Button button){
+    private void changeVisibilityOfFilterOptions(Button button) {
         Scene scene = button.getScene();
-        VBox filterOptions = (VBox) scene.lookup("#" + button.getText()+"FilterOptions");
+        VBox filterOptions = (VBox) scene.lookup("#" + button.getText() + "FilterOptions");
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
     }
 
-    private Label cardTitleBox(Card card){
-        String cardTitle = card.getTitle();
-        Label titleLabel = new Label(cardTitle);
+    private Label cardTitleBox(String title) {
+        Label titleLabel = new Label(title);
         titleLabel.setStyle("-fx-border-color:" + borderColor + "; -fx-padding: 5px;");
         titleLabel.setAlignment(Pos.CENTER);
         titleLabel.setPadding(new Insets(10, 0, 0, 0));
@@ -151,7 +163,7 @@ public class PrimaryController {
         return titleLabel;
     }
 
-    private void loadCardsToGridView(){
+    private void loadCardsToGridView() {
         scrollPane.setFitToWidth(true);
 
         GridPane cardGrid = new GridPane(); // creating a gridPane
@@ -205,18 +217,19 @@ public class PrimaryController {
                 row.getChildren().add(newCardView.getCardView());
                 currCol++;
 
-
             }
             if (!row.getChildren().isEmpty()) {
                 cardGrid.add(row, 0, currRow);
+
+
             }
-            if (App.allCardsLoadedGridPane == null){
+            if (App.allCardsLoadedGridPane == null) {
                 App.allCardsLoadedGridPane = cardGrid;
             }
 
         } else {
-            for (String subCategoryName: App.filteredData.keySet()) {
-                for (Card card: App.filteredData.get(subCategoryName)) {
+            for (String subCategoryName : App.filteredData.keySet()) {
+                for (Card card : App.filteredData.get(subCategoryName)) {
                     System.out.println(card);
                     if (currCol == 3) {
                         //creating a new HBox or row after 3 cards are added
@@ -254,18 +267,28 @@ public class PrimaryController {
 //    }
 
     private void plusClicked(CardView cardView) throws IOException {
-        if (App.isLessonSelected()){
+        if (App.isLessonSelected()) {
             addCardToLesson(cardView.getCardId(), false);
-        }else{
+            addEquipmentToEquipmentBar(cardView.getCardId());
+        } else {
             showAddLessonPlanPopUpWindow();
         }
     }
 
-    public void addCardToLesson(int code, boolean forceAdd){
+    public void addCardToLesson(int code, boolean forceAdd) {
         Card cardToAdd = App.getCardDatabase().get(code);
         boolean added = App.getCurrentSelectedLesson().addCard(cardToAdd);
         if (added || forceAdd) {
-            cardBox.getChildren().add(cardTitleBox(cardToAdd));
+            cardBox.getChildren().add(cardTitleBox(cardToAdd.getTitle()));
+        }
+    }
+
+    public void addEquipmentToEquipmentBar(int code) {
+        Card equipmentToAdd = App.getCardDatabase().get(code);
+        for (String e : equipmentToAdd.getEquipment()) {
+            if (App.getCurrentSelectedLesson().addEquipment(e)) {
+                equipmentsBox.getChildren().add(cardTitleBox(e));
+            }
         }
     }
 
@@ -280,17 +303,50 @@ public class PrimaryController {
         stage.show();
     }
 
-    public void changeSelectedLesson(Lesson lesson){
+    public void changeSelectedLesson(Lesson lesson) {
         App.setCurrentSelectedLesson(lesson);
         while (!cardBox.getChildren().isEmpty()) {
             cardBox.getChildren().remove(0);
         }
-        for (int index : lesson.getCardIndexes()){
+        for (int index : lesson.getCardIndexes()) {
             addCardToLesson(index, true);
         }
     }
-    public VBox getCardBox(){
+
+    public VBox getCardBox() throws IOException {
         return cardBox;
+    }
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    public void saveLessonAction() throws IOException {
+        File chosenFile = new File(App.pathToResourcesFolder + "/staticFiles/savedLessons/" + App.getCurrentSelectedLesson().getLessonName() + ".lesson");
+        chosenFile.createNewFile();
+        System.out.println(chosenFile.getAbsolutePath());
+        App.saveCurrentLessonLogToFile(chosenFile);
+    }
+
+    @FXML
+    private Button saveAsButton;
+
+    @FXML
+    public void saveAsLessonAction() throws IOException {
+        showAddLessonPlanPopUpWindow();
+        saveLessonAction();
+    }
+
+    @FXML
+    private Button editButton;
+
+    @FXML
+    public void editLessonAction() throws IOException, ClassNotFoundException {
+        String fileName = App.getCurrentSelectedLesson().getLessonName() + ".txt";
+        FileInputStream fos = new FileInputStream(fileName);
+        ObjectInputStream oos = new ObjectInputStream(fos);
+        oos.readObject();
+        oos.close();
     }
 
 }

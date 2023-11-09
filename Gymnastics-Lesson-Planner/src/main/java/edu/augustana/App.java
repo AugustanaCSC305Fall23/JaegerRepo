@@ -10,14 +10,20 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.io.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * JavaFX App
  */
 public class App extends Application {
-    public static String imagesFilePath;
+    public static String pathToTargetFolder;
+    public static String pathToResourcesFolder;
     private static boolean selected;
-    private  static Lesson currentSelectedLesson = new Lesson("");
+    private  static Lesson currentSelectedLesson = null;
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<String, Lesson> lessons;
@@ -28,26 +34,30 @@ public class App extends Application {
     public static SubCategoryButton genderFilterValue;
     public static GridPane allCardsLoadedGridPane = null;
     public static HashMap<String, HashSet<Card>> filteredData = new HashMap<>();
+    private static File currentLessonLogFile = null;
+    public static SubCategoryButton currentSelectedEquipment;
+
     public static final String[] OS = System.getProperty("os.name").split(",");
 
     @Override
     public void start(Stage stage) throws IOException {
-        imagesFilePath = Objects.requireNonNull(App.class.getResource("")).toExternalForm().substring(6);
+        pathToTargetFolder = Objects.requireNonNull(App.class.getResource("")).toExternalForm().substring(6);
         if (!OS[0].equals("Windows")){
-            imagesFilePath = "/" + imagesFilePath;
+            pathToTargetFolder = "/" + pathToTargetFolder;
         }
+        pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
         selected = false;
         cardDatabase = new CardDatabase();
-        cardDatabase.addCardPack(imagesFilePath + "staticFiles/Demo1/DEMO1.csv");
+        cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
 
         lessons = new HashMap<>();
         lessons.put("demo lesson 1", new Lesson("demo lesson 1"));
         lessons.put("demo lesson 2", new Lesson("demo lesson 2"));
 
-        Scene scene = new Scene(loadFXML(), 1400, 760);
+        Scene scene = new Scene(loadFXML("primary"), 1400, 760);
 
-        File cssFile = new File(imagesFilePath + "staticFiles/cssFiles/style.css");
+        File cssFile = new File(pathToTargetFolder + "staticFiles/cssFiles/style.css");
         scene.getStylesheets().add(cssFile.toURI().toURL().toExternalForm());
         stage.setScene(scene);
         stage.setMinWidth(1000);
@@ -100,8 +110,9 @@ public class App extends Application {
         return selected;
     }
 
-    private static Parent loadFXML() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary" + ".fxml"));
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
     public static void addLessonToLessons(Lesson lessonToAdd){
@@ -123,8 +134,13 @@ public class App extends Application {
     public static FilterDatabase getFilterDatabase() {
         return filterDatabase;
     }
+    public static void saveCurrentLessonLogToFile(File chosenFile) throws IOException {
+        currentSelectedLesson.saveToFile(chosenFile);
+        currentLessonLogFile = chosenFile;
+    }
 
     public static void main(String[] args) {
         launch();
     }
 }
+

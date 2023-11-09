@@ -19,36 +19,36 @@ public class SubCategoryButton {
     public void on(){
         isButtonClicked = true;
         mainButton.setId("subCategoryButtonClicked");
-        if (App.equipmentFilterValue != null){
-            App.equipmentFilterValue.off();
-        }
-        if (App.eventFilterValue != null){
-            App.eventFilterValue.off();
-        }
-        if (App.modelSexFilterValue != null){
-            App.modelSexFilterValue.off();
-        }
-        if (App.levelFilterValue != null){
-            App.levelFilterValue.off();
-        }
-        if (App.genderFilterValue != null){
-            App.genderFilterValue.off();
-        }
-
+        
         switch (buttonCategory) {
             case "Equipments":
+                if (App.equipmentFilterValue != null){
+                    App.equipmentFilterValue.off();
+                }
                 App.equipmentFilterValue = this;
                 break;
             case "Event":
+                if (App.eventFilterValue != null){
+                    App.eventFilterValue.off();
+                }
                 App.eventFilterValue = this;
                 break;
             case "ModelSex":
+                if (App.modelSexFilterValue != null){
+                    App.modelSexFilterValue.off();
+                }
                 App.modelSexFilterValue = this;
                 break;
             case "Level":
+                if (App.levelFilterValue != null){
+                    App.levelFilterValue.off();
+                }
                 App.levelFilterValue = this;
                 break;
             case "Gender":
+                if (App.genderFilterValue != null){
+                    App.genderFilterValue.off();
+                }
                 App.genderFilterValue = this;
                 break;
         }
