@@ -51,9 +51,18 @@ public class App extends Application {
         cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
 
-        lessons = new HashMap<>();
-        lessons.put("demo lesson 1", new Lesson("demo lesson 1"));
-        lessons.put("demo lesson 2", new Lesson("demo lesson 2"));
+//        lessons = new HashMap<>();
+//        lessons.put("demo lesson 1", new Lesson("demo lesson 1"));
+//        lessons.put("demo lesson 2", new Lesson("demo lesson 2"));
+
+        courses = new HashMap<>();
+        courses.put("demo course 1", new Course("demo Course 1"));
+        courses.get("demo course 1").addLesson(new Lesson("Demo Lesson 1"));
+        courses.get("demo course 1").addLesson(new Lesson("Demo Lesson 2"));
+        courses.put("demo course 2", new Course("demo Course 2"));
+        courses.get("demo course 2").addLesson(new Lesson("Demo Lesson 1"));
+        courses.get("demo course 2").addLesson(new Lesson("Demo Lesson 2"));
+        courses.get("demo course 2").addLesson(new Lesson("Demo Lesson 3"));
 
         Scene scene = new Scene(loadFXML("primary"), 1400, 760);
 
@@ -142,5 +151,38 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+
+    public static void addCourseToCourses(Course courseToAdd){
+        if (courses == null){
+            App.courses = new HashMap<>();
+        }
+        courses.put(courseToAdd.getCourseName(), courseToAdd);
+
+    }
+    public static void setCurrentSelectedCourse(Course course){
+        currentSelectedCourse = course;
+        selected = true;
+    }
+
+    public static Course getCurrentSelectedCourse() {
+        return currentSelectedCourse;
+    }
+    public static HashMap<String, Course> getCourses() {
+        return courses;
+    }
+
+    public static void courseSelected(boolean selected){
+        App.selected = selected;
+    }
+
+    public static boolean isCourseSelected(){
+        return selected;
+    }
+
+
+
+    private static HashMap<String, Course> courses;
+    public static Course currentSelectedCourse = null;
 }
 
