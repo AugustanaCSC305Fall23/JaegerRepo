@@ -19,7 +19,7 @@ public class SubCategoryButton {
     public void on(){
         isButtonClicked = true;
         mainButton.setId("subCategoryButtonClicked");
-        
+
         switch (buttonCategory) {
             case "Equipments":
                 if (App.equipmentFilterValue != null){
