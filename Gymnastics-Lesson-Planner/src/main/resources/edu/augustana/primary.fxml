@@ -85,7 +85,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#showAddLessonPlanPopUpWindow" text="Select/Create Course" />
+                        <Button mnemonicParsing="false" onAction="#showAddCoursePlanPopUpWindow" text="Select/Create Course" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="20.0">

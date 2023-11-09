@@ -1,18 +1,19 @@
 package edu.augustana;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Course {
     private String courseName;
-    private HashMap<Integer, Lesson> lessons;
+    private ArrayList<Lesson> lessonsInCourse;
 
     public Course(String courseName){
         this.courseName = courseName;
-        lessons = new HashMap<>();
+        lessonsInCourse = new ArrayList<>();
     }
 
-    public HashMap<Integer, Lesson> getLessons() {
-        return lessons;
+    public ArrayList<Lesson> getLessons() {
+        return lessonsInCourse;
     }
 
     public String getCourseName() {
@@ -20,6 +21,6 @@ public class Course {
     }
 
     public void addLesson(Lesson newLesson){
-        lessons.put(newLesson.getLessonIndex(), newLesson);
+        lessonsInCourse.add(newLesson);
     }
 }
