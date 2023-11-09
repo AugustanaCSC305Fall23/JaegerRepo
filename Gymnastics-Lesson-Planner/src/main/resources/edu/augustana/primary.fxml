@@ -80,22 +80,22 @@
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
-                        <Label text="No course Selected">
+                        <Label fx:id="currCourseLabel" text="No course Selected">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" text="Select/Create Course" />
+                        <Button mnemonicParsing="false" onAction="#showAddLessonPlanPopUpWindow" text="Select/Create Course" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
-                        <Label text="No Lesson Selected">
+                        <Label fx:id="currLessonLabel" text="No Lesson Selected">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" text="Select/Create Lesson" />
+                        <Button mnemonicParsing="false" onAction="#showAddLessonPlanPopUpWindow" text="Select/Create Lesson" />
                      </children></HBox>
                </children>
             </HBox>
