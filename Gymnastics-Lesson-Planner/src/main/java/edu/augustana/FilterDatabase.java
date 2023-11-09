@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.TreeMap;
 
 public class FilterDatabase {
-    private HashMap<String, TreeMap<String, HashSet<Card>>> filterOptions =  new HashMap<>();
+    private HashMap<String, TreeMap<String, HashSet<CardView>>> filterOptions =  new HashMap<>();
 
     public FilterDatabase(CardDatabase cards){
         filterOptions = new HashMap<>();
@@ -51,7 +51,7 @@ public class FilterDatabase {
         if (!filterOptions.get(category).containsKey(categoryValue)){
             filterOptions.get(category).put(categoryValue, new HashSet<>());
         }
-        filterOptions.get(category).get(categoryValue).add(card);
+        filterOptions.get(category).get(categoryValue).add(new CardView(card));
     }
 
     private void addFormattedEquipment(String equipment, Card card){
@@ -59,7 +59,7 @@ public class FilterDatabase {
         addToFilterOptions("Equipments", equipment, card);
     }
 
-    public HashMap<String, TreeMap<String, HashSet<Card>>> getFilterOptions() {
+    public HashMap<String, TreeMap<String, HashSet<CardView>>> getFilterOptions() {
         return filterOptions;
     }
 

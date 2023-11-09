@@ -76,7 +76,7 @@ public class PrimaryController {
     }
 
     private void initializeFilters() {
-        HashMap<String, TreeMap<String, HashSet<Card>>> filterOptions = App.getFilterOptions();
+        HashMap<String, TreeMap<String, HashSet<CardView>>> filterOptions = App.getFilterOptions();
         allFilterOptions.setAlignment(Pos.CENTER);
         for (String category : filterOptions.keySet()) {
             VBox newCategory = new VBox();
@@ -94,7 +94,7 @@ public class PrimaryController {
                 subCategoryWrapper.getChildren().add(subButton.getSubCategoryButtonWrapper());
                 Button button = (Button) subButton.getSubCategoryButtonWrapper().getChildren().get(0);
                 button.setOnMouseClicked(event -> {
-                    ClickSubCategoryButton(subButton, button);
+                    clickSubCategoryButton(subButton, button);
                 });
             }
             newCategory.getChildren().add(subCategoryWrapper);
@@ -103,35 +103,45 @@ public class PrimaryController {
         }
     }
 
-    private void ClickSubCategoryButton(SubCategoryButton subButton, Button button) {
-        if (!subButton.isButtonClicked) {
-            subButton.on();
-            addFilteredData();
-        } else {
-            subButton.off();
-            scrollPane.setContent(null);
-            scrollPane.setContent(App.allCardsLoadedGridPane);
-        }
+    private void clickSubCategoryButton(SubCategoryButton subButton, Button button) {
+//        if (!subButton.buttonClicked) {
+//            subButton.click();
+//            addFilteredData();
+//        } else {
+//            subButton.click();
+//            scrollPane.setContent(null);
+//            scrollPane.setContent(App.allCardsLoadedGridPane);
+//        }
+        subButton.click();
+        addCardsToHBoxToGrid(new GridPane());
+//        if (subButton.isButtonClicked()){
+//            addCardsToHBoxToGrid(new GridPane());
+//        }else{
+//            addCardsToHBoxToGrid(new GridPane());
+//            scrollPane.setContent(null);
+//            scrollPane.setContent(App.allCardsLoadedGridPane);
+
     }
 
-    private void addFilteredData() {
-        if (App.equipmentFilterValue != null) {
-            App.filteredData.put(App.equipmentFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Equipments").get(App.equipmentFilterValue.subCategoryButtonName));
-        }
-        if (App.eventFilterValue != null) {
-            App.filteredData.put(App.eventFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Event").get(App.eventFilterValue.subCategoryButtonName));
-        }
-        if (App.genderFilterValue != null) {
-            App.filteredData.put(App.genderFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Gender").get(App.genderFilterValue.subCategoryButtonName));
-        }
-        if (App.levelFilterValue != null) {
-            App.filteredData.put(App.levelFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Level").get(App.levelFilterValue.subCategoryButtonName));
-        }
-        if (App.modelSexFilterValue != null) {
-            App.filteredData.put(App.modelSexFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("ModelSex").get(App.modelSexFilterValue.subCategoryButtonName));
-        }
-        addCardsToHBoxToGrid(new GridPane());
-    }
+//
+//    private void addFilteredData() {
+//        if (App.equipmentFilterValue != null) {
+//            App.filteredData.put(App.equipmentFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Equipments").get(App.equipmentFilterValue.subCategoryButtonName));
+//        }
+//        if (App.eventFilterValue != null) {
+//            App.filteredData.put(App.eventFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Event").get(App.eventFilterValue.subCategoryButtonName));
+//        }
+//        if (App.genderFilterValue != null) {
+//            App.filteredData.put(App.genderFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Gender").get(App.genderFilterValue.subCategoryButtonName));
+//        }
+//        if (App.levelFilterValue != null) {
+//            App.filteredData.put(App.levelFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("Level").get(App.levelFilterValue.subCategoryButtonName));
+//        }
+//        if (App.modelSexFilterValue != null) {
+//            App.filteredData.put(App.modelSexFilterValue.subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get("ModelSex").get(App.modelSexFilterValue.subCategoryButtonName));
+//        }
+//        addCardsToHBoxToGrid(new GridPane());
+//    }
 
     public VBox createCategoryButton(String categoryName) {
         Button button = new Button(categoryName);
@@ -194,45 +204,49 @@ public class PrimaryController {
         HBox row = new HBox(); // using a HBox cause organizing the grid columns was a hassle so there is only one column, and it has a HBox that holds 3 cards
 
         if (App.filteredData.isEmpty()) {
-            // looping through the cards hashmap and adding it to the grid
-            for (int cardId : cards.keySet()) {
-
-
-                if (currCol == 3) {
-                    //creating a new HBox or row after 3 cards are added
-                    cardGrid.add(row, 0, currRow);
-                    row = new HBox();
-
-                    currCol = 0;
-                    currRow++;
-                }
-                // adding a card to the HBox or row
-                row.setAlignment(Pos.CENTER);
-                row.setSpacing(50);
-                CardView newCardView = new CardView(cards.get(cardId));
-                newCardView.getButtonAndCode().setOnMouseClicked(event -> {
-                    try {
-                        plusClicked(newCardView);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-                row.getChildren().add(newCardView.getCardView());
-                currCol++;
-
-            }
-            if (!row.getChildren().isEmpty()) {
-                cardGrid.add(row, 0, currRow);
-
-
-            }
             if (App.allCardsLoadedGridPane == null) {
-                App.allCardsLoadedGridPane = cardGrid;
+                // looping through the cards hashmap and adding it to the grid
+                for (int cardId : cards.keySet()) {
+
+
+                    if (currCol == 3) {
+                        //creating a new HBox or row after 3 cards are added
+                        cardGrid.add(row, 0, currRow);
+                        row = new HBox();
+
+                        currCol = 0;
+                        currRow++;
+                    }
+                    // adding a card to the HBox or row
+                    row.setAlignment(Pos.CENTER);
+                    row.setSpacing(50);
+                    CardView newCardView = new CardView(cards.get(cardId));
+                    newCardView.getButtonAndCode().setOnMouseClicked(event -> {
+                        try {
+                            plusClicked(newCardView);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    row.getChildren().add(newCardView.getCardView());
+                    currCol++;
+
+                }
+                if (!row.getChildren().isEmpty()) {
+                    cardGrid.add(row, 0, currRow);
+
+
+                }
+                if (App.allCardsLoadedGridPane == null) {
+                    App.allCardsLoadedGridPane = cardGrid;
+                }
+            }else {
+                scrollPane.setContent(App.allCardsLoadedGridPane);
             }
 
         } else {
             for (String subCategoryName : App.filteredData.keySet()) {
-                for (Card card : App.filteredData.get(subCategoryName)) {
+                for (CardView card : App.filteredData.get(subCategoryName)) {
                     System.out.println(card);
                     if (currCol == 3) {
                         //creating a new HBox or row after 3 cards are added
@@ -245,15 +259,14 @@ public class PrimaryController {
                     // adding a card to the HBox or row
                     row.setAlignment(Pos.CENTER);
                     row.setSpacing(50);
-                    CardView newCardView = new CardView(card);
-                    newCardView.getButtonAndCode().setOnMouseClicked(event -> {
+                    card.getButtonAndCode().setOnMouseClicked(event -> {
                         try {
-                            plusClicked(newCardView);
+                            plusClicked(card);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
                     });
-                    row.getChildren().add(newCardView.getCardView());
+                    row.getChildren().add(card.getCardView());
                     currCol++;
 
                 }

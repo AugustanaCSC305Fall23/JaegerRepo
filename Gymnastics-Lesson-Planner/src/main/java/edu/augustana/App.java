@@ -33,9 +33,10 @@ public class App extends Application {
     public static SubCategoryButton levelFilterValue;
     public static SubCategoryButton genderFilterValue;
     public static GridPane allCardsLoadedGridPane = null;
-    public static HashMap<String, HashSet<Card>> filteredData = new HashMap<>();
+    public static HashMap<String, HashSet<CardView>> filteredData = new HashMap<>();
     private static File currentLessonLogFile = null;
     public static SubCategoryButton currentSelectedEquipment;
+    public static ArrayList<SubCategoryButton> currentSelectedButtons = new ArrayList<>();
 
     public static final String[] OS = System.getProperty("os.name").split(",");
 
@@ -94,7 +95,7 @@ public class App extends Application {
         return result.toString();
     }
 
-    public static HashMap<String, TreeMap<String, HashSet<Card>>> getFilterOptions() {
+    public static HashMap<String, TreeMap<String, HashSet<CardView>>> getFilterOptions() {
         return filterDatabase.getFilterOptions();
     }
 
