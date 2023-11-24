@@ -46,7 +46,6 @@ public class PrimaryController {
     private void initialize() {
         loadCardsToGridView();
         initializeFilters();
-//        initializeDropdowns();
 
     }
 
@@ -63,9 +62,7 @@ public class PrimaryController {
             subCategoryWrapper.setVisible(false);
             subCategoryWrapper.managedProperty().bind(subCategoryWrapper.visibleProperty());
             for (String subCategory : filterOptions.get(category).keySet()) {
-
                 SubCategoryButton subButton = new SubCategoryButton(subCategory, category);
-
                 subCategoryWrapper.getChildren().add(subButton.getSubCategoryButtonWrapper());
                 Button button = (Button) subButton.getSubCategoryButtonWrapper().getChildren().get(0);
                 button.setOnMouseClicked(event -> {
@@ -217,10 +214,7 @@ public class PrimaryController {
             }
         }
     }
-//
-//    public boolean isCardFiltered(int cardId){
-//        if ()
-//    }
+
 
     private void plusClicked(CardView cardView) throws IOException {
         if (App.isLessonSelected()) {
@@ -389,24 +383,36 @@ public class PrimaryController {
         VBox popUpWindowContentVBox = new VBox(20);
         popUpWindowContentVBox.setAlignment(Pos.CENTER);
         popUpWindowContentVBox.setStyle("-fx-background-color: #E4CCFF");
-        initializeCreateNewLessonPopUp(popUpWindowContentVBox);
+        intializeNewPopUp(popUpWindowContentVBox, "lesson");
         Scene scene = new Scene(popUpWindowContentVBox, 600, 400);
         createNewLessonPopUpWindow.setScene(scene);
         createNewLessonPopUpWindow.show();
     }
-    private void initializeCreateNewLessonPopUp(VBox vBoxForContent){
-        Label label = new Label("Create new lesson");
+
+    private void intializeNewPopUp(VBox vBoxForContent, String type){
+        Label label = new Label("Create new "+ type);
         label.setFont(new Font("Segoe Script", 32));
-        lessonName = new TextField();
-        VBox nameWrapper = new VBox(lessonName);
+        TextField nameTextField = new TextField();
+        VBox nameWrapper = new VBox(nameTextField);
         nameWrapper.setAlignment(Pos.CENTER);
         VBox.setMargin(nameWrapper, new Insets(0, 150, 0, 150));
-        createNewLessonButton = new Button("Create");
-        createNewLessonButton.setPrefSize(154.4, 28);
-        createNewLessonPlanButton.setOnMouseClicked(event -> {
-            createNewLesson();
+        Button createButton = new Button("Create");
+        createButton.setPrefSize(154.4, 28);
+        createButton.setOnMouseClicked(event -> {
+            if (type.equals("lesson")) {
+                createNewLesson();
+                lessonName = nameTextField;
+            }else {
+                try {
+                    createNewCourse();
+                    courseName = nameTextField;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
-        vBoxForContent.getChildren().addAll(label, nameWrapper, createNewLessonButton);
+        vBoxForContent.getChildren().addAll(label, nameWrapper, createButton);
+
     }
 
     private void createNewLesson(){
@@ -510,28 +516,10 @@ public class PrimaryController {
         VBox popUpWindowContentVBox = new VBox(20);
         popUpWindowContentVBox.setAlignment(Pos.CENTER);
         popUpWindowContentVBox.setStyle("-fx-background-color: #E4CCFF");
-        initializeCreateNewCoursePopUp(popUpWindowContentVBox);
+        intializeNewPopUp(popUpWindowContentVBox, "course");
         Scene scene = new Scene(popUpWindowContentVBox, 600, 400);
         createNewCoursePopUpWindow.setScene(scene);
         createNewCoursePopUpWindow.show();
-    }
-    private void initializeCreateNewCoursePopUp(VBox vBoxForContent){
-        Label label = new Label("Create new Course");
-        label.setFont(new Font("Segoe Script", 32));
-        courseName = new TextField();
-        VBox nameWrapper = new VBox(courseName);
-        nameWrapper.setAlignment(Pos.CENTER);
-        VBox.setMargin(nameWrapper, new Insets(0, 150, 0, 150));
-        createNewCourseButton = new Button("Create");
-        createNewCourseButton.setPrefSize(154.4, 28);
-        createNewCoursePlanButton.setOnMouseClicked(event -> {
-            try {
-                createNewCourse();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        vBoxForContent.getChildren().addAll(label, nameWrapper, createNewCourseButton);
     }
 
     private void createNewCourse() throws IOException {
