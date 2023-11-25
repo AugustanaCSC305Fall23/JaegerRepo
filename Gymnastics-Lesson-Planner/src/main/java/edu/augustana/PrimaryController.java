@@ -227,14 +227,6 @@ public class PrimaryController {
         }
     }
 
-    public void addCardToLesson(int code, boolean forceAdd) {
-        Card cardToAdd = App.getCardDatabase().get(code);
-        boolean added = App.getCurrentSelectedLesson().addCard(cardToAdd);
-        if (added || forceAdd) {
-            cardBox.getChildren().add(cardTitleBox(cardToAdd.getTitle()));
-        }
-    }
-
     public void addEquipmentToEquipmentBar(int code, boolean forceAdd){
         Card equipmentToAdd = App.getCardDatabase().get(code);
         for (String e: equipmentToAdd.getEquipment()){
@@ -244,20 +236,6 @@ public class PrimaryController {
         }
     }
 
-
-    public void changeSelectedLesson(Lesson lesson){
-        App.setCurrentSelectedLesson(lesson);
-        while (!cardBox.getChildren().isEmpty()) {
-            cardBox.getChildren().remove(0);
-        }
-        for (int index : lesson.getCardIndexes()) {
-            addCardToLesson(index, true);
-        }
-    }
-
-    public VBox getCardBox() throws IOException {
-        return cardBox;
-    }
     public void changeSelectedLessonEquipment(Lesson lesson){
         App.setCurrentSelectedLesson(lesson);
         while (!equipmentsBox.getChildren().isEmpty()) {
@@ -301,7 +279,7 @@ public class PrimaryController {
     }
 
     @FXML
-    private void showAddLessonPlanPopUpWindow() throws IOException {
+    private void showAddLessonPlanPopUpWindow(){
         Stage primaryStage = (Stage) cardBox.getScene().getWindow();
         final Stage selectLessonPopUpWindow = new Stage();
         selectLessonPopUpWindow.initModality(Modality.APPLICATION_MODAL);
@@ -309,57 +287,58 @@ public class PrimaryController {
         VBox popUpWindowContentVBox = new VBox(20);
         popUpWindowContentVBox.setAlignment(Pos.CENTER);
         popUpWindowContentVBox.setStyle("-fx-background-color: #E4CCFF");
-        initializeSelectLessonPopUp(popUpWindowContentVBox);
+        initializeSelectOptionPopUp(popUpWindowContentVBox, "lesson", App.getLessons());
         Scene scene = new Scene(popUpWindowContentVBox, 600, 400);
         selectLessonPopUpWindow.setScene(scene);
         selectLessonPopUpWindow.show();
     }
 
-    private void initializeSelectLessonPopUp(VBox vBoxForContent){
-        pickLessonVBox = new VBox();
-        Label label = new Label("Select a lesson");
-        label.setFont(new Font("Segoe Script", 29));
-        createNewLessonPlanButton = new Button("+ Create new lesson");
-        createNewLessonPlanButton.setFont(new Font("Segoe Script", 12));
-        createNewLessonPlanButton.setPrefWidth(172.8);
-        createNewLessonPlanButton.setPrefHeight(30.4);
-        createNewLessonPlanButton.setOnMouseClicked(event -> {
-            try {
-                newLessonPlanPopUpWindow();
-                ((Stage) createNewLessonPlanButton.getScene().getWindow()).close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+    private void intializeCreateNewPopUp(VBox vBoxForContent, String type){
+        Label label = new Label("Create new "+ type);
+        label.setFont(new Font("Segoe Script", 32));
+        TextField nameTextField = new TextField();
+        VBox nameWrapper = new VBox(nameTextField);
+        nameWrapper.setAlignment(Pos.CENTER);
+        VBox.setMargin(nameWrapper, new Insets(0, 150, 0, 150));
+        Button createButton = new Button("Create");
+        createButton.setPrefSize(154.4, 28);
+        createButton.setOnMouseClicked(event -> {
+            if (type.equals("lesson")) {
+                createNewLesson();
+                lessonName = nameTextField;
+            }else {
+                createNewCourse();
+                courseName = nameTextField;
             }
         });
-        vBoxForContent.getChildren().add(label);
-        vBoxForContent.getChildren().add(pickLessonVBox);
-        vBoxForContent.getChildren().add(createNewLessonPlanButton);
-
-        HashMap<String, Lesson> lessons = App.getLessons();
-
-        ScrollPane pickLessonScroll = new ScrollPane();
-        pickLessonScroll.setFitToWidth(true);
-        pickLessonScroll.setStyle("-fx-background-color:#E4CCFF");
-
-        VBox lessonOption = new VBox(10);
-        lessonOption.setAlignment(Pos.CENTER);
-        lessonOption.setStyle("-fx-background-color: #E4CCFF");
-
-        pickLessonScroll.setContent(lessonOption);
-        pickLessonVBox.getChildren().add(pickLessonScroll);
-
-        addLessonToSelectLessonPopUp(lessons, lessonOption);
+        vBoxForContent.getChildren().addAll(label, nameWrapper, createButton);
     }
 
-    private void addLessonToSelectLessonPopUp(HashMap<String, Lesson> lessons, VBox lessonOption){
-        for (Lesson l : App.currentSelectedCourse.getLessons()) {
-            Button lessonButton = new Button(l.getLessonName());
-            lessonButton.setMinWidth(169);
-            lessonButton.setStyle("-fx-background-color:  #9472C1");
-            lessonButton.setOnMouseClicked(event -> {
-                lessonSelected(l);
-            });
-            lessonOption.getChildren().add(lessonButton);
+    private void createNewLesson(){
+        if (!lessonName.getText().isEmpty()) {
+            Stage currWindow = (Stage) createNewLessonButton.getScene().getWindow();
+            Lesson lesson = new Lesson (lessonName.getText());
+            App.addLessonToLessons(lesson);
+            lessonSelected(lesson);
+            currWindow.close();
+        }
+    }
+
+    public void changeSelectedLesson(Lesson lesson){
+        App.setCurrentSelectedLesson(lesson);
+        while (!cardBox.getChildren().isEmpty()) {
+            cardBox.getChildren().remove(0);
+        }
+        for (int index : lesson.getCardIndexes()) {
+            addCardToLesson(index, true);
+        }
+    }
+
+    public void addCardToLesson(int code, boolean forceAdd) {
+        Card cardToAdd = App.getCardDatabase().get(code);
+        boolean added = App.getCurrentSelectedLesson().addCard(cardToAdd);
+        if (added || forceAdd) {
+            cardBox.getChildren().add(cardTitleBox(cardToAdd.getTitle()));
         }
     }
 
@@ -374,8 +353,10 @@ public class PrimaryController {
         changeSelectedLessonEquipment(lesson);
     }
 
+
+
     @FXML
-    private void newLessonPlanPopUpWindow() throws IOException {
+    private void newLessonPlanPopUpWindow(){
         Stage primaryStage = (Stage) cardBox.getScene().getWindow();
         final Stage createNewLessonPopUpWindow = new Stage();
         createNewLessonPopUpWindow.initModality(Modality.APPLICATION_MODAL);
@@ -383,50 +364,26 @@ public class PrimaryController {
         VBox popUpWindowContentVBox = new VBox(20);
         popUpWindowContentVBox.setAlignment(Pos.CENTER);
         popUpWindowContentVBox.setStyle("-fx-background-color: #E4CCFF");
-        intializeNewPopUp(popUpWindowContentVBox, "lesson");
+        intializeCreateNewPopUp(popUpWindowContentVBox, "lesson");
         Scene scene = new Scene(popUpWindowContentVBox, 600, 400);
         createNewLessonPopUpWindow.setScene(scene);
         createNewLessonPopUpWindow.show();
     }
 
-    private void intializeNewPopUp(VBox vBoxForContent, String type){
-        Label label = new Label("Create new "+ type);
-        label.setFont(new Font("Segoe Script", 32));
-        TextField nameTextField = new TextField();
-        VBox nameWrapper = new VBox(nameTextField);
-        nameWrapper.setAlignment(Pos.CENTER);
-        VBox.setMargin(nameWrapper, new Insets(0, 150, 0, 150));
-        Button createButton = new Button("Create");
-        createButton.setPrefSize(154.4, 28);
-        createButton.setOnMouseClicked(event -> {
-            if (type.equals("lesson")) {
-                createNewLesson();
-                lessonName = nameTextField;
-            }else {
-                try {
-                    createNewCourse();
-                    courseName = nameTextField;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        vBoxForContent.getChildren().addAll(label, nameWrapper, createButton);
-
-    }
-
-    private void createNewLesson(){
-        if (!lessonName.getText().isEmpty()) {
-            Stage currWindow = (Stage) createNewLessonButton.getScene().getWindow();
-            Lesson lesson = new Lesson (lessonName.getText());
-            App.addLessonToLessons(lesson);
-            lessonSelected(lesson);
-            currWindow.close();
+    private void addLessonToSelectLessonPopUp(HashMap<String, Lesson> lessons, VBox lessonOption){
+        for (String l : lessons.keySet()) {
+            Button lessonButton = new Button(lessons.get(l).getLessonName());
+            lessonButton.setMinWidth(169);
+            lessonButton.setStyle("-fx-background-color:  #9472C1");
+            lessonButton.setOnMouseClicked(event -> {
+                lessonSelected(lessons.get(l));
+            });
+            lessonOption.getChildren().add(lessonButton);
         }
     }
 
     @FXML
-    private void showAddCoursePlanPopUpWindow() throws IOException {
+    private void showAddCoursePlanPopUpWindow(){
         Stage primaryStage = (Stage) cardBox.getScene().getWindow();
         final Stage selectCoursePopUpWindow = new Stage();
         selectCoursePopUpWindow.initModality(Modality.APPLICATION_MODAL);
@@ -434,13 +391,13 @@ public class PrimaryController {
         VBox popUpWindowContentVBox = new VBox(20);
         popUpWindowContentVBox.setAlignment(Pos.CENTER);
         popUpWindowContentVBox.setStyle("-fx-background-color: #E4CCFF");
-        initializeSelectCoursePopUp(popUpWindowContentVBox);
+        initializeSelectOptionPopUp(popUpWindowContentVBox, "course", App.getCourses());
         Scene scene = new Scene(popUpWindowContentVBox, 600, 400);
         selectCoursePopUpWindow.setScene(scene);
         selectCoursePopUpWindow.show();
     }
-
-    private void initializeSelectCoursePopUp(VBox vBoxForContent){
+    
+    private void initializeSelectOptionPopUp(VBox vBoxForContent, String type, HashMap<String, ?> data){
         pickCourseVBox = new VBox();
         Label label = new Label("Select a Course");
         label.setFont(new Font("Segoe Script", 29));
@@ -448,37 +405,40 @@ public class PrimaryController {
         createNewCoursePlanButton.setFont(new Font("Segoe Script", 12));
         createNewCoursePlanButton.setPrefWidth(172.8);
         createNewCoursePlanButton.setPrefHeight(30.4);
-        createNewCoursePlanButton.setOnMouseClicked(event -> {
-            try {
-                newCoursePlanPopUpWindow();
-                ((Stage) createNewCoursePlanButton.getScene().getWindow()).close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        createNewCoursePlanButton = new Button("+ Load New Course");
 
-        createNewCoursePlanButton.setFont(new Font("Segoe Script", 12));
-        createNewCoursePlanButton.setPrefWidth(172.8);
-        createNewCoursePlanButton.setPrefHeight(30.4);
         vBoxForContent.getChildren().add(label);
         vBoxForContent.getChildren().add(pickCourseVBox);
         vBoxForContent.getChildren().add(createNewCoursePlanButton);
 
-        HashMap<String, Course> courses = App.getCourses();
+        ScrollPane pickOptionScroll = new ScrollPane();
+        pickOptionScroll.setFitToWidth(true);
+        pickOptionScroll.setStyle("-fx-background-color:#E4CCFF");
 
-        ScrollPane pickCourseScroll = new ScrollPane();
-        pickCourseScroll.setFitToWidth(true);
-        pickCourseScroll.setStyle("-fx-background-color:#E4CCFF");
+        VBox options = new VBox(10);
+        options.setAlignment(Pos.CENTER);
+        options.setStyle("-fx-background-color: #E4CCFF");
 
-        VBox courseOption = new VBox(10);
-        courseOption.setAlignment(Pos.CENTER);
-        courseOption.setStyle("-fx-background-color: #E4CCFF");
+        pickOptionScroll.setContent(options);
 
-        pickCourseScroll.setContent(courseOption);
-        pickCourseVBox.getChildren().add(pickCourseScroll);
+        if (type.equals("lesson")){
+            createNewLessonPlanButton.setOnMouseClicked(event -> {
+                newLessonPlanPopUpWindow();
+                ((Stage) createNewLessonPlanButton.getScene().getWindow()).close();
 
-        addCourseToSelectCoursePopUp(courses, courseOption);
+            });
+            addCourseToSelectCoursePopUp((HashMap<String, Course>) data, options);
+        }else {
+            createNewCoursePlanButton.setOnMouseClicked(event -> {
+                newCoursePlanPopUpWindow();
+                ((Stage) createNewCoursePlanButton.getScene().getWindow()).close();
+            });
+            Button loadCoursePlanButton = new Button("+ Load New Course");
+            loadCoursePlanButton.setFont(new Font("Segoe Script", 12));
+            loadCoursePlanButton.setPrefWidth(172.8);
+            loadCoursePlanButton.setPrefHeight(30.4);
+            vBoxForContent.getChildren().add(loadCoursePlanButton);
+            addLessonToSelectLessonPopUp((HashMap<String, Lesson>) data, options);
+        }
     }
 
     private void addCourseToSelectCoursePopUp(HashMap<String, Course> courses, VBox courseOption){
@@ -487,18 +447,14 @@ public class PrimaryController {
             courseButton.setMinWidth(169);
             courseButton.setStyle("-fx-background-color:  #9472C1");
             courseButton.setOnMouseClicked(event -> {
-                try {
-                    courseSelected(course);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                courseSelected(course);
             });
             courseOption.getChildren().add(courseButton);
         }
     }
 
     @FXML
-    private void courseSelected(Course course) throws IOException {
+    private void courseSelected(Course course){
         Stage currWindow = (Stage) createNewCoursePlanButton.getScene().getWindow();
         App.setCurrentSelectedCourse(course);
         App.courseSelected(true);
@@ -508,7 +464,7 @@ public class PrimaryController {
     }
 
     @FXML
-    private void newCoursePlanPopUpWindow() throws IOException {
+    private void newCoursePlanPopUpWindow(){
         Stage primaryStage = (Stage) cardBox.getScene().getWindow();
         final Stage createNewCoursePopUpWindow = new Stage();
         createNewCoursePopUpWindow.initModality(Modality.APPLICATION_MODAL);
@@ -516,13 +472,13 @@ public class PrimaryController {
         VBox popUpWindowContentVBox = new VBox(20);
         popUpWindowContentVBox.setAlignment(Pos.CENTER);
         popUpWindowContentVBox.setStyle("-fx-background-color: #E4CCFF");
-        intializeNewPopUp(popUpWindowContentVBox, "course");
+        intializeCreateNewPopUp(popUpWindowContentVBox, "course");
         Scene scene = new Scene(popUpWindowContentVBox, 600, 400);
         createNewCoursePopUpWindow.setScene(scene);
         createNewCoursePopUpWindow.show();
     }
 
-    private void createNewCourse() throws IOException {
+    private void createNewCourse(){
         if (!courseName.getText().isEmpty()) {
             Stage currWindow = (Stage) createNewCourseButton.getScene().getWindow();
             Course course = new Course (courseName.getText());
