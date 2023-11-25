@@ -44,7 +44,7 @@ public class Lesson {
         return TotalLessonIndex;
     }
 
-    public String getLessonName() {
+    public String getName() {
         return lessonName;
     }
 

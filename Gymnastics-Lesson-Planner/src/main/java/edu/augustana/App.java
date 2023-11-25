@@ -128,7 +128,7 @@ public class App extends Application {
         if (lessons == null){
             App.lessons = new HashMap<>();
         }
-        lessons.put(lessonToAdd.getLessonName(), lessonToAdd);
+        lessons.put(lessonToAdd.getName(), lessonToAdd);
 
     }
     public static void setCurrentSelectedLesson(Lesson lesson){
@@ -157,7 +157,7 @@ public class App extends Application {
         if (courses == null){
             App.courses = new HashMap<>();
         }
-        courses.put(courseToAdd.getCourseName(), courseToAdd);
+        courses.put(courseToAdd.getName(), courseToAdd);
 
     }
     public static void setCurrentSelectedCourse(Course course){

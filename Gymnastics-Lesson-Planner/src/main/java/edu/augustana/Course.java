@@ -23,7 +23,7 @@ public class Course {
         return lessonsInCourse;
     }
 
-    public String getCourseName() {
+    public String getName() {
         return courseName;
     }
 
