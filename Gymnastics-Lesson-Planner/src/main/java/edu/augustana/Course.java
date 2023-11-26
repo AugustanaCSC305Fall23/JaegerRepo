@@ -27,7 +27,7 @@ public class Course {
         return courseName;
     }
 
-    public void addLesson(Lesson newLesson){
+    public void addData(Lesson newLesson){
         lessonsInCourse.add(newLesson);
     }
 

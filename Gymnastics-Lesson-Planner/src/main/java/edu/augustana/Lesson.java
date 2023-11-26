@@ -1,16 +1,8 @@
 package edu.augustana;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.io.*;
-
-public class Lesson {
+public class Lesson{
     private final ArrayList<Integer> cardIndexes ;
     private final String lessonName;
     private static int TotalLessonIndex = 0;
@@ -26,7 +18,8 @@ public class Lesson {
     public ArrayList<Integer> getCardIndexes() {
         return cardIndexes;
     }
-    public boolean addCard(Card newCard){
+
+    public boolean addData(Card newCard){
         if (!cardIndexes.contains(newCard.getCardId())) {
             cardIndexes.add(newCard.getCardId());
             return true;

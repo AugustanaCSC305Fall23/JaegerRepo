@@ -16,7 +16,7 @@ public class CreateNewLessonPlanPopUpController {
         if (!lessonName.getText().isEmpty()) {
             Stage currWindow = (Stage) createNewLessonButton.getScene().getWindow();
             Lesson lesson = new Lesson (lessonName.getText());
-            App.addLessonToLessons(lesson);
+            App.getCurrentSelectedCourse().addData(lesson);
             App.setCurrentSelectedLesson(lesson);
             currWindow.close();
         }
