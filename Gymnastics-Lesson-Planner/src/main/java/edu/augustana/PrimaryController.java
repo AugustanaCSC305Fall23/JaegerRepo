@@ -17,7 +17,7 @@ public class PrimaryController {
     @FXML
     private VBox centerArea;
     @FXML
-    private HBox selectCourseLessonHbox;
+    private VBox selectCourseLessonVbox;
     
     @FXML
     private VBox allFilterOptions;
@@ -26,7 +26,7 @@ public class PrimaryController {
     @FXML
     private ScrollPane scrollPane;
     @FXML
-    private HBox equipmentsBox;
+    private VBox equipmentsBox;
     @FXML
     private Label currLessonLabel;
     @FXML
@@ -98,6 +98,8 @@ public class PrimaryController {
     private Label cardTitleBox(String title) {
         Label titleLabel = new Label(title);
         titleLabel.setStyle("-fx-border-color:" + borderColor + "; -fx-padding: 5px;");
+        titleLabel.setMaxWidth(Double.MAX_VALUE);
+
         titleLabel.setAlignment(Pos.CENTER);
         titleLabel.setPadding(new Insets(10, 0, 0, 0));
 
@@ -109,7 +111,6 @@ public class PrimaryController {
 
         GridPane cardGrid = new GridPane(); // creating a gridPane
         cardGrid.setVgap(10);
-
         // centers the grid pane
         ColumnConstraints colConstraints = new ColumnConstraints();
         colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
@@ -206,19 +207,16 @@ public class PrimaryController {
         }
     }
 
-
     private void plusClicked(CardView cardView) throws IOException {
-        if (App.isLessonSelected()) {
-//            addCardToLesson(cardView.getCardId(), false);
-
-            addEquipmentToEquipmentBar(cardView.getCardId(), false);
+        if (App.isCourseSelected()) {
+            addCardToCardBox(cardView.getCardId(), false);
+            addEquipmentToEquipmentBox(cardView.getCardId(), false);
         }else{
-//            showAddCoursePlanPopUpWindow();
-
+            showSelectCoursePlanPopUpWindow();
         }
     }
 
-    public void addEquipmentToEquipmentBar(int code, boolean forceAdd){
+    public void addEquipmentToEquipmentBox(int code, boolean forceAdd){
         Card equipmentToAdd = App.getCardDatabase().get(code);
         for (String e: equipmentToAdd.getEquipment()){
             if (App.getCurrentSelectedLesson().addEquipment(e) || forceAdd) {
@@ -227,13 +225,20 @@ public class PrimaryController {
         }
     }
 
+    public void addCardToCardBox(int code, boolean forceAdd){
+        Card card = App.getCardDatabase().get(code);
+        if (App.getCurrentSelectedLesson().addData(card) || forceAdd) {
+                cardBox.getChildren().add(cardTitleBox(card.getTitle()));
+            }
+    }
+
     public void changeSelectedLessonEquipment(Lesson lesson){
         App.setCurrentSelectedLesson(lesson);
         while (!equipmentsBox.getChildren().isEmpty()) {
             equipmentsBox.getChildren().remove(0);
         }
         for (int index : lesson.getCardIndexes()){
-            addEquipmentToEquipmentBar(index, true);
+            addEquipmentToEquipmentBox(index, true);
         }
     }
 
@@ -247,6 +252,7 @@ public class PrimaryController {
         System.out.println(chosenFile.getAbsolutePath());
         App.saveCurrentCourseLogToFile(chosenFile);
     }
+
     @FXML
     private void showSelectCoursePlanPopUpWindow(){
         selectCoursePopUp = new SelectOptionPopUp("Course");
@@ -256,6 +262,8 @@ public class PrimaryController {
 
     @FXML
     private void showSelectLessonPlanPopUpWindow(){
+        cardBox.getChildren().removeAll();
+        equipmentsBox.getChildren().removeAll();
         if (App.isCourseSelected()) {
             selectLessonPopUp.getoptionsVBox().getChildren().removeAll();
             selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());

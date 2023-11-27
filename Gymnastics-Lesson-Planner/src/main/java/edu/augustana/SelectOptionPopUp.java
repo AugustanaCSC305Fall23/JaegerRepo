@@ -1,11 +1,13 @@
 package edu.augustana;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -23,6 +25,8 @@ public class SelectOptionPopUp {
     private Label selectedCourseLabel;
     private Label selectedLessonLabel;
     private ObservableList<Node> windowContent = App.primaryStage.getScene().getRoot().getChildrenUnmodifiable();
+    private VBox cardBox = (VBox) ((ScrollPane)((VBox)windowContent.get(2)).getChildren().get(2)).getContent();
+    private VBox equipmentBox = (VBox) ((ScrollPane)((VBox)windowContent.get(2)).getChildren().get(4)).getContent();
     public SelectOptionPopUp(String optionType){
         this.optionType = optionType;
 
@@ -44,7 +48,7 @@ public class SelectOptionPopUp {
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
 
-        HBox labels = ((HBox)((VBox)(windowContent.get(1))).getChildren().get(0));
+        VBox labels = ((VBox)((VBox)(windowContent.get(1))).getChildren().get(0));
         selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
         selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
     }
@@ -77,8 +81,45 @@ public class SelectOptionPopUp {
             addOptionToContentVBox(lesson.getName()).setOnMouseClicked(event -> {
                 App.setCurrentSelectedLesson(lesson);
                 selectedLessonLabel.setText(lesson.getName());
+                resetCardBoxAndEquipmentBox();
+
                 getPopUpWindow().close();
             });
+        }
+    }
+
+    private Label cardTitleBox(String title) {
+        Label titleLabel = new Label(title);
+        titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
+        titleLabel.setAlignment(Pos.CENTER);
+        titleLabel.setPadding(new Insets(10, 0, 0, 0));
+
+        return titleLabel;
+    }
+
+    private void resetCardBoxAndEquipmentBox(){
+        resetCardBox();
+        resetEquipmentBox();
+        System.out.println();
+    }
+    private void resetCardBox(){
+        while (!cardBox.getChildren().isEmpty()){
+            cardBox.getChildren().remove(0);
+        }
+        for (Integer id: App.getCurrentSelectedLesson().getCardIndexes()){
+            cardBox.getChildren().add(cardTitleBox(App.getCardDatabase().get(id).getTitle()));
+        }
+    }
+
+    private void resetEquipmentBox(){
+        while (!equipmentBox.getChildren().isEmpty()){
+            equipmentBox.getChildren().remove(0);
+        }
+        for (Integer id: App.getCurrentSelectedLesson().getCardIndexes()){
+            Card equipmentToAdd = App.getCardDatabase().get(id);
+            for (String e: equipmentToAdd.getEquipment()){
+                equipmentBox.getChildren().add(cardTitleBox(e));
+            }
         }
     }
 
