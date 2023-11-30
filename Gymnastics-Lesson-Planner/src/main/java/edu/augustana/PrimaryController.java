@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeMap;
 
 public class PrimaryController {
@@ -22,11 +23,11 @@ public class PrimaryController {
     @FXML
     private VBox allFilterOptions;
     @FXML
-    private VBox cardBox;
+    private ListView<String> cardBox;
     @FXML
     private ScrollPane scrollPane;
     @FXML
-    private VBox equipmentsBox;
+    private ListView<String> equipmentsBox;
     @FXML
     private Label currLessonLabel;
     @FXML
@@ -220,7 +221,8 @@ public class PrimaryController {
         Card equipmentToAdd = App.getCardDatabase().get(code);
         for (String e: equipmentToAdd.getEquipment()){
             if (App.getCurrentSelectedLesson().addEquipment(e) || forceAdd) {
-                equipmentsBox.getChildren().add(cardTitleBox(e));
+                equipmentsBox.getItems().add(e);
+//                equipmentsBox.getChildren().add(cardTitleBox(e));
             }
         }
     }
@@ -228,14 +230,14 @@ public class PrimaryController {
     public void addCardToCardBox(int code, boolean forceAdd){
         Card card = App.getCardDatabase().get(code);
         if (App.getCurrentSelectedLesson().addData(card) || forceAdd) {
-                cardBox.getChildren().add(cardTitleBox(card.getTitle()));
+                cardBox.getItems().add(card.getTitle());
             }
     }
 
     public void changeSelectedLessonEquipment(Lesson lesson){
         App.setCurrentSelectedLesson(lesson);
-        while (!equipmentsBox.getChildren().isEmpty()) {
-            equipmentsBox.getChildren().remove(0);
+        while (!equipmentsBox.getItems().isEmpty()) {
+            equipmentsBox.getItems().remove(0);
         }
         for (int index : lesson.getCardIndexes()){
             addEquipmentToEquipmentBox(index, true);
@@ -262,8 +264,8 @@ public class PrimaryController {
 
     @FXML
     private void showSelectLessonPlanPopUpWindow(){
-        cardBox.getChildren().removeAll();
-        equipmentsBox.getChildren().removeAll();
+        cardBox.getItems().removeAll();
+        equipmentsBox.getItems().removeAll();
         if (App.isCourseSelected()) {
             selectLessonPopUp.getoptionsVBox().getChildren().removeAll();
             selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());

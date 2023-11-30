@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -25,9 +25,10 @@ public class SelectOptionPopUp {
     private Label selectedCourseLabel;
     private Label selectedLessonLabel;
     private ObservableList<Node> windowContent = App.primaryStage.getScene().getRoot().getChildrenUnmodifiable();
-    private VBox cardBox = (VBox) ((ScrollPane)((VBox)windowContent.get(2)).getChildren().get(2)).getContent();
-    private VBox equipmentBox = (VBox) ((ScrollPane)((VBox)windowContent.get(2)).getChildren().get(4)).getContent();
+    private ListView<String> cardBox = ((ListView<String>)((VBox) windowContent.get(2)).getChildren().get(2));
+    private ListView<String> equipmentBox = ((ListView<String>)((VBox) windowContent.get(2)).getChildren().get(4));
     public SelectOptionPopUp(String optionType){
+        System.out.println();
         this.optionType = optionType;
 
         popUpWindow = new Stage();
@@ -103,22 +104,22 @@ public class SelectOptionPopUp {
         System.out.println();
     }
     private void resetCardBox(){
-        while (!cardBox.getChildren().isEmpty()){
-            cardBox.getChildren().remove(0);
+        while (!cardBox.getItems().isEmpty()){
+            cardBox.getItems().remove(0);
         }
         for (Integer id: App.getCurrentSelectedLesson().getCardIndexes()){
-            cardBox.getChildren().add(cardTitleBox(App.getCardDatabase().get(id).getTitle()));
+            cardBox.getItems().add(App.getCardDatabase().get(id).getTitle());
         }
     }
 
     private void resetEquipmentBox(){
-        while (!equipmentBox.getChildren().isEmpty()){
-            equipmentBox.getChildren().remove(0);
+        while (!equipmentBox.getItems().isEmpty()){
+            equipmentBox.getItems().remove(0);
         }
         for (Integer id: App.getCurrentSelectedLesson().getCardIndexes()){
             Card equipmentToAdd = App.getCardDatabase().get(id);
             for (String e: equipmentToAdd.getEquipment()){
-                equipmentBox.getChildren().add(cardTitleBox(e));
+                equipmentBox.getItems().add(e);
             }
         }
     }

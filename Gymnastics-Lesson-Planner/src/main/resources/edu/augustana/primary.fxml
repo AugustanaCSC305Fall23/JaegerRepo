@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="897.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.PrimaryController">
+<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.PrimaryController">
    <left>
       <VBox fx:id="filters" alignment="TOP_CENTER" fillWidth="false" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
@@ -127,11 +128,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ScrollPane fx:id="selectedAreaScrollPane" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="375.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-               <content>
-                  <VBox fx:id="cardBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" spacing="3.0" />
-               </content>
-            </ScrollPane>
+            <ListView fx:id="cardBox" prefWidth="200.0" />
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="105.0" style="-fx-background-color: #E4CCFF; -fx-background-radius: 10;" text="Equipments">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
@@ -140,11 +137,8 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" prefWidth="203.0">
-               <content>
-                  <VBox fx:id="equipmentsBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" spacing="3.0" />
-               </content>
-            </ScrollPane>
-         </children></VBox>
+            <ListView fx:id="equipmentsBox" prefWidth="200.0" />
+         </children>
+      </VBox>
    </right>
 </BorderPane>
