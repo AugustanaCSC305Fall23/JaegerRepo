@@ -1,0 +1,19 @@
+{
+  "cardIndexes": [
+    0,
+    1,
+    2,
+    5
+  ],
+  "lessonName": "demo lesson 2",
+  "lessonIndex": 2,
+  "equipments": [
+    "None",
+    "Stick",
+    "Band",
+    "Pacman",
+    "tall block",
+    "resi",
+    "Mini Tramp Table Trainer"
+  ]
+}
