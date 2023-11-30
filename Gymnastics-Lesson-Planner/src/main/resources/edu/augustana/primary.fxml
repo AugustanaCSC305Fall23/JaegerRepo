@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.PrimaryController">
+<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="897.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.PrimaryController">
    <left>
       <VBox fx:id="filters" alignment="TOP_CENTER" fillWidth="false" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
          <children>
@@ -140,7 +140,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="245.0" prefWidth="203.0">
+            <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="500.0" prefWidth="203.0">
                <content>
                   <VBox fx:id="equipmentsBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" spacing="3.0" />
                </content>
