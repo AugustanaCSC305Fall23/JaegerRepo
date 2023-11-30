@@ -5,7 +5,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.HashMap;
@@ -157,6 +162,8 @@ public class PrimaryController {
                             throw new RuntimeException(e);
                         }
                     });
+                    newCardView.getCardImage().setOnMouseClicked(e -> {magnifyImage(newCardView.getCardImage());});
+
                     row.getChildren().add(newCardView.getCardView());
                     currCol++;
 
@@ -195,6 +202,10 @@ public class PrimaryController {
                             throw new RuntimeException(e);
                         }
                     });
+
+                    card.getCardImage().setOnMouseClicked(e->{magnifyImage(card.getCardImage());});
+
+
                     row.getChildren().add(card.getCardView());
                     currCol++;
 
@@ -271,5 +282,23 @@ public class PrimaryController {
         }else {
             showSelectCoursePlanPopUpWindow();
         }
+    }
+
+    @FXML
+    private void magnifyImage(ImageView image){
+        ImageView newImage = new ImageView(image.getImage());
+        Stage popUpWindow = new Stage();
+        popUpWindow.initModality(Modality.APPLICATION_MODAL);
+        popUpWindow.initOwner(App.primaryStage);
+        VBox contentVBox = new VBox();
+        contentVBox.setAlignment(Pos.CENTER);
+        newImage.setFitWidth(600);
+        newImage.setPreserveRatio(true);
+//        newImage.preserveRatioProperty();
+        contentVBox.getChildren().add(newImage);
+        Scene scene = new Scene(contentVBox, 600, 400);
+        popUpWindow.setScene(scene);
+        popUpWindow.show();
+
     }
 }

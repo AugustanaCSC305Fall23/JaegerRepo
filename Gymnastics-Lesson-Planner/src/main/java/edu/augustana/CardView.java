@@ -44,6 +44,8 @@ public class CardView {
     public HBox getButtonAndCode(){
         return buttonAndCode;
     }
+
+    public ImageView getCardImage(){return cardImage;}
     public int getCardId() {
         return cardId;
     }
