@@ -9,8 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.*;
 import java.util.HashMap;
@@ -260,8 +262,13 @@ public class PrimaryController {
 
     @FXML
     public void saveCourseAction() throws IOException {
-        File chosenFile = new File(App.pathToResourcesFolder + "/staticFiles/savedCourses/" + App.getCurrentSelectedCourse().getName()+ ".course");
-        chosenFile.createNewFile();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select a file");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Course (*.course)", "*,course");
+        fileChooser.getExtensionFilters().add(filter);
+        Window mainWindow = equipmentsBox.getScene().getWindow();
+        File chosenFile = fileChooser.showSaveDialog(mainWindow);
+//        chosenFile.createNewFile();
         System.out.println(chosenFile.getAbsolutePath());
         App.saveCurrentCourseLogToFile(chosenFile);
     }
