@@ -1,19 +1,25 @@
 package edu.augustana;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,6 +52,11 @@ public class SelectOptionPopUp {
 
         contentVBox.getChildren().add(label);
         contentVBox.getChildren().add(optionsVBox);
+
+        Button loadOptionButton = new Button("Load a "+ optionType);
+        loadOptionButton.setOnMouseClicked(event -> loadButtonClick());
+        contentVBox.getChildren().add(loadOptionButton);
+
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
 
@@ -53,7 +64,20 @@ public class SelectOptionPopUp {
         selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
         selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
     }
+    private void loadButtonClick(){
+        getPopUpWindow().close();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open " + optionType);
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(optionType + " (*. " + optionType.toLowerCase() + ")", "*." + optionType);
+        fileChooser.getExtensionFilters().add(filter);
+        Window mainWindow = App.primaryStage.getScene().getWindow();
+        File chosenFile = fileChooser.showOpenDialog(mainWindow);
+        if (chosenFile != null) {
+            System.out.println(chosenFile);
 
+        }
+
+    }
     public Stage getPopUpWindow() {
         return popUpWindow;
     }

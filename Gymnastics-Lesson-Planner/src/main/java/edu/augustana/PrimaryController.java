@@ -264,7 +264,7 @@ public class PrimaryController {
     public void saveCourseAction() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select a file");
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Course (*.course)", "*,course");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Course (*.course)", "*.course");
         fileChooser.getExtensionFilters().add(filter);
         Window mainWindow = equipmentsBox.getScene().getWindow();
         File chosenFile = fileChooser.showSaveDialog(mainWindow);
@@ -272,6 +272,7 @@ public class PrimaryController {
         System.out.println(chosenFile.getAbsolutePath());
         App.saveCurrentCourseLogToFile(chosenFile);
     }
+
 
     @FXML
     private void showSelectCoursePlanPopUpWindow(){
