@@ -235,7 +235,6 @@ public class PrimaryController {
         for (String e: equipmentToAdd.getEquipment()){
             if (App.getCurrentSelectedLesson().addEquipment(e) || forceAdd) {
                 equipmentsBox.getItems().add(e);
-//                equipmentsBox.getChildren().add(cardTitleBox(e));
             }
         }
     }
@@ -261,18 +260,25 @@ public class PrimaryController {
     private Button saveButton;
 
     @FXML
-    public void saveCourseAction() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select a file");
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Course (*.course)", "*.course");
-        fileChooser.getExtensionFilters().add(filter);
-        Window mainWindow = equipmentsBox.getScene().getWindow();
-        File chosenFile = fileChooser.showSaveDialog(mainWindow);
-//        chosenFile.createNewFile();
-        System.out.println(chosenFile.getAbsolutePath());
-        App.saveCurrentCourseLogToFile(chosenFile);
-    }
+    public void saveAsCourseAction() throws IOException {
+        if (App.isCourseSelected()) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save the course");
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Course (*.course)", "*.course");
+            fileChooser.getExtensionFilters().add(filter);
+            Window mainWindow = equipmentsBox.getScene().getWindow();
+            File chosenFile = fileChooser.showSaveDialog(mainWindow);
 
+            System.out.println(chosenFile.getAbsolutePath());
+            App.saveCurrentCourseLogToFile(chosenFile);
+        }else{
+//            show create course pop up window
+        }
+    }
+    @FXML
+    private void saveCourseAction() throws IOException {
+        saveAsCourseAction();
+    }
 
     @FXML
     private void showSelectCoursePlanPopUpWindow(){
@@ -309,6 +315,5 @@ public class PrimaryController {
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
         popUpWindow.show();
-
     }
 }

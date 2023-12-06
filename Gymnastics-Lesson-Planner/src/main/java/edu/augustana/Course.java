@@ -3,10 +3,7 @@ package edu.augustana;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,5 +34,11 @@ public class Course {
         PrintWriter writer = new PrintWriter(new FileWriter(logFile));
         writer.println(serializedMovieLogText);
         writer.close();
+    }
+
+    public static Course loadFromFile(File logFile) throws IOException {
+        FileReader reader = new FileReader(logFile);
+        Gson gson = new Gson();
+        return gson.fromJson(reader, Course.class);
     }
 }

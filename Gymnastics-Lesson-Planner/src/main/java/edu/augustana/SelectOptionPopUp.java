@@ -28,11 +28,12 @@ public class SelectOptionPopUp {
     private Stage popUpWindow;
     private final String optionType;
     private VBox optionsVBox;
-    private Label selectedCourseLabel;
-    private Label selectedLessonLabel;
+//    private Label selectedCourseLabel;
+//    private Label selectedLessonLabel;
     private ObservableList<Node> windowContent = App.primaryStage.getScene().getRoot().getChildrenUnmodifiable();
     private ListView<String> cardBox = ((ListView<String>)((VBox) windowContent.get(2)).getChildren().get(2));
     private ListView<String> equipmentBox = ((ListView<String>)((VBox) windowContent.get(2)).getChildren().get(4));
+    private SelectOptionPopUp selectLessonPopUp;
     public SelectOptionPopUp(String optionType){
         System.out.println();
         this.optionType = optionType;
@@ -54,17 +55,20 @@ public class SelectOptionPopUp {
         contentVBox.getChildren().add(optionsVBox);
 
         Button loadOptionButton = new Button("Load a "+ optionType);
-        loadOptionButton.setOnMouseClicked(event -> loadButtonClick());
+        loadOptionButton.setOnMouseClicked(event -> {
+            try {
+                loadButtonClick();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         contentVBox.getChildren().add(loadOptionButton);
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
-
-        VBox labels = ((VBox)((VBox)(windowContent.get(1))).getChildren().get(0));
-        selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
-        selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
     }
-    private void loadButtonClick(){
+
+    private void loadButtonClick() throws IOException {
         getPopUpWindow().close();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open " + optionType);
@@ -73,8 +77,10 @@ public class SelectOptionPopUp {
         Window mainWindow = App.primaryStage.getScene().getWindow();
         File chosenFile = fileChooser.showOpenDialog(mainWindow);
         if (chosenFile != null) {
-            System.out.println(chosenFile);
-
+            Course loadedCourse = Course.loadFromFile(chosenFile);
+            App.setCurrentSelectedCourse(loadedCourse);
+            selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
+            selectLessonPopUp.getPopUpWindow().show();
         }
 
     }
@@ -83,13 +89,11 @@ public class SelectOptionPopUp {
     }
 
     public SelectOptionPopUp initializeCourseInWindow(HashMap<String, Course> data){
-        SelectOptionPopUp selectLessonPopUp = new SelectOptionPopUp("Lesson");
+        selectLessonPopUp = new SelectOptionPopUp("Lesson");
         for (Course course: data.values()){
             addOptionToContentVBox(course.getName()).setOnMouseClicked(event -> {
                 App.setCurrentSelectedCourse(course);
                 getPopUpWindow().close();
-
-                selectedCourseLabel.setText(course.getName());
                 selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
                 selectLessonPopUp.getPopUpWindow().show();
             });
@@ -105,9 +109,7 @@ public class SelectOptionPopUp {
         for (Lesson lesson: data){
             addOptionToContentVBox(lesson.getName()).setOnMouseClicked(event -> {
                 App.setCurrentSelectedLesson(lesson);
-                selectedLessonLabel.setText(lesson.getName());
                 resetCardBoxAndEquipmentBox();
-
                 getPopUpWindow().close();
             });
         }

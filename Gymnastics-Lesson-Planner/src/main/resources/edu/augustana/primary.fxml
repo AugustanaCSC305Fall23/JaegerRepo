@@ -113,7 +113,7 @@
             <HBox alignment="CENTER" prefHeight="0.0" prefWidth="203.0" spacing="10.0">
                <children>
                   <Button mnemonicParsing="false" style="-fx-background-color: E4CCFF;" text="Edit" />
-                  <Button mnemonicParsing="false" style="-fx-background-color: E4CCFF;" text="Save as" />
+                  <Button mnemonicParsing="false" onAction="#saveAsCourseAction" style="-fx-background-color: E4CCFF;" text="Save as" />
                   <Button fx:id="saveLessonButton" mnemonicParsing="false" onAction="#saveCourseAction" style="-fx-background-color: E4CCFF;" text="Save" />
                </children>
                <VBox.margin>

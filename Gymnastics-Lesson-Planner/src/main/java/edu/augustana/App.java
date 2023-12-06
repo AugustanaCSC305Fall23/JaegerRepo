@@ -4,7 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -34,6 +37,8 @@ public class App extends Application {
     public static ArrayList<SubCategoryButton> currentSelectedButtons = new ArrayList<>();
     public static Stage primaryStage;
     public static final String[] OS = System.getProperty("os.name").split(",");
+    private static Label selectedCourseLabel;
+    private static Label selectedLessonLabel;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -65,6 +70,9 @@ public class App extends Application {
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(700);
         primaryStage.show();
+        VBox labels = ((VBox)((VBox)(scene.getRoot().getChildrenUnmodifiable().get(1))).getChildren().get(0));
+        selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
+        selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
     }
 
     public static String toTitleCase(String input) {
@@ -122,6 +130,7 @@ public class App extends Application {
     public static void setCurrentSelectedLesson(Lesson lesson){
         currentSelectedLesson = lesson;
         selected = true;
+        selectedLessonLabel.setText(lesson.getName());
     }
 
     public static Lesson getCurrentSelectedLesson() {
@@ -133,9 +142,6 @@ public class App extends Application {
         currentLessonLogFile = chosenFile;
     }
 
-
-
-
     public static void addCourseToCourses(Course courseToAdd){
         courses.putIfAbsent(courseToAdd.getName(), courseToAdd);
     }
@@ -144,6 +150,7 @@ public class App extends Application {
         currentSelectedCourse = course;
         lessons = course.getLessons();
         selected = true;
+        selectedCourseLabel.setText(course.getName());
     }
 
     public static Course getCurrentSelectedCourse() {
