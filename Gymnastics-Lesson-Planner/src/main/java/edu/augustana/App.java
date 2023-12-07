@@ -152,6 +152,9 @@ public class App extends Application {
         selected = true;
         selectedCourseLabel.setText(course.getName());
     }
+    public static void launchPrinting(){
+        Printing.start(primaryStage);
+    }
 
     public static Course getCurrentSelectedCourse() {
         return currentSelectedCourse;

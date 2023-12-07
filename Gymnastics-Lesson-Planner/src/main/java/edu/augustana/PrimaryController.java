@@ -70,7 +70,6 @@ public class PrimaryController {
             }
             newCategory.getChildren().add(subCategoryWrapper);
             allFilterOptions.getChildren().add(newCategory);
-
         }
     }
 
@@ -278,6 +277,11 @@ public class PrimaryController {
     @FXML
     private void saveCourseAction() throws IOException {
         saveAsCourseAction();
+    }
+
+    @FXML
+    private void printLessonAction(){
+        App.launchPrinting();
     }
 
     @FXML

@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,34 +16,30 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class Printing extends Application {
-    private Label jobStatus = new Label();
+public class Printing{
+    private static Label jobStatus = new Label();
     private ImageView imageView = new ImageView();
 
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
+    public static void start(Stage primaryStage) {
         VBox root = new VBox(5);
 
-        Label txtLbl = new Label("Text: ");
-        TextArea text = new TextArea();
         VBox imagesVBox = new VBox();
-        ImageView img1 = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
-        imagesVBox.getChildren().add(img1);
-        text.setPrefColumnCount(10);
-        text.setPrefRowCount(20);
-        text.setWrapText(true);
-
+//        ImageView img1 = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+//        imagesVBox.getChildren().add(img1);
+        for (int cardId : App.getCurrentSelectedLesson().getCardIndexes()){
+            ImageView img = new ImageView(new Image(App.getCardDatabase().get(cardId).getFilePath()));
+            img.setFitWidth(100);
+            img.setFitHeight(200);
+            imagesVBox.getChildren().add(img);
+        };
+        ScrollPane imagesScroll = new ScrollPane(App.allCardsLoadedGridPane);
         Button printButton = new Button("Print"); //ex
-        printButton.setOnAction(e -> printAction(imagesVBox));//ex
+        printButton.setOnAction(e -> printAction(imagesScroll));//ex
 
         HBox jobStatusBox = new HBox(5, new Label("Print Job Staus: "),jobStatus);
         HBox buttonBox = new HBox(5,printButton);
 
-        root.getChildren().addAll(txtLbl, imagesVBox,jobStatusBox, buttonBox );
+        root.getChildren().addAll(imagesScroll,jobStatusBox, buttonBox );
         //VBox root = new VBox(printButton);
 //        root.getChildren().add(imagesVBox);
         Scene scene = new Scene(root);
@@ -53,7 +50,7 @@ public class Printing extends Application {
         primaryStage.show();
     }
 
-    private void printAction(Node node) {
+    private static void printAction(Node node) {
         jobStatus.textProperty().unbind();
         jobStatus.setText(("creating a printer job..."));
         PrinterJob job = PrinterJob.createPrinterJob();
