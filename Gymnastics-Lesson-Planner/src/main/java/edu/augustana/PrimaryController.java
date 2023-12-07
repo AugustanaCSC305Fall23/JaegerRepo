@@ -22,13 +22,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.TreeMap;
 
+import static edu.augustana.App.saveCourseHistory;
+
 public class PrimaryController {
     public static final String borderColor = "grey";
     @FXML
     private VBox centerArea;
     @FXML
     private VBox selectCourseLessonVbox;
-    
     @FXML
     private VBox allFilterOptions;
     @FXML
