@@ -1,23 +1,24 @@
 package edu.augustana;
-import javafx.application.Application;
+
+import javafx.geometry.Pos;
 import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.transform.Scale;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.Objects;
+import java.util.ArrayList;
 
-public class Printing{
+public class Printing {
     private static Label jobStatus = new Label();
     private ImageView imageView = new ImageView();
 
@@ -25,25 +26,68 @@ public class Printing{
         VBox root = new VBox(5);
 
         VBox imagesVBox = new VBox();
-//        ImageView img1 = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
-//        imagesVBox.getChildren().add(img1);
-        for (int cardId : App.getCurrentSelectedLesson().getCardIndexes()){
+        for (int cardId : App.getCurrentSelectedLesson().getCardIndexes()) {
             ImageView img = new ImageView(new Image(App.getCardDatabase().get(cardId).getFilePath()));
             img.setFitWidth(100);
             img.setFitHeight(200);
             imagesVBox.getChildren().add(img);
-        };
-        ScrollPane imagesScroll = new ScrollPane(new ImageView(String.valueOf(App.class.getResource("staticFiles/images/add.png"))));
-        Button printButton = new Button("Print"); //ex
-        printButton.setOnAction(e -> printAction(imagesScroll));//ex
+        }
+        ;
+        GridPane cardGrid = new GridPane();
 
-        HBox jobStatusBox = new HBox(5, new Label("Print Job Staus: "),jobStatus);
-        HBox buttonBox = new HBox(5,printButton);
+        cardGrid.setVgap(10);
 
-        root.getChildren().addAll(imagesScroll,jobStatusBox, buttonBox );
-        //VBox root = new VBox(printButton);
-//        root.getChildren().add(imagesVBox);
-        Scene scene = new Scene(root);
+        ColumnConstraints colConstraints = new ColumnConstraints();
+        colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
+        cardGrid.getColumnConstraints().add(colConstraints);
+
+        ScrollPane imagesScroll = new ScrollPane(cardGrid);
+        imagesScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        imagesScroll.setPrefHeight(500);
+        ArrayList<Integer> loadedCards = new ArrayList<>();
+        imagesScroll.setContent(null);
+        imagesScroll.setContent(cardGrid);
+        int currCol = 0;
+        int currRow = 0;
+
+        HBox row = new HBox();
+        for (int id: App.getCurrentSelectedLesson().getCardIndexes()) {
+
+            ImageView cardView = new ImageView(App.getCardDatabase().get(id).getFilePath());
+            cardView.setFitWidth(200);
+            cardView.setPreserveRatio(true);
+
+            if (!loadedCards.contains(id)) {
+                if (currCol == 3) {
+                    //creating a new HBox or row after 3 cards are added
+                    cardGrid.add(row, 0, currRow);
+                    row = new HBox();
+                    currCol = 0;
+                    currRow++;
+                }
+                row.setAlignment(Pos.CENTER);
+                row.setSpacing(30);
+
+                row.getChildren().add(cardView);
+                currCol++;
+                loadedCards.add(id);
+            }
+        }
+
+
+        if (!row.getChildren().isEmpty()) {
+            cardGrid.add(row, 0, currRow);
+        }
+
+
+        Button printButton = new Button("Print");
+        printButton.setOnAction(e -> printAction(imagesScroll));
+
+        HBox jobStatusBox = new HBox(5, new Label("Print Job Staus: "), jobStatus);
+        HBox buttonBox = new HBox(5, printButton);
+
+        root.getChildren().addAll(imagesScroll, jobStatusBox, buttonBox);
+        Scene scene = new Scene(root, 850, 700);
         Stage printingWindow = new Stage();
         printingWindow.initModality(Modality.APPLICATION_MODAL);
         printingWindow.initOwner(App.primaryStage);
@@ -57,32 +101,26 @@ public class Printing{
         jobStatus.textProperty().unbind();
         jobStatus.setText(("creating a printer job..."));
         PrinterJob job = PrinterJob.createPrinterJob();
+        Printer printer = job.getPrinter();
+        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+        job.getJobSettings().setPageLayout(pageLayout);
 
-        if(job != null){
+        if (job != null && job.showPrintDialog(null)) {
             jobStatus.textProperty().bind(job.jobStatusProperty().asString());
-            Boolean printed = job.printPage(node);
-            if (printed){
+            boolean printed = job.printPage(node);
+            if (printed) {
                 job.endJob();
-            }else{
+            } else {
                 jobStatus.textProperty().unbind();
                 jobStatus.setText("Printing Failed");
             }
-
-            /**PrinterJob job = PrinterJob.createPrinterJob();
-             if (job != null && job.showPrintDialog(null)) {
-             boolean success = job.printPage(//Specify the node or content you want to print );
-             if (success) {
-             job.endJob();
-             }
-             } **/
-        }else{
+        } else {
             jobStatus.setText("Could not create a printer job.");
         }
 //        PrinterJob job = PrinterJob.createPrinterJob();
 //
 //        if(job != null){
 //            Printer printer = job.getPrinter();
-//            PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);
 //
 //            double width = printData.getWidth();
 //            double height = printData.getHeight();
@@ -119,8 +157,7 @@ public class Printing{
  public class Printing extends Application {
 
 
-@Override
-public void start(Stage primaryStage) {
+@Override public void start(Stage primaryStage) {
 Label label = new Label("Content to Print");
 
 StackPane root = new StackPane();
