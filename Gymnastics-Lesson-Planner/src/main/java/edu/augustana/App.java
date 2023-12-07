@@ -136,7 +136,7 @@ public class App extends Application {
         selectedCourseLabel.setText(course.getName());
     }
     public static void launchPrinting(){
-        Printing.start(primaryStage);
+        Printing.start();
     }
 
     public static Course getCurrentSelectedCourse() {

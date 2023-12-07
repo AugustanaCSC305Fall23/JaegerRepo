@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Scale;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -20,7 +21,7 @@ public class Printing{
     private static Label jobStatus = new Label();
     private ImageView imageView = new ImageView();
 
-    public static void start(Stage primaryStage) {
+    public static void start() {
         VBox root = new VBox(5);
 
         VBox imagesVBox = new VBox();
@@ -32,7 +33,7 @@ public class Printing{
             img.setFitHeight(200);
             imagesVBox.getChildren().add(img);
         };
-        ScrollPane imagesScroll = new ScrollPane(new ImageView(new Image(String.valueOf(App.class.getResource("staticFiles/images/1.png")))));
+        ScrollPane imagesScroll = new ScrollPane(new ImageView(String.valueOf(App.class.getResource("staticFiles/images/add.png"))));
         Button printButton = new Button("Print"); //ex
         printButton.setOnAction(e -> printAction(imagesScroll));//ex
 
@@ -43,11 +44,13 @@ public class Printing{
         //VBox root = new VBox(printButton);
 //        root.getChildren().add(imagesVBox);
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
+        Stage printingWindow = new Stage();
+        printingWindow.initModality(Modality.APPLICATION_MODAL);
+        printingWindow.initOwner(App.primaryStage);
 
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Print Option Example");
-        primaryStage.show();
+        printingWindow.setScene(scene);
+        printingWindow.setTitle("Print Option Example");
+        printingWindow.show();
     }
 
     private static void printAction(Node node) {
