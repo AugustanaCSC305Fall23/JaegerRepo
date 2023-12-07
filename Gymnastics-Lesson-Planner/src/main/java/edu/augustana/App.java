@@ -24,15 +24,12 @@ import java.util.TreeMap;
 public class App extends Application {
     public static String pathToTargetFolder;
     public static String pathToResourcesFolder;
-    private static boolean selected;
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
-    private static ArrayList<Lesson> lessons;
     private static HashMap<String, Course> courses;
     private static Course currentSelectedCourse = null;
     private  static Lesson currentSelectedLesson = null;
-    public static GridPane allCardsLoadedGridPane = null;
-    public static HashMap<String, HashSet<CardView>> filteredData = new HashMap<>();
+    public static HashMap<String, List<String>> filteredData = new HashMap<>();
     private static File currentLessonLogFile = null;
     public static ArrayList<SubCategoryButton> currentSelectedButtons = new ArrayList<>();
     public static Stage primaryStage;
@@ -48,7 +45,6 @@ public class App extends Application {
             pathToTargetFolder = "/" + pathToTargetFolder;
         }
         pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
-        selected = false;
         cardDatabase = new CardDatabase();
         cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
@@ -62,6 +58,7 @@ public class App extends Application {
         courses.get("demo course 2").addData(new Lesson("Demo Lesson 2"));
         courses.get("demo course 2").addData(new Lesson("Demo Lesson 3"));
 
+        filteredData = FilterDatabase.allData;
         Scene scene = new Scene(loadFXML("primary"), 1400, 760);
 
         File cssFile = new File(pathToTargetFolder + "staticFiles/cssFiles/style.css");
@@ -73,40 +70,28 @@ public class App extends Application {
         VBox labels = ((VBox)((VBox)(scene.getRoot().getChildrenUnmodifiable().get(1))).getChildren().get(0));
         selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
         selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
+
+
     }
 
-    public static String toTitleCase(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
-
-        String[] words = input.split(" ");
-        StringBuilder result = new StringBuilder();
-
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                String firstLetter = word.substring(0, 1).toUpperCase();
-                String restOfWord = word.substring(1).toLowerCase();
-                result.append(firstLetter).append(restOfWord).append(" ");
-            } else {
-                result.append(word);
-            }
-        }
-
-        // Remove the trailing space
-        result.deleteCharAt(result.length() - 1);
-
-        return result.toString();
-    }
-
-    public static HashMap<String, TreeMap<String, HashSet<CardView>>> getFilterOptions() {
+    public static HashMap<String, TreeMap<String, Collection<CardView>>> getFilterOptions() {
         return filterDatabase.getFilterOptions();
+    }
+
+    public static void resetFilteredData(){
+        filteredData = new HashMap<>();
+        filteredData.put("Event", new ArrayList<>());
+        filteredData.put("Gender", new ArrayList<>());
+        filteredData.put("ModelSex", new ArrayList<>());
+        filteredData.put("Level", new ArrayList<>());
+        filteredData.put("Equipments", new ArrayList<>());
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
+
     public static HashMap<Integer, Card> getCardDatabase() {
         return cardDatabase.getCards();
     }
@@ -129,7 +114,6 @@ public class App extends Application {
 
     public static void setCurrentSelectedLesson(Lesson lesson){
         currentSelectedLesson = lesson;
-        selected = true;
         selectedLessonLabel.setText(lesson.getName());
     }
 
@@ -148,8 +132,6 @@ public class App extends Application {
 
     public static void setCurrentSelectedCourse(Course course){
         currentSelectedCourse = course;
-        lessons = course.getLessons();
-        selected = true;
         selectedCourseLabel.setText(course.getName());
     }
 
