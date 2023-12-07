@@ -17,13 +17,14 @@ import java.nio.file.*;
 import java.io.*;
 import java.util.*;
 
+import static edu.augustana.App.saveCourseHistory;
+
 public class PrimaryController {
     public static final String borderColor = "grey";
     @FXML
     private VBox centerArea;
     @FXML
     private VBox selectCourseLessonVbox;
-    
     @FXML
     private VBox allFilterOptions;
     @FXML
