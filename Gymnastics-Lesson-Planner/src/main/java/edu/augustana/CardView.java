@@ -2,9 +2,11 @@ package edu.augustana;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.Objects;
@@ -25,6 +27,16 @@ public class CardView {
         addButton.setFitWidth(30);
         addButton.setPreserveRatio(true);
         buttonAndCode = combineButtonAndCode();
+
+        // Set the tooltip
+        Tooltip.install(buttonAndCode, new Tooltip("Click to add the card."){{
+            setStyle("-fx-font-size: 14;");
+            setShowDelay(javafx.util.Duration.millis(100));
+        }});
+        Tooltip.install(cardImage, new Tooltip("Click to magnify the card."){{
+            setStyle("-fx-font-size: 14;");
+            setShowDelay(javafx.util.Duration.millis(100));
+        }});
     }
     public VBox getCardView(){
         VBox finalCardView = new VBox(cardImage, buttonAndCode);

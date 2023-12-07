@@ -52,6 +52,7 @@ public class PrimaryController {
             VBox newCategory = new VBox();
             newCategory.setAlignment(Pos.CENTER);
             newCategory.getChildren().add(createCategoryButton(category));
+
             VBox subCategoryWrapper = new VBox();
             subCategoryWrapper.setAlignment(Pos.CENTER);
             subCategoryWrapper.setId(category + "FilterOptions");
@@ -77,6 +78,10 @@ public class PrimaryController {
 
     public VBox createCategoryButton(String categoryName) {
         Button button = new Button(categoryName);
+        Tooltip.install(button, new Tooltip("Click to view all the filters."){{
+            setStyle("-fx-font-size: 14;");
+            setShowDelay(javafx.util.Duration.millis(100));
+        }});
         button.setId("categoryButton");
         VBox buttonWrapper = new VBox(button);
         buttonWrapper.setId(categoryName);
@@ -97,6 +102,7 @@ public class PrimaryController {
         Scene scene = button.getScene();
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText() + "FilterOptions");
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
+
     }
 
     private Label cardTitleBox(String title) {
