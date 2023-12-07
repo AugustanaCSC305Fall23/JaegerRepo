@@ -14,6 +14,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.nio.file.*;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -268,16 +270,40 @@ public class PrimaryController {
             Window mainWindow = equipmentsBox.getScene().getWindow();
             File chosenFile = fileChooser.showSaveDialog(mainWindow);
 
-            System.out.println(chosenFile.getAbsolutePath());
             App.saveCurrentCourseLogToFile(chosenFile);
         }else{
-//            show create course pop up window
+//            this.saveAsCourseAction();
         }
     }
+
     @FXML
     private void saveCourseAction() throws IOException {
-        saveAsCourseAction();
+        File chosenFile = App.currentLoadedCourseFile;
+
+        // Create a new file in the same directory as the original file
+        File newFile = new File(chosenFile.getParent(), "new_" + chosenFile.getName());
+
+        // Save the current course log to the new file
+        App.saveCurrentCourseLogToFile(newFile);
+        if (chosenFile.exists() && newFile.exists()) {
+            Path oldPath = chosenFile.toPath();
+            Path newFilePath = newFile.toPath();
+
+            try {
+                // Rename the new file to the same name as the old file
+                Files.move(newFilePath, newFilePath.resolveSibling(oldPath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("File renamed and replaced successfully.");
+            } catch (IOException e) {
+                System.err.println("Error renaming file: " + e.getMessage());
+            }
+        } else {
+            System.err.println("Files do not exist.");
+        }
+
+        App.currentLoadedCourseFile = newFile;
+        System.out.println(newFile.getAbsolutePath());
     }
+
 
     @FXML
     private void printLessonAction(){
