@@ -5,16 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.TreeMap;
 
@@ -38,7 +38,7 @@ public class App extends Application {
     public static final String[] OS = System.getProperty("os.name").split(",");
     private static Label selectedCourseLabel;
     private static Label selectedLessonLabel;
-    public static ArrayList<String> historyPath = null;
+    public static HashSet<String> historyPaths = new HashSet<>();
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
@@ -144,25 +144,27 @@ public class App extends Application {
 
 
     public static void saveCourseHistory(String loadPath) throws IOException {
-        File file = new File("src/main/resources/edu/augustana/staticFiles/loadFiles.txt");
-        System.out.println(file.getPath());
-        try (FileWriter writer = new FileWriter(file,true)) {
-            System.out.println("printed");
-            writer.write(loadPath + "\n");
-        }
-    }
-
-
-    private static void loadCourseHistory() throws IOException{
-        try (BufferedReader br = new BufferedReader(new FileReader("path/to/savedCourses.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (!historyPath.contains(line)) {
-                    historyPath.add(line);
-                }
+        if (!historyPaths.contains(loadPath)) {
+            File file = new File("src/main/resources/edu/augustana/staticFiles/loadFiles.txt");
+            try (FileWriter writer = new FileWriter(file, true)) {
+                writer.write(loadPath + "\n");
+                historyPaths.add(loadPath);
             }
         }
     }
+
+
+private static void loadCourseHistory() throws IOException{
+    try {
+        // Read all lines from the file into a Set of Strings
+        historyPaths = new HashSet<>(Files.readAllLines(Paths.get("src/main/resources/edu/augustana/staticFiles/loadFiles.txt")));
+    } catch (NoSuchFileException e) {
+        // Handle the case where the file does not exist
+        System.err.println("File does not exist: ");
+        // Initialize historyPaths as an empty set
+        historyPaths = new HashSet<>();
+    }
+}
     public static Course getCurrentSelectedCourse() {
         return currentSelectedCourse;
     }
