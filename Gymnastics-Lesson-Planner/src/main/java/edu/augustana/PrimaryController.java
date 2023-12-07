@@ -5,10 +5,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -17,10 +15,7 @@ import javafx.stage.Window;
 import java.nio.file.*;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 import static edu.augustana.App.saveCourseHistory;
 
@@ -52,7 +47,7 @@ public class PrimaryController {
     }
 
     private void initializeFilters() {
-        HashMap<String, TreeMap<String, HashSet<CardView>>> filterOptions = App.getFilterOptions();
+        HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions = App.getFilterOptions();
         allFilterOptions.setAlignment(Pos.CENTER);
         for (String category : filterOptions.keySet()) {
             VBox newCategory = new VBox();
@@ -73,7 +68,6 @@ public class PrimaryController {
             }
             newCategory.getChildren().add(subCategoryWrapper);
             allFilterOptions.getChildren().add(newCategory);
-
         }
     }
 
@@ -118,109 +112,63 @@ public class PrimaryController {
     }
 
     private void loadCardsToGridView() {
-        scrollPane.setFitToWidth(true);
-
         GridPane cardGrid = new GridPane(); // creating a gridPane
-        cardGrid.setVgap(10);
-        // centers the grid pane
-        ColumnConstraints colConstraints = new ColumnConstraints();
-        colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
-        cardGrid.getColumnConstraints().add(colConstraints);
-
-        // adding the gridPane in the scroll pane and the scroll pane into the center area
+        scrollPane.setFitToWidth(true);
+        scrollPane.setContent(null);
+        scrollPane.setContent(cardGrid);
 
         addCardsToHBoxToGrid(cardGrid);
     }
 
     private void addCardsToHBoxToGrid(GridPane cardGrid) {
+        cardGrid.setVgap(10);
+
+        ColumnConstraints colConstraints = new ColumnConstraints();
+        colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
+        cardGrid.getColumnConstraints().add(colConstraints);
+
+
+        ArrayList<Integer> loadedCards = new ArrayList<>();
         scrollPane.setContent(null);
         scrollPane.setContent(cardGrid);
-        // indexes to keep track of the location in grid
         int currCol = 0;
         int currRow = 0;
-        // getting the card hashmap that was created during the initial execution
-        HashMap<Integer, Card> cards = App.getCardDatabase();
 
-        HBox row = new HBox(); // using a HBox cause organizing the grid columns was a hassle so there is only one column, and it has a HBox that holds 3 cards
-
-        if (App.filteredData.isEmpty()) {
-            if (App.allCardsLoadedGridPane == null) {
-                // looping through the cards hashmap and adding it to the grid
-                for (int cardId : cards.keySet()) {
-
-
-                    if (currCol == 3) {
-                        //creating a new HBox or row after 3 cards are added
-                        cardGrid.add(row, 0, currRow);
-                        row = new HBox();
-
-                        currCol = 0;
-                        currRow++;
-                    }
-                    // adding a card to the HBox or row
-                    row.setAlignment(Pos.CENTER);
-                    row.setSpacing(50);
-                    CardView newCardView = new CardView(cards.get(cardId));
-                    newCardView.getButtonAndCode().setOnMouseClicked(event -> {
-                        try {
-                            plusClicked(newCardView);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+        HBox row = new HBox();
+        for (String category: App.filteredData.keySet()){
+            for (String subCategory: App.filteredData.get(category)){
+                System.out.println(subCategory);
+                for (CardView cardView: App.getFilterDatabase().getFilterOptions().get(category).get(subCategory)){
+                    if (!loadedCards.contains(cardView.getCardId())) {
+                        if (currCol == 3) {
+                            //creating a new HBox or row after 3 cards are added
+                            cardGrid.add(row, 0, currRow);
+                            row = new HBox();
+                            currCol = 0;
+                            currRow++;
                         }
-                    });
-                    newCardView.getCardImage().setOnMouseClicked(e -> {magnifyImage(newCardView.getCardImage());});
+                        row.setAlignment(Pos.CENTER);
+                        row.setSpacing(50);
+                        cardView.getButtonAndCode().setOnMouseClicked(event -> {
+                            try {
+                                plusClicked(cardView);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        cardView.getCardImage().setOnMouseClicked(e -> {
+                            magnifyImage(cardView.getCardImage());
+                        });
 
-                    row.getChildren().add(newCardView.getCardView());
-                    currCol++;
-
-                }
-                if (!row.getChildren().isEmpty()) {
-                    cardGrid.add(row, 0, currRow);
-
-
-                }
-                if (App.allCardsLoadedGridPane == null) {
-                    App.allCardsLoadedGridPane = cardGrid;
-                }
-            }else {
-                scrollPane.setContent(App.allCardsLoadedGridPane);
-            }
-
-        } else {
-            for (String subCategoryName : App.filteredData.keySet()) {
-                for (CardView card : App.filteredData.get(subCategoryName)) {
-                    System.out.println(card);
-                    if (currCol == 3) {
-                        //creating a new HBox or row after 3 cards are added
-                        cardGrid.add(row, 0, currRow);
-                        row = new HBox();
-
-                        currCol = 0;
-                        currRow++;
+                        row.getChildren().add(cardView.getCardView());
+                        currCol++;
+                        loadedCards.add(cardView.getCardId());
                     }
-                    // adding a card to the HBox or row
-                    row.setAlignment(Pos.CENTER);
-                    row.setSpacing(50);
-                    card.getButtonAndCode().setOnMouseClicked(event -> {
-                        try {
-                            plusClicked(card);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-
-                    card.getCardImage().setOnMouseClicked(e->{magnifyImage(card.getCardImage());});
-
-
-                    row.getChildren().add(card.getCardView());
-                    currCol++;
-
                 }
             }
-            if (!row.getChildren().isEmpty()) {
-                cardGrid.add(row, 0, currRow);
-
-            }
+        }
+        if (!row.getChildren().isEmpty()) {
+            cardGrid.add(row, 0, currRow);
         }
     }
 
@@ -306,6 +254,11 @@ public class PrimaryController {
         System.out.println(newFile.getAbsolutePath());
     }
 
+
+    @FXML
+    private void printLessonAction(){
+        App.launchPrinting();
+    }
 
     @FXML
     private void showSelectCoursePlanPopUpWindow(){

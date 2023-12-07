@@ -1,12 +1,10 @@
 package edu.augustana;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.TreeMap;
+import java.util.*;
 
 public class FilterDatabase {
-    private HashMap<String, TreeMap<String, HashSet<CardView>>> filterOptions =  new HashMap<>();
+    private HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions =  new HashMap<>();
+    public static HashMap<String, List<String>> allData;
 
     public FilterDatabase(CardDatabase cards){
         filterOptions = new HashMap<>();
@@ -15,6 +13,13 @@ public class FilterDatabase {
         filterOptions.put("ModelSex", new TreeMap<>());
         filterOptions.put("Level", new TreeMap<>());
         filterOptions.put("Equipments", new TreeMap<>());
+
+        allData = new HashMap<>();
+        allData.put("Event", new ArrayList<>());
+        allData.put("Gender", new ArrayList<>());
+        allData.put("ModelSex", new ArrayList<>());
+        allData.put("Level", new ArrayList<>());
+        allData.put("Equipments", new ArrayList<>());
 
         addFilterOptions(cards.getCards());
     }
@@ -47,11 +52,14 @@ public class FilterDatabase {
         System.out.println(filterOptions.get("Event"));
     }
 
-    private void addToFilterOptions(String category, String categoryValue, Card card){
-        if (!filterOptions.get(category).containsKey(categoryValue)){
-            filterOptions.get(category).put(categoryValue, new HashSet<>());
+    private void addToFilterOptions(String category, String subCategory, Card card){
+        if (!filterOptions.get(category).containsKey(subCategory)){
+            filterOptions.get(category).put(subCategory, new HashSet<>());
         }
-        filterOptions.get(category).get(categoryValue).add(new CardView(card));
+        if (!allData.get(category).contains(subCategory)) {
+            allData.get(category).add(subCategory);
+        }
+        filterOptions.get(category).get(subCategory).add(new CardView(card));
     }
 
     private void addFormattedEquipment(String equipment, Card card){
@@ -59,7 +67,7 @@ public class FilterDatabase {
         addToFilterOptions("Equipments", equipment, card);
     }
 
-    public HashMap<String, TreeMap<String, HashSet<CardView>>> getFilterOptions() {
+    public HashMap<String, TreeMap<String, Collection<CardView>>> getFilterOptions() {
         return filterOptions;
     }
 

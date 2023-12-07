@@ -34,11 +34,17 @@ public class SubCategoryButton {
             mainButton.setId("subCategoryButton");
             App.filteredData.remove(subCategoryButtonName);
             App.currentSelectedButtons.remove(this);
+            if (App.currentSelectedButtons.isEmpty()){
+                App.filteredData = FilterDatabase.allData;
+            }
         }else{
+            if (App.currentSelectedButtons.isEmpty()){
+                App.resetFilteredData();
+            }
             buttonClicked = true;
             mainButton.setId("subCategoryButtonClicked");
-
-            App.filteredData.put(subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get(buttonCategory).get(subCategoryButtonName));
+//            App.filteredData.put(subCategoryButtonName, App.getFilterDatabase().getFilterOptions().get(buttonCategory).get(subCategoryButtonName));
+            App.filteredData.get(buttonCategory).add(subCategoryButtonName);
             App.currentSelectedButtons.add(this);
         }
     }
