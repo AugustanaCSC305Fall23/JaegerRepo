@@ -32,7 +32,7 @@ public class Printing{
             img.setFitHeight(200);
             imagesVBox.getChildren().add(img);
         };
-        ScrollPane imagesScroll = new ScrollPane(App.allCardsLoadedGridPane);
+        ScrollPane imagesScroll = new ScrollPane(new ImageView(new Image(String.valueOf(App.class.getResource("staticFiles/images/1.png")))));
         Button printButton = new Button("Print"); //ex
         printButton.setOnAction(e -> printAction(imagesScroll));//ex
 
