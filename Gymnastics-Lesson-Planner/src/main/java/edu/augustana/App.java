@@ -29,8 +29,9 @@ public class App extends Application {
     private static HashMap<String, Course> courses;
     private static Course currentSelectedCourse = null;
     private  static Lesson currentSelectedLesson = null;
+
     public static HashMap<String, List<String>> filteredData = new HashMap<>();
-    private static File currentLessonLogFile = null;
+    public static File currentLoadedCourseFile = null;
     public static ArrayList<SubCategoryButton> currentSelectedButtons = new ArrayList<>();
     public static Stage primaryStage;
     public static final String[] OS = System.getProperty("os.name").split(",");
@@ -123,7 +124,7 @@ public class App extends Application {
 
     public static void saveCurrentCourseLogToFile(File chosenFile) throws IOException {
         currentSelectedCourse.saveToFile(chosenFile);
-        currentLessonLogFile = chosenFile;
+        currentLoadedCourseFile = chosenFile;
     }
 
     public static void addCourseToCourses(Course courseToAdd){
@@ -133,6 +134,9 @@ public class App extends Application {
     public static void setCurrentSelectedCourse(Course course){
         currentSelectedCourse = course;
         selectedCourseLabel.setText(course.getName());
+    }
+    public static void launchPrinting(){
+        Printing.start(primaryStage);
     }
 
     public static Course getCurrentSelectedCourse() {

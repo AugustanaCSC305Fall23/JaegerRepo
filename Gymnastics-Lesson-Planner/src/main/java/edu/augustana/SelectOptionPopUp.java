@@ -76,6 +76,9 @@ public class SelectOptionPopUp {
         fileChooser.getExtensionFilters().add(filter);
         Window mainWindow = App.primaryStage.getScene().getWindow();
         File chosenFile = fileChooser.showOpenDialog(mainWindow);
+
+        App.currentLoadedCourseFile = chosenFile;
+
         if (chosenFile != null) {
             Course loadedCourse = Course.loadFromFile(chosenFile);
             App.setCurrentSelectedCourse(loadedCourse);
