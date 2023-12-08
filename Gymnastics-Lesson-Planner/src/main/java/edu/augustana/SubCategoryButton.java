@@ -14,7 +14,8 @@ public class SubCategoryButton {
     public Button mainButton;
 
     public SubCategoryButton(String subCategoryName, String categoryName){
-        mainButton =  new Button(subCategoryName);;
+        mainButton =  new Button(subCategoryName);
+
         this.subCategoryButtonName = subCategoryName;
         buttonCategory = categoryName;
         buttonClicked = false;

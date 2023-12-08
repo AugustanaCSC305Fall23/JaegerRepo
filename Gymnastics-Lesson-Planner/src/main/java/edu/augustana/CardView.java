@@ -8,10 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CardView {
+public class CardView{
     private final ImageView cardImage;
     private final int cardId;
     private final ArrayList<String> equipments;
@@ -21,6 +22,7 @@ public class CardView {
     private final HBox favoriteButtonWrapper;
     private boolean isSelected = false;
     private boolean isFavorite = false;
+    private String searchString;
     public CardView(Card card){
         equipments = card.getEquipment();
         cardTitle = card.getTitle();
@@ -28,6 +30,10 @@ public class CardView {
         cardImage.setFitWidth(250);
         cardImage.setPreserveRatio(true);
         cardId = card.getCardId();
+
+        searchString = setUpSearchString(card).toLowerCase();
+
+
         ImageView addButton = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
         addButton.setFitWidth(30);
         addButton.setPreserveRatio(true);
@@ -37,15 +43,30 @@ public class CardView {
         ImageView favoriteButton = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm()));
         favoriteButton.setFitWidth(30);
         favoriteButton.setPreserveRatio(true);
-
         favoriteButtonWrapper = new HBox(favoriteButton);
         favoriteButtonWrapper.setPadding(new Insets(5, 5, 5, 5));
         favoriteButtonWrapper.setOnMouseClicked(event -> changeFavoriteWhenClicked());
-
         buttonAndFavButton = combineButtonAndFavButton();
-        hoverFeatures();
 
-        // Set the tooltip
+        hoverFeatures();
+        setUpToolTips();
+    }
+
+    private String setUpSearchString(Card card){
+        StringBuilder searchString = new StringBuilder(card.getCode() + card.getEvent() + card.getCategory() + card.getTitle() + card.getGender() + card.getModelSex());
+        for (String l: card.getLevels()){
+            searchString.append(l);
+        }
+        for (String e: card.getEquipment()){
+            searchString.append(e);
+        }
+        for (String k: card.getKeywords()){
+            searchString.append(k);
+        }
+
+        return searchString + " ";
+    }
+    private void setUpToolTips(){
         Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card."){{
             setStyle("-fx-font-size: 14;");
             setShowDelay(javafx.util.Duration.millis(1000));
@@ -127,5 +148,9 @@ public class CardView {
 
     public String getCardTitle() {
         return cardTitle;
+    }
+
+    public String getSearchString() {
+        return searchString;
     }
 }

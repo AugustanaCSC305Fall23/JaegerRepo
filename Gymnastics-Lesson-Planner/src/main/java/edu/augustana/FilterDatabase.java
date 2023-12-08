@@ -30,14 +30,15 @@ public class FilterDatabase {
             String event = cards.get(cardId).getEvent();
             String gender = cards.get(cardId).getGender();
             String modelSex = cards.get(cardId).getModelSex();
-            String level = cards.get(cardId).getLevel();
 
 
             addToFilterOptions("Event", event, currCard);
             addToFilterOptions("Gender", gender, currCard);
             addToFilterOptions("ModelSex", modelSex, currCard);
-            addToFilterOptions("Level", level, currCard);
 
+            for (String l: cards.get(cardId).getLevels()){
+                addToFilterOptions("Level", l, currCard);
+            }
             ArrayList<String> equipments = cards.get(cardId).getEquipment();
             for (String equipment : equipments) {
                 if (equipment.contains("/")) {

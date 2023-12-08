@@ -2,6 +2,7 @@ package edu.augustana;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Card {
     private final String code;
@@ -11,7 +12,7 @@ public class Card {
     private final URL filePath;
     private final String gender;
     private final String modelSex;
-    private final String level;
+    private final String[] levels;
     private final String[] equipments;
     private final String[] keywords;
     private final int cardId;
@@ -27,7 +28,7 @@ public class Card {
 
         this.gender = csvData[6];
         this.modelSex = csvData[7];
-        this.level = csvData[8];
+        this.levels = csvData[8].split(" ");
         this.equipments = csvData[9].split(", ");
         this.keywords = csvData[10].split(", ");
         cardId = cardIndex;
@@ -66,8 +67,8 @@ public class Card {
         return filePath.toExternalForm();
     }
 
-    public String getLevel() {
-        return level;
+    public ArrayList<String> getLevels() {
+        return new ArrayList<>(Arrays.asList(levels));
     }
 
     public ArrayList<String> getEquipment() {
