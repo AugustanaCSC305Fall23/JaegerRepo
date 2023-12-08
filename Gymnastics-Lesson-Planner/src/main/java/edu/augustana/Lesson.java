@@ -3,30 +3,38 @@ package edu.augustana;
 import java.util.ArrayList;
 
 public class Lesson{
-    private final ArrayList<Integer> cardIndexes ;
+    private final ArrayList<CardView> selectedCardViews;
     private final String lessonName;
     private static int TotalLessonIndex = 0;
     private final int lessonIndex;
     private ArrayList<String> equipments;
     public Lesson(String lessonName){
         equipments = new ArrayList<>();
-        cardIndexes = new ArrayList<>();
+        selectedCardViews = new ArrayList<>();
         this.lessonName = lessonName;
         Lesson.TotalLessonIndex++;
         lessonIndex = Lesson.TotalLessonIndex;
     }
-    public ArrayList<Integer> getCardIndexes() {
-        return cardIndexes;
+    public ArrayList<CardView> getSelectedCardViews() {
+        return selectedCardViews;
     }
 
-    public boolean addData(Card newCard){
-        if (!cardIndexes.contains(newCard.getCardId())) {
-            cardIndexes.add(newCard.getCardId());
+    public boolean addData(CardView cardView){
+        if (!selectedCardViews.contains(cardView)) {
+            selectedCardViews.add(cardView);
             return true;
         }else{
             System.out.println("card already selected");
             return false;
         }
+    }
+
+    public boolean removeData(CardView cardView){
+        if (selectedCardViews.contains(cardView)){
+            selectedCardViews.remove(cardView);
+            return true;
+        }
+        return false;
     }
 
     public int getLessonIndex() {
@@ -47,6 +55,14 @@ public class Lesson{
         }
         equipments.add(newEquipment);
         return true;
+    }
+
+    public boolean removeEquipment(String equipment){
+        if (equipments.contains(equipment)){
+            equipments.remove(equipment);
+            return true;
+        }
+        return false;
     }
     public ArrayList<String> getEquipments() {
         return equipments;
