@@ -35,6 +35,9 @@ public class PrimaryController {
     private Label currLessonLabel;
     @FXML
     private Label currCourseLabel;
+    @FXML
+    private TextField searchValue;
+
     public static SelectOptionPopUp selectLessonPopUp;
     public static SelectOptionPopUp selectCoursePopUp;
 
@@ -72,7 +75,7 @@ public class PrimaryController {
 
     private void clickSubCategoryButton(SubCategoryButton subButton) {
         subButton.click();
-        addCardsToHBoxToGrid(new GridPane());
+        addCardsToHBoxToGrid(" ");
     }
 
     public VBox createCategoryButton(String categoryName) {
@@ -105,15 +108,12 @@ public class PrimaryController {
     }
 
     private void loadCardsToGridView() {
-        GridPane cardGrid = new GridPane(); // creating a gridPane
-        scrollPane.setFitToWidth(true);
-        scrollPane.setContent(null);
-        scrollPane.setContent(cardGrid);
 
-        addCardsToHBoxToGrid(cardGrid);
+        addCardsToHBoxToGrid(" ");
     }
 
-    private void addCardsToHBoxToGrid(GridPane cardGrid) {
+    private void addCardsToHBoxToGrid(String searchValue) {
+        GridPane cardGrid = new GridPane();
         cardGrid.setVgap(10);
 
         ColumnConstraints colConstraints = new ColumnConstraints();
@@ -122,6 +122,7 @@ public class PrimaryController {
 
 
         ArrayList<Integer> loadedCards = new ArrayList<>();
+        scrollPane.setFitToWidth(true);
         scrollPane.setContent(null);
         scrollPane.setContent(cardGrid);
         int currCol = 0;
@@ -132,7 +133,7 @@ public class PrimaryController {
             for (String subCategory: App.filteredData.get(category)){
                 System.out.println(subCategory);
                 for (CardView cardView: App.getFilterDatabase().getFilterOptions().get(category).get(subCategory)){
-                    if (!loadedCards.contains(cardView.getCardId())) {
+                    if (!loadedCards.contains(cardView.getCardId()) && cardView.getSearchString().contains(searchValue.toLowerCase())) {
                         if (currCol == 3) {
                             //creating a new HBox or row after 3 cards are added
                             cardGrid.add(row, 0, currRow);
@@ -294,5 +295,9 @@ public class PrimaryController {
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
         popUpWindow.show();
+    }
+    @FXML
+    private void searchClicked(){
+        addCardsToHBoxToGrid(searchValue.getText());
     }
 }

@@ -24,7 +24,7 @@
             </ImageView>
             <HBox alignment="CENTER">
                <children>
-                  <TextField>
+                  <TextField fx:id="searchValue" onKeyTyped="#searchClicked">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -32,7 +32,7 @@
                         <Insets />
                      </opaqueInsets>
                   </TextField>
-                  <HBox alignment="CENTER" style="-fx-background-color: #EBDDFA; -fx-background-radius: 15;">
+                  <HBox alignment="CENTER" onMouseClicked="#searchClicked" style="-fx-background-color: #EBDDFA; -fx-background-radius: 15;">
                      <children>
                         <ImageView fitHeight="33.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
