@@ -17,8 +17,6 @@ import java.nio.file.*;
 import java.io.*;
 import java.util.*;
 
-import static edu.augustana.App.saveCourseHistory;
-
 public class PrimaryController {
     public static final String borderColor = "grey";
     @FXML
@@ -155,7 +153,7 @@ public class PrimaryController {
                         }
                         row.setAlignment(Pos.CENTER);
                         row.setSpacing(50);
-                        cardView.getButtonAndCode().setOnMouseClicked(event -> {
+                        cardView.getAddButton().setOnMouseClicked(event -> {
                             try {
                                 plusClicked(cardView);
                             } catch (IOException e) {

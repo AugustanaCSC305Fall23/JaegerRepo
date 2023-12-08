@@ -34,6 +34,7 @@ public class SelectOptionPopUp {
     private ListView<String> cardBox = ((ListView<String>)((VBox) windowContent.get(2)).getChildren().get(2));
     private ListView<String> equipmentBox = ((ListView<String>)((VBox) windowContent.get(2)).getChildren().get(4));
     private SelectOptionPopUp selectLessonPopUp;
+
     public SelectOptionPopUp(String optionType){
         System.out.println();
         this.optionType = optionType;
@@ -118,20 +119,12 @@ public class SelectOptionPopUp {
         }
     }
 
-    private Label cardTitleBox(String title) {
-        Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-border-color: grey; -fx-padding: 5px;");
-        titleLabel.setAlignment(Pos.CENTER);
-        titleLabel.setPadding(new Insets(10, 0, 0, 0));
-
-        return titleLabel;
-    }
-
     private void resetCardBoxAndEquipmentBox(){
         resetCardBox();
         resetEquipmentBox();
         System.out.println();
     }
+
     private void resetCardBox(){
         while (!cardBox.getItems().isEmpty()){
             cardBox.getItems().remove(0);
