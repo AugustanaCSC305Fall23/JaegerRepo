@@ -24,7 +24,7 @@
             </ImageView>
             <HBox alignment="CENTER">
                <children>
-                  <TextField>
+                  <TextField prefHeight="26.0" prefWidth="184.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -32,7 +32,7 @@
                         <Insets />
                      </opaqueInsets>
                   </TextField>
-                  <HBox alignment="CENTER" style="-fx-background-color: #EBDDFA; -fx-background-radius: 15;">
+                  <HBox alignment="CENTER" style="-fx-background-color: #ADD8E6; -fx-background-radius: 15;">
                      <children>
                         <ImageView fitHeight="33.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -52,7 +52,7 @@
                   </HBox>
                </children>
             </HBox>
-            <Label alignment="CENTER" style="-fx-background-color: E4CCFF; -fx-background-radius: 10; -fx-text-fill: black;" text="Filters" textFill="WHITE">
+            <Label alignment="CENTER" style="-fx-background-color: #ADD8E6; -fx-background-radius: 10; -fx-text-fill: black;" text="Filters" textFill="WHITE">
                <font>
                   <Font size="21.0" />
                </font>
@@ -78,12 +78,12 @@
                <children>
                   <HBox alignment="CENTER" spacing="20.0">
                      <children>
-                        <Label fx:id="currCourseLabel" text="No course Selected">
+                        <Label fx:id="currCourseLabel" alignment="CENTER" prefHeight="40.0" prefWidth="330.0" style="-fx-background-radius: 10; -fx-background-color: #d4f7fa;" text="No course Selected">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Yu Gothic Regular" size="33.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#showSelectCoursePlanPopUpWindow" prefHeight="38.0" prefWidth="181.0" text="Select/Create Course">
+                        <Button fx:id="createcourseButton" mnemonicParsing="false" onAction="#showSelectCoursePlanPopUpWindow" onMouseEntered="#createCourseButtonMouseHover" onMouseExited="#createCourseButtonMouseExit" prefHeight="38.0" prefWidth="181.0" style="-fx-background-radius: 20; -fx-background-color: #69d1c0;" text="Select/Create Course" textFill="WHITE">
                            <font>
                               <Font size="16.0" />
                            </font></Button>
@@ -93,10 +93,10 @@
                      <children>
                         <Label fx:id="currLessonLabel" text="No Lesson Selected">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="Yu Gothic Medium" size="21.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#showSelectLessonPlanPopUpWindow" text="Select/Create Lesson" />
+                        <Button fx:id="createlessonButton" mnemonicParsing="false" onAction="#showSelectLessonPlanPopUpWindow" onMouseEntered="#createlessonButtonMouseHover" onMouseExited="#createlessonButtonMouseExit" style="-fx-background-radius: 20; -fx-background-color: #69c5d1;" text="Select/Create Lesson" textFill="WHITE" />
                      </children></HBox>
                </children>
                <padding>
@@ -112,15 +112,22 @@
          <children>
             <HBox alignment="CENTER" prefHeight="0.0" prefWidth="203.0" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#printLessonAction" style="-fx-background-color: E4CCFF;" text="Print" />
-                  <Button mnemonicParsing="false" onAction="#saveAsCourseAction" style="-fx-background-color: E4CCFF;" text="Save as" />
-                  <Button fx:id="saveLessonButton" mnemonicParsing="false" onAction="#saveCourseAction" style="-fx-background-color: E4CCFF;" text="Save" />
+                  <Button fx:id="print" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#printLessonAction" onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;">
+                     <graphic>
+                        <ImageView fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@staticFiles/images/print.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="saveAsLessonButton" mnemonicParsing="false" onAction="#saveAsCourseAction" onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;" text="Save as" />
+                  <Button fx:id="saveLessonButton" mnemonicParsing="false" onAction="#saveCourseAction" onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;" text="Save" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="96.0" style="-fx-background-color: #E4CCFF; -fx-background-radius: 10;" text="Cards">
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #ADD8E6; -fx-background-radius: 20;" text="Cards">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>
@@ -129,7 +136,7 @@
                </font>
             </Label>
             <ListView fx:id="cardBox" prefWidth="200.0" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="105.0" style="-fx-background-color: #E4CCFF; -fx-background-radius: 10;" text="Equipments">
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="105.0" style="-fx-background-color: #ADD8E6; -fx-background-radius: 20;" text="Equipments">
                <padding>
                   <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
                </padding>

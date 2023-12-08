@@ -1,15 +1,15 @@
 #categoryButton {
-    -fx-background-color: #E4CCFF;
-    -fx-background-radius: 10;
-    -fx-text-fill: black; 
+    -fx-background-color: #ADD8E6;
+    -fx-background-radius: 20;
+    -fx-text-fill: black;
     -fx-font-size: 15;
     -fx-pref-width: 220;
     -fx-pref-height: 35;    
 }
 
 #categoryButtonClicked {
-    -fx-background-color: #d1a8ff;
-    -fx-background-radius: 10;
+    -fx-background-color: #79c3db;
+    -fx-background-radius: 15;
     -fx-text-fill: black;
     -fx-font-size: 15;
     -fx-pref-width: 220;
@@ -17,8 +17,8 @@
 }
 
 #subCategoryButton {
-    -fx-background-color: #E4CCFF; 
-    -fx-background-radius: 10; 
+    -fx-background-color: #ADD8E6;
+    -fx-background-radius: 20;
     -fx-text-fill: black; 
     -fx-font-size: 12;
     -fx-pref-width: 180;
@@ -26,29 +26,32 @@
 }
 
 #subCategoryButtonClicked{
-    -fx-background-color: #d1a8ff;
-    -fx-background-radius: 10;
-    -fx-text-fill: black;
-    -fx-font-size: 12;
-    -fx-pref-width: 200;
-    -fx-pref-height: 16;
+    -fx-background-color: #79c3db;
+        -fx-background-radius: 20;
+        -fx-text-fill: black;
+        -fx-font-size: 12;
+        -fx-pref-width: 180;
+        -fx-pref-height: 16;
 }
+
 
 
 #imageAndButton{
 -fx-border-color: grey;
 -fx-padding: 10;
 }
+
 #imageAndButton:hover{
--fx-background-color: grey;
+-fx-background-color: #e6f0f7;
 }
 
 #lessonOption{
 -fx-margin : 10 0 0 0;
 }
 
+
 .combo-box .combo-box-popup .list-view, .combo-box .combo-box-popup .list-cell {
-    -fx-background-color: #E4CCFF ;
+    -fx-background-color: #ADD8E6 ;
     -fx-text-fill: black ;
     -fx-font-family: "Calibri" ;
 }

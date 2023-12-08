@@ -35,14 +35,36 @@ public class PrimaryController {
     private Label currLessonLabel;
     @FXML
     private Label currCourseLabel;
+    @FXML
+    private VBox filters;
+    @FXML
+    private HBox searchHBox;
     public static SelectOptionPopUp selectLessonPopUp;
     public static SelectOptionPopUp selectCoursePopUp;
 
     @FXML
     private void initialize() {
+//        setBackground();
         loadCardsToGridView();
         initializeFilters();
     }
+
+
+//    private void setBackground(){
+//        Image backgroundImage = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/background.jpg")).toExternalForm());
+//        BackgroundImage backgroundImg = new BackgroundImage(
+//                backgroundImage,
+//                BackgroundRepeat.NO_REPEAT,
+//                BackgroundRepeat.NO_REPEAT,
+//                BackgroundPosition.DEFAULT,
+//                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
+//
+//        // Create a Background with the BackgroundImage
+//        Background background = new Background(backgroundImg);
+//        filters.setBackground(background);
+//        searchHBox.setBackground(background);
+//        allFilterOptions.setBackground(background);
+//    }
 
     private void initializeFilters() {
         HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions = App.getFilterOptions();
@@ -64,6 +86,16 @@ public class PrimaryController {
                 button.setOnMouseClicked(event -> {
                     clickSubCategoryButton(subButton);
                 });
+                button.setOnMouseEntered(e->{
+                    if (button.getId().equals("subCategoryButton")) {
+                        button.setStyle("-fx-background-color: #79c3db;");
+                    }
+                });
+                button.setOnMouseExited(e-> {
+                    if(button.getId().equals("subCategoryButton")){
+                        button.setStyle("-fx-background-color: #ADD8E6;");
+                    }
+                });
             }
             newCategory.getChildren().add(subCategoryWrapper);
             allFilterOptions.getChildren().add(newCategory);
@@ -79,12 +111,26 @@ public class PrimaryController {
         Button button = new Button(categoryName);
         Tooltip.install(button, new Tooltip("Click to view all the filters."){{
             setStyle("-fx-font-size: 14;");
-            setShowDelay(javafx.util.Duration.millis(100));
+            setShowDelay(javafx.util.Duration.millis(1000));
         }});
         button.setId("categoryButton");
         VBox buttonWrapper = new VBox(button);
         buttonWrapper.setId(categoryName);
         buttonWrapper.setAlignment(Pos.CENTER);
+
+
+        button.setOnMouseEntered(e->{
+            if (button.getId().equals("categoryButton")) {
+                button.setStyle("-fx-background-color: #79c3db;");
+            }
+                });
+        button.setOnMouseExited(e-> {
+            if(button.getId().equals("categoryButton")){
+                button.setStyle("-fx-background-color: #ADD8E6;");
+            }
+        });
+
+
         button.setOnMouseClicked(event -> {
             changeVisibilityOfFilterOptions(button);
             if (button.getId().equals("categoryButton")) {
@@ -93,9 +139,11 @@ public class PrimaryController {
                 button.setId("categoryButton");
             }
         });
+
         VBox.setMargin(buttonWrapper, new Insets(0, 0, 10, 0));
         return buttonWrapper;
     }
+
 
     private void changeVisibilityOfFilterOptions(Button button) {
         Scene scene = button.getScene();
@@ -291,4 +339,55 @@ public class PrimaryController {
         popUpWindow.setScene(scene);
         popUpWindow.show();
     }
+
+    @FXML
+    private Button createlessonButton;
+    @FXML
+    private Button createcourseButton;
+
+    @FXML
+    private void createCourseButtonMouseHover(){
+        createcourseButton.setStyle("-fx-background-color:  #039c83;" +
+                "    -fx-text-fill: white;" +
+                " -fx-background-radius: 20;");
+    }
+    @FXML
+    private void createCourseButtonMouseExit(){
+        createcourseButton.setStyle("-fx-background-color:  #69d1c0;" +
+                "    -fx-text-fill: white;"+
+                " -fx-background-radius: 20;");
+    }
+
+    @FXML
+    private void createlessonButtonMouseHover(){
+        createlessonButton.setStyle("-fx-background-color:  #0591a3;" +
+                "    -fx-text-fill: white;" +
+                " -fx-background-radius: 20;");
+    }
+
+    @FXML
+    private void createlessonButtonMouseExit(){
+        createlessonButton.setStyle("-fx-background-color:  #69c5d1;" +
+                "    -fx-text-fill: white;"+
+                " -fx-background-radius: 20;");
+    }
+
+    @FXML
+    private Button print;
+    @FXML
+    private Button saveAsLessonButton;
+    @FXML
+    private Button saveLessonButton;
+
+    @FXML
+    private void hoverFeatures(){
+        print.setOnMouseEntered(e-> print.setStyle("-fx-background-color:   #69d1c0;"));
+        print.setOnMouseExited(e->print.setStyle("-fx-background-color:   #ADD8E6;"));
+        saveLessonButton.setOnMouseEntered(e-> saveLessonButton.setStyle("-fx-background-color:   #69d1c0;"));
+        saveLessonButton.setOnMouseExited(e->saveLessonButton.setStyle("-fx-background-color:   #ADD8E6;"));
+        saveAsLessonButton.setOnMouseEntered(e-> saveAsLessonButton.setStyle("-fx-background-color:   #69d1c0;"));
+        saveAsLessonButton.setOnMouseExited(e->saveAsLessonButton.setStyle("-fx-background-color:   #ADD8E6;"));
+    }
+
+
 }

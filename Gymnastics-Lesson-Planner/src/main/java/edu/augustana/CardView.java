@@ -48,17 +48,17 @@ public class CardView {
         // Set the tooltip
         Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card."){{
             setStyle("-fx-font-size: 14;");
-            setShowDelay(javafx.util.Duration.millis(100));
+            setShowDelay(javafx.util.Duration.millis(1000));
         }});
         Tooltip.install(cardImage, new Tooltip("Click to magnify the card."){{
             setStyle("-fx-font-size: 14;");
-            setShowDelay(javafx.util.Duration.millis(100));
+            setShowDelay(javafx.util.Duration.millis(1000));
         }});
     }
     public void hoverFeatures(){
         addButtonWrapper.setOnMouseEntered(event -> {
             if (!isSelected){
-                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));
+                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/fillAdd.png")).toExternalForm()));
             }
         });
         addButtonWrapper.setOnMouseExited(event -> {
@@ -69,7 +69,7 @@ public class CardView {
 
         favoriteButtonWrapper.setOnMouseEntered(event -> {
             if (!isFavorite){
-                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redHeart.png")).toExternalForm()));
+                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/fillHeart.png")).toExternalForm()));
             }
         });
         favoriteButtonWrapper.setOnMouseExited(event -> {
@@ -113,7 +113,7 @@ public class CardView {
         if(isFavorite){
             ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm()));
         }else {
-            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redHeart.png")).toExternalForm()));
+            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/filledHeart.png")).toExternalForm()));
         }
         isFavorite = !isFavorite;
     }
