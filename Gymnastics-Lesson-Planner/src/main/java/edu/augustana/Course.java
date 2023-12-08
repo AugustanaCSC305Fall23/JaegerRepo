@@ -2,12 +2,14 @@ package edu.augustana;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Course {
+public class Course{
     private String courseName;
     private ArrayList<Lesson> lessonsInCourse;
 
@@ -29,7 +31,12 @@ public class Course {
     }
 
     public void saveToFile(File logFile) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
+                .registerTypeAdapter(HBox.class, new HBoxSerializer())
+                .create();
+
         String serializedMovieLogText = gson.toJson(this);
         PrintWriter writer = new PrintWriter(new FileWriter(logFile));
         writer.println(serializedMovieLogText);
@@ -38,7 +45,10 @@ public class Course {
 
     public static Course loadFromFile(File logFile) throws IOException {
         FileReader reader = new FileReader(logFile);
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
+                .registerTypeAdapter(HBox.class, new HBoxSerializer())
+                .create();
         return gson.fromJson(reader, Course.class);
     }
 }

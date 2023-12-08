@@ -226,7 +226,8 @@ public class PrimaryController {
         File chosenFile = App.currentLoadedCourseFile;
 
         // Create a new file in the same directory as the original file
-        File newFile = new File(chosenFile.getParent(), "new_" + chosenFile.getName());
+        try {
+            File newFile = new File(chosenFile.getParent(), "new_" + chosenFile.getName());
 
         // Save the current course log to the new file
         App.saveCurrentCourseLogToFile(newFile);
@@ -247,6 +248,9 @@ public class PrimaryController {
 
         App.currentLoadedCourseFile = newFile;
         System.out.println(newFile.getAbsolutePath());
+        }catch (Exception e){
+            saveAsCourseAction();
+        }
     }
 
 

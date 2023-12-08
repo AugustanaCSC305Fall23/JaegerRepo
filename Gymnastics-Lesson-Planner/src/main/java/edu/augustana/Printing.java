@@ -1,5 +1,6 @@
 package edu.augustana;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.print.*;
 import javafx.scene.Node;
@@ -7,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
@@ -31,7 +31,13 @@ public class Printing {
         imagesScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         imagesScroll.setPrefHeight(500);
         ArrayList<ImageView> loadedCards = new ArrayList<>();
-        imagesScroll.setContent(vBoxForCards);
+
+        VBox equipments = addEquipmentToVBox();
+        VBox vBoxForCardsAndEquipments = new VBox();
+        vBoxForCardsAndEquipments.getChildren().addAll(vBoxForCards, equipments);
+        vBoxForCardsAndEquipments.setStyle("-fx-background-color: white;");
+
+        imagesScroll.setContent(vBoxForCardsAndEquipments);
         int currCol = 0;
         int currRow = 0;
 
@@ -63,13 +69,13 @@ public class Printing {
         }
 
         Button printButton = new Button("Print");
-        printButton.setOnAction(e -> printAction((VBox) imagesScroll.getContent()));
+        printButton.setOnAction(e -> printAction((VBox) ((VBox) imagesScroll.getContent()).getChildren().get(0)));
 
         HBox jobStatusBox = new HBox(5, new Label("Print Job Staus: "), jobStatus);
         HBox buttonBox = new HBox(5, printButton);
 
         root.getChildren().addAll(imagesScroll, jobStatusBox, buttonBox);
-        Scene scene = new Scene(root, 680, 700);
+        Scene scene = new Scene(root, 550, 700);
         Stage printingWindow = new Stage();
         printingWindow.initModality(Modality.APPLICATION_MODAL);
         printingWindow.initOwner(App.primaryStage);
@@ -77,6 +83,34 @@ public class Printing {
         printingWindow.setScene(scene);
         printingWindow.setTitle("Print Option Example");
         printingWindow.show();
+    }
+
+    private static VBox addEquipmentToVBox(){
+        VBox mainVBox = new VBox(5);
+        HBox currentHBox = new HBox(10);;
+        int counter = 0;
+        for (CardView cardView: App.getCurrentSelectedLesson().getSelectedCardViews()) {
+            for (String e: cardView.getEquipments()) {
+                Label label = new Label(e);
+                label.setStyle("-fx-border-color: black; -fx-padding: 5px;");
+                label.setWrapText(true);
+
+                double currentHBoxWidth = currentHBox.getBoundsInParent().getWidth();
+
+                // Check if adding the label exceeds the width limit
+                if (counter >=  5) {
+                    mainVBox.getChildren().add(currentHBox);
+                    currentHBox = new HBox(10);
+                    counter = 0;
+                }
+                currentHBox.getChildren().add(label);
+                counter++;
+            }
+
+        }
+
+        mainVBox.getChildren().add(currentHBox);
+        return mainVBox;
     }
 
     private static void printAction(VBox content) {

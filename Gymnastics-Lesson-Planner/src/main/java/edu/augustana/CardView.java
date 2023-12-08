@@ -8,10 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CardView {
+public class CardView{
     private final ImageView cardImage;
     private final int cardId;
     private final ArrayList<String> equipments;
