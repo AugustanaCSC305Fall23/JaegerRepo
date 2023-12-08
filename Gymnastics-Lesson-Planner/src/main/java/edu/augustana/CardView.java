@@ -16,7 +16,10 @@ public class CardView {
     private final int cardId;
     private final String cardCode;
     private final ImageView addButton;
-    private final HBox buttonAndCode;
+    private final HBox buttonAndFavButton;
+    private final ImageView favoriteButton;
+    private final ImageView heart;
+    private boolean isFavorite = false;
     public CardView(Card card){
         cardImage = new ImageView(new Image(card.getFilePath()));
         cardImage.setFitWidth(250);
@@ -26,10 +29,15 @@ public class CardView {
         addButton = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
         addButton.setFitWidth(30);
         addButton.setPreserveRatio(true);
-        buttonAndCode = combineButtonAndCode();
+        heart = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/favorite.png")).toExternalForm()));
+        favoriteButton = heart;
+        favoriteButton.setFitWidth(30);
+        favoriteButton.setPreserveRatio(true);
+        favoriteButton.setOnMouseClicked(event -> changeFavoriteWhenClicked());
+        buttonAndFavButton = combineButtonAndFavButton();
 
         // Set the tooltip
-        Tooltip.install(buttonAndCode, new Tooltip("Click to add the card."){{
+        Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card."){{
             setStyle("-fx-font-size: 14;");
             setShowDelay(javafx.util.Duration.millis(100));
         }});
@@ -39,25 +47,35 @@ public class CardView {
         }});
     }
     public VBox getCardView(){
-        VBox finalCardView = new VBox(cardImage, buttonAndCode);
+        VBox finalCardView = new VBox(cardImage, buttonAndFavButton);
         finalCardView.setAlignment(Pos.CENTER);
         finalCardView.setSpacing(5);
         finalCardView.setId("imageAndButton");
 
         return finalCardView;
     }
-    private HBox combineButtonAndCode(){
-        HBox buttonAndCode = new HBox(new Label(cardCode), addButton);
+    private HBox combineButtonAndFavButton(){
+        HBox buttonAndCode = new HBox();
+        buttonAndCode.getChildren().addAll(favoriteButton, addButton);
         buttonAndCode.setAlignment(Pos.CENTER);
-        buttonAndCode.setSpacing(200);
-
+        buttonAndCode.setSpacing(150);
         return buttonAndCode;
     }
+
     public HBox getButtonAndCode(){
-        return buttonAndCode;
+        return buttonAndFavButton;
     }
 
     public ImageView getCardImage(){return cardImage;}
+
+    private void changeFavoriteWhenClicked(){
+        if(isFavorite){
+            favoriteButton.setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/favorite.png")).toExternalForm()));
+        }else {
+            favoriteButton.setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redheart.png")).toExternalForm()));
+        }
+        isFavorite = !isFavorite;
+    }
     public int getCardId() {
         return cardId;
     }
