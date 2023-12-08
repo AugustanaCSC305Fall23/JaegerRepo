@@ -62,7 +62,7 @@ public class PrimaryController {
                 subCategoryWrapper.getChildren().add(subButton.getSubCategoryButtonWrapper());
                 Button button = (Button) subButton.getSubCategoryButtonWrapper().getChildren().get(0);
                 button.setOnMouseClicked(event -> {
-                    clickSubCategoryButton(subButton, button);
+                    clickSubCategoryButton(subButton);
                 });
             }
             newCategory.getChildren().add(subCategoryWrapper);
@@ -70,7 +70,7 @@ public class PrimaryController {
         }
     }
 
-    private void clickSubCategoryButton(SubCategoryButton subButton, Button button) {
+    private void clickSubCategoryButton(SubCategoryButton subButton) {
         subButton.click();
         addCardsToHBoxToGrid(new GridPane());
     }
@@ -102,17 +102,6 @@ public class PrimaryController {
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText() + "FilterOptions");
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
 
-    }
-
-    private Label cardTitleBox(String title) {
-        Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-border-color:" + borderColor + "; -fx-padding: 5px;");
-        titleLabel.setMaxWidth(Double.MAX_VALUE);
-
-        titleLabel.setAlignment(Pos.CENTER);
-        titleLabel.setPadding(new Insets(10, 0, 0, 0));
-
-        return titleLabel;
     }
 
     private void loadCardsToGridView() {
@@ -178,41 +167,45 @@ public class PrimaryController {
 
     private void plusClicked(CardView cardView) throws IOException {
         if (App.isCourseSelected()) {
-            addCardToCardBox(cardView.getCardId(), false);
-            addEquipmentToEquipmentBox(cardView.getCardId(), false);
+            if (cardView.addButtonClicked()) {
+                addCardToCardBox(cardView);
+                addEquipmentToEquipmentBox(cardView.getEquipments());
+            }else{
+                removeCardToCardBox(cardView);
+                removeEquipmentToEquipmentBox(cardView.getEquipments());
+            }
         }else{
             showSelectCoursePlanPopUpWindow();
         }
     }
 
-    public void addEquipmentToEquipmentBox(int code, boolean forceAdd){
-        Card equipmentToAdd = App.getCardDatabase().get(code);
-        for (String e: equipmentToAdd.getEquipment()){
-            if (App.getCurrentSelectedLesson().addEquipment(e) || forceAdd) {
+    public void addEquipmentToEquipmentBox(ArrayList<String> equipments){
+        for (String e: equipments){
+            if (App.getCurrentSelectedLesson().addEquipment(e)) {
                 equipmentsBox.getItems().add(e);
             }
         }
     }
 
-    public void addCardToCardBox(int code, boolean forceAdd){
-        Card card = App.getCardDatabase().get(code);
-        if (App.getCurrentSelectedLesson().addData(card) || forceAdd) {
-                cardBox.getItems().add(card.getTitle());
+    public void addCardToCardBox(CardView cardView){
+        if (App.getCurrentSelectedLesson().addData(cardView)) {
+                cardBox.getItems().add(cardView.getCardTitle());
             }
     }
 
-    public void changeSelectedLessonEquipment(Lesson lesson){
-        App.setCurrentSelectedLesson(lesson);
-        while (!equipmentsBox.getItems().isEmpty()) {
-            equipmentsBox.getItems().remove(0);
-        }
-        for (int index : lesson.getCardIndexes()){
-            addEquipmentToEquipmentBox(index, true);
+    public void removeEquipmentToEquipmentBox(ArrayList<String> equipments){
+        for (String e: equipments){
+            if (App.getCurrentSelectedLesson().removeEquipment(e)) {
+                equipmentsBox.getItems().remove(e);
+            }
         }
     }
 
-    @FXML
-    private Button saveButton;
+    public void removeCardToCardBox(CardView cardView){
+        if (App.getCurrentSelectedLesson().removeData(cardView)) {
+            cardBox.getItems().remove(cardView.getCardTitle());
+        }
+    }
 
     @FXML
     public void saveAsCourseAction() throws IOException {
@@ -225,8 +218,6 @@ public class PrimaryController {
             File chosenFile = fileChooser.showSaveDialog(mainWindow);
 
             App.saveCurrentCourseLogToFile(chosenFile);
-        }else{
-//            this.saveAsCourseAction();
         }
     }
 

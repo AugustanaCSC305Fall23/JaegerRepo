@@ -24,7 +24,6 @@ import java.util.TreeMap;
 public class App extends Application {
     public static String pathToTargetFolder;
     public static String pathToResourcesFolder;
-    private static boolean selected;
     private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<String, Course> courses;
@@ -47,7 +46,6 @@ public class App extends Application {
             pathToTargetFolder = "/" + pathToTargetFolder;
         }
         pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
-        selected = false;
 
         cardDatabase = new CardDatabase();
         cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");

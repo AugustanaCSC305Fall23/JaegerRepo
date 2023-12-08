@@ -26,8 +26,8 @@ public class Printing {
         VBox root = new VBox(5);
 
         VBox imagesVBox = new VBox();
-        for (int cardId : App.getCurrentSelectedLesson().getCardIndexes()) {
-            ImageView img = new ImageView(new Image(App.getCardDatabase().get(cardId).getFilePath()));
+        for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
+            ImageView img = cardView.getCardImage();
             img.setFitWidth(100);
             img.setFitHeight(200);
             imagesVBox.getChildren().add(img);
@@ -44,20 +44,20 @@ public class Printing {
         ScrollPane imagesScroll = new ScrollPane(cardGrid);
         imagesScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         imagesScroll.setPrefHeight(500);
-        ArrayList<Integer> loadedCards = new ArrayList<>();
+        ArrayList<ImageView> loadedCards = new ArrayList<>();
         imagesScroll.setContent(null);
         imagesScroll.setContent(cardGrid);
         int currCol = 0;
         int currRow = 0;
 
         HBox row = new HBox();
-        for (int id: App.getCurrentSelectedLesson().getCardIndexes()) {
+        for (CardView cardView: App.getCurrentSelectedLesson().getSelectedCardViews()) {
 
-            ImageView cardView = new ImageView(App.getCardDatabase().get(id).getFilePath());
-            cardView.setFitWidth(200);
-            cardView.setPreserveRatio(true);
+            ImageView imageView = cardView.getCardImage();
+            imageView.setFitWidth(200);
+            imageView.setPreserveRatio(true);
 
-            if (!loadedCards.contains(id)) {
+            if (!loadedCards.contains(imageView)) {
                 if (currCol == 3) {
                     //creating a new HBox or row after 3 cards are added
                     cardGrid.add(row, 0, currRow);
@@ -68,9 +68,9 @@ public class Printing {
                 row.setAlignment(Pos.CENTER);
                 row.setSpacing(30);
 
-                row.getChildren().add(cardView);
+                row.getChildren().add(imageView);
                 currCol++;
-                loadedCards.add(id);
+                loadedCards.add(imageView);
             }
         }
 

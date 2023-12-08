@@ -1,16 +1,12 @@
 package edu.augustana;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -129,8 +125,8 @@ public class SelectOptionPopUp {
         while (!cardBox.getItems().isEmpty()){
             cardBox.getItems().remove(0);
         }
-        for (Integer id: App.getCurrentSelectedLesson().getCardIndexes()){
-            cardBox.getItems().add(App.getCardDatabase().get(id).getTitle());
+        for (CardView cardView: App.getCurrentSelectedLesson().getSelectedCardViews()){
+            cardBox.getItems().add(cardView.getCardTitle());
         }
     }
 
@@ -138,9 +134,8 @@ public class SelectOptionPopUp {
         while (!equipmentBox.getItems().isEmpty()){
             equipmentBox.getItems().remove(0);
         }
-        for (Integer id: App.getCurrentSelectedLesson().getCardIndexes()){
-            Card equipmentToAdd = App.getCardDatabase().get(id);
-            for (String e: equipmentToAdd.getEquipment()){
+        for (CardView cardView: App.getCurrentSelectedLesson().getSelectedCardViews()){
+            for (String e: cardView.getEquipments()){
                 equipmentBox.getItems().add(e);
             }
         }

@@ -8,22 +8,28 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CardView {
     private final ImageView cardImage;
     private final int cardId;
-    private final String cardCode;
+    private final ArrayList<String> equipments;
+    private final String cardTitle;
     private final HBox addButtonWrapper;
     private final HBox buttonAndFavButton;
     private final HBox favoriteButtonWrapper;
+    private boolean isSelected = false;
     private boolean isFavorite = false;
     public CardView(Card card){
+        equipments = card.getEquipment();
+        cardTitle = card.getTitle();
         cardImage = new ImageView(new Image(card.getFilePath()));
         cardImage.setFitWidth(250);
         cardImage.setPreserveRatio(true);
         cardId = card.getCardId();
-        cardCode = card.getCode();
         ImageView addButton = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
         addButton.setFitWidth(30);
         addButton.setPreserveRatio(true);
@@ -49,6 +55,19 @@ public class CardView {
             setStyle("-fx-font-size: 14;");
             setShowDelay(javafx.util.Duration.millis(100));
         }});
+    }
+    public void addHoverSettings(){
+
+    }
+    public boolean addButtonClicked(){
+        if (isSelected){
+            ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+        }else {
+            ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));
+
+        }
+        isSelected = !isSelected;
+        return isSelected;
     }
     public VBox getCardView(){
         VBox finalCardView = new VBox(cardImage, buttonAndFavButton);
@@ -81,5 +100,13 @@ public class CardView {
     }
     public int getCardId() {
         return cardId;
+    }
+
+    public ArrayList<String> getEquipments() {
+        return equipments;
+    }
+
+    public String getCardTitle() {
+        return cardTitle;
     }
 }
