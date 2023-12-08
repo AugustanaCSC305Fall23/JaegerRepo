@@ -79,11 +79,10 @@ public class SelectOptionPopUp {
         setLoadButtonStyle(loadOptionButton);
         loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle(
                 "-fx-background-color: white;" +
-                        "    -fx-background-radius: 20;" +
-                        " -fx-text-fill: #34c6a4;" +
-                        "    -fx-font-size: 12;" +
-                        "    -fx-pref-width: ;40" +
-                        "    -fx-pref-height: 20;"));
+                        "-fx-background-radius: 20;" +
+                        "-fx-text-fill: #34c6a4;" +
+                        "-fx-font-size: 12;" +
+                        "-fx-pref-height: 20;"));
         loadOptionButton.setOnMouseExited(e-> setLoadButtonStyle(loadOptionButton));
         loadOptionButton.setOnMouseClicked(event -> {
             try {
@@ -98,11 +97,10 @@ public class SelectOptionPopUp {
             setClearStyle(clearHist);
             clearHist.setOnMouseEntered(e -> clearHist.setStyle(
                             "-fx-background-color: white;" +
-                            "    -fx-background-radius: 20;" +
-                            " -fx-text-fill: #cf5d66;" +
-                            "    -fx-font-size: 12;" +
-                            "    -fx-pref-width: ;40" +
-                            "    -fx-pref-height: 20;"));
+                            "-fx-background-radius: 20;" +
+                            "-fx-text-fill: #cf5d66;" +
+                            "-fx-font-size: 12;" +
+                            "-fx-pref-height: 20;"));
             clearHist.setOnMouseExited(e -> setClearStyle(clearHist));
             clearHist.setOnMouseClicked(e -> App.clearHistory());
             contentVBox.getChildren().add(clearHist);
@@ -114,20 +112,18 @@ public class SelectOptionPopUp {
 
     private void setLoadButtonStyle(Button button){
         button.setStyle("-fx-background-color: #34c6a4;" +
-                "    -fx-background-radius: 20;" +
-                "    -fx-text-fill: white;" +
-                "    -fx-font-size: 12;" +
-                "    -fx-pref-width: ;40" +
-                "    -fx-pref-height: 20;"
+                "-fx-background-radius: 20;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-size: 12;" +
+                "-fx-pref-height: 20;"
         );
     }
     private void setClearStyle(Button button) {
         button.setStyle("-fx-background-color: #cf5d66;" +
-                "    -fx-background-radius: 20;" +
-                "    -fx-text-fill: white;" +
-                "    -fx-font-size: 12;" +
-                "    -fx-pref-width: ;40" +
-                "    -fx-pref-height: 20;"
+                "-fx-background-radius: 20;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-size: 12;" +
+                "-fx-pref-height: 20;"
         );
     }
 
@@ -213,11 +209,11 @@ public class SelectOptionPopUp {
         setOptionButtonStyle(option);
         option.setOnMouseEntered(e -> option.setStyle(
                 "-fx-background-color: #4654a4;" +
-                        "    -fx-background-radius: 20;" +
-                        "    -fx-text-fill: white;" +
-                        "    -fx-font-size: 12;" +
-                        "    -fx-pref-width: ;40" +
-                        "    -fx-pref-height: 20;"));
+                        "-fx-background-radius: 20;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 12;" +
+                        "-fx-min-width: 120;" +
+                        "-fx-pref-height: 20;"));
         option.setOnMouseExited(e -> setOptionButtonStyle(option));
 
         optionsVBox.getChildren().add(option);
@@ -225,16 +221,17 @@ public class SelectOptionPopUp {
     }
     private void setOptionButtonStyle(Button button){
         button.setStyle("-fx-background-color: #447ca4;" +
-                "    -fx-background-radius: 20;" +
-                "    -fx-text-fill: white;" +
-                "    -fx-font-size: 12;" +
-                "    -fx-pref-width: ;40" +
-                "    -fx-pref-height: 20;"
+                "-fx-background-radius: 20;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-size: 12;" +
+                "-fx-min-width: 120;" +
+                "-fx-pref-height: 20;"
         );
     }
     public VBox getoptionsVBox() {
         return optionsVBox;
     }
+
 
 
 
