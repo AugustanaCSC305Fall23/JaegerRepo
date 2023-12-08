@@ -151,8 +151,18 @@ public class App extends Application {
         }
     }
 
+    public static void clearHistory() {
+        try (FileWriter writer = new FileWriter("src/main/resources/edu/augustana/staticFiles/loadFiles.txt", false)) {
+            // Opening the file in write mode with 'false' as the second parameter truncates the file
+            // This effectively clears its contents
+            writer.write("");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-private static void loadCourseHistory() throws IOException{
+
+        private static void loadCourseHistory() throws IOException{
     try {
         // Read all lines from the file into a Set of Strings
         historyPaths = new HashSet<>(Files.readAllLines(Paths.get("src/main/resources/edu/augustana/staticFiles/loadFiles.txt")));

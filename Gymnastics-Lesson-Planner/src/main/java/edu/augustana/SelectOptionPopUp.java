@@ -38,7 +38,7 @@ public class SelectOptionPopUp {
         popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.initOwner(App.primaryStage);
-        VBox contentVBox = new VBox(20);
+        VBox contentVBox = new VBox(15);
         contentVBox.setAlignment(Pos.CENTER);
         contentVBox.setStyle("-fx-background-color: #E4CCFF");
         // intialize data into the contentVBox
@@ -60,6 +60,11 @@ public class SelectOptionPopUp {
             }
         });
         contentVBox.getChildren().add(loadOptionButton);
+        if (optionType.equalsIgnoreCase("course")){
+            Button clearHist = new Button("Clear History");
+            clearHist.setOnMouseClicked(e -> App.clearHistory());
+            contentVBox.getChildren().add(clearHist);
+        }
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
