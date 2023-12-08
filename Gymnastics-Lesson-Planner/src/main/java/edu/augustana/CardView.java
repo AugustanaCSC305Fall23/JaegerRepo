@@ -8,9 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class CardView {
@@ -45,6 +43,7 @@ public class CardView {
         favoriteButtonWrapper.setOnMouseClicked(event -> changeFavoriteWhenClicked());
 
         buttonAndFavButton = combineButtonAndFavButton();
+        hoverFeatures();
 
         // Set the tooltip
         Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card."){{
@@ -56,7 +55,28 @@ public class CardView {
             setShowDelay(javafx.util.Duration.millis(100));
         }});
     }
-    public void addHoverSettings(){
+    public void hoverFeatures(){
+        addButtonWrapper.setOnMouseEntered(event -> {
+            if (!isSelected){
+                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));
+            }
+        });
+        addButtonWrapper.setOnMouseExited(event -> {
+            if (!isSelected){
+                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+            }
+        });
+
+        favoriteButtonWrapper.setOnMouseEntered(event -> {
+            if (!isFavorite){
+                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redHeart.png")).toExternalForm()));
+            }
+        });
+        favoriteButtonWrapper.setOnMouseExited(event -> {
+            if (!isFavorite){
+                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm()));
+            }
+        });
 
     }
     public boolean addButtonClicked(){
@@ -64,7 +84,6 @@ public class CardView {
             ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
         }else {
             ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));
-
         }
         isSelected = !isSelected;
         return isSelected;
