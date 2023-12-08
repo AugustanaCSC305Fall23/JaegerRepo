@@ -21,6 +21,7 @@ public class Printing {
 
     public static void start() {
         VBox root = new VBox(5);
+        root.setAlignment(Pos.CENTER);
 
         VBox vBoxForCards = new VBox();
         vBoxForCards.setStyle("-fx-background-color: white;");
@@ -32,12 +33,7 @@ public class Printing {
         imagesScroll.setPrefHeight(500);
         ArrayList<ImageView> loadedCards = new ArrayList<>();
 
-        VBox equipments = addEquipmentToVBox();
-        VBox vBoxForCardsAndEquipments = new VBox();
-        vBoxForCardsAndEquipments.getChildren().addAll(vBoxForCards, equipments);
-        vBoxForCardsAndEquipments.setStyle("-fx-background-color: white;");
-
-        imagesScroll.setContent(vBoxForCardsAndEquipments);
+        imagesScroll.setContent(vBoxForCards);
         int currCol = 0;
         int currRow = 0;
 
@@ -47,7 +43,16 @@ public class Printing {
             ImageView imageView = new ImageView(cardView.getCardImage().getImage());
             imageView.setFitWidth(220);
             imageView.setPreserveRatio(true);
-
+            VBox imageViewWrapper = new VBox(3);
+            HBox currentEquipments = new HBox(5);
+            currentEquipments.getChildren().add(new Label("Equipments: "));
+            for (String e: cardView.getEquipments()){
+                Label equipment = new Label(e);
+                equipment.setPadding(new Insets(0,3,3,3));
+                equipment.setStyle("-fx-border-color: black");
+                currentEquipments.getChildren().add(equipment);
+            }
+            imageViewWrapper.getChildren().addAll(imageView, currentEquipments);
             if (!loadedCards.contains(imageView)) {
                 if (currCol == 2) {
                     //creating a new HBox or row after 3 cards are added
@@ -59,7 +64,7 @@ public class Printing {
                 row.setAlignment(Pos.CENTER);
                 row.setSpacing(30);
 
-                row.getChildren().add(imageView);
+                row.getChildren().add(imageViewWrapper);
                 currCol++;
                 loadedCards.add(imageView);
             }
@@ -69,13 +74,13 @@ public class Printing {
         }
 
         Button printButton = new Button("Print");
-        printButton.setOnAction(e -> printAction((VBox) ((VBox) imagesScroll.getContent()).getChildren().get(0)));
+        printButton.setOnAction(e -> printAction((VBox) imagesScroll.getContent()));
 
         HBox jobStatusBox = new HBox(5, new Label("Print Job Staus: "), jobStatus);
         HBox buttonBox = new HBox(5, printButton);
 
         root.getChildren().addAll(imagesScroll, jobStatusBox, buttonBox);
-        Scene scene = new Scene(root, 550, 700);
+        Scene scene = new Scene(root, 480, 600);
         Stage printingWindow = new Stage();
         printingWindow.initModality(Modality.APPLICATION_MODAL);
         printingWindow.initOwner(App.primaryStage);
@@ -83,34 +88,6 @@ public class Printing {
         printingWindow.setScene(scene);
         printingWindow.setTitle("Print Option Example");
         printingWindow.show();
-    }
-
-    private static VBox addEquipmentToVBox(){
-        VBox mainVBox = new VBox(5);
-        HBox currentHBox = new HBox(10);;
-        int counter = 0;
-        for (CardView cardView: App.getCurrentSelectedLesson().getSelectedCardViews()) {
-            for (String e: cardView.getEquipments()) {
-                Label label = new Label(e);
-                label.setStyle("-fx-border-color: black; -fx-padding: 5px;");
-                label.setWrapText(true);
-
-                double currentHBoxWidth = currentHBox.getBoundsInParent().getWidth();
-
-                // Check if adding the label exceeds the width limit
-                if (counter >=  5) {
-                    mainVBox.getChildren().add(currentHBox);
-                    currentHBox = new HBox(10);
-                    counter = 0;
-                }
-                currentHBox.getChildren().add(label);
-                counter++;
-            }
-
-        }
-
-        mainVBox.getChildren().add(currentHBox);
-        return mainVBox;
     }
 
     private static void printAction(VBox content) {
@@ -125,7 +102,7 @@ public class Printing {
             jobStatus.textProperty().bind(job.jobStatusProperty().asString());
             boolean printed = false;
 
-            int itemsPerPage = 4;
+            int itemsPerPage = 3;
             int remainingItems = content.getChildren().size();
             int pageCount = (int) Math.ceil((double) remainingItems / itemsPerPage);
 
