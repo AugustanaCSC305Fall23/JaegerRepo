@@ -56,11 +56,24 @@ public class App extends Application {
 
         for (String path: historyPaths){
             File f = new File(path);
-            Course loadedCourse = Course.loadFromFile(f);
-            System.out.println(loadedCourse.getName());
-            loadedCourse.setCourseName(removeFileExtension(f.getName()));
-            courses.put(removeFileExtension(f.getName()),loadedCourse);
-            System.out.println(loadedCourse.getName());
+            try {
+                Course loadedCourse = Course.loadFromFile(f);
+
+                if (loadedCourse != null) {
+                    System.out.println(loadedCourse.getName());
+                    loadedCourse.setCourseName(removeFileExtension(f.getName()));
+                    courses.put(removeFileExtension(f.getName()), loadedCourse);
+                    System.out.println(loadedCourse.getName());
+                } else {
+                    System.err.println("Failed to load course from: " + path);
+                }
+            } catch (FileNotFoundException e) {
+
+                System.err.println("File not found: " + path);
+            } catch (IOException e) {
+                // Handle other IO exceptions
+                System.err.println("Error reading file: " + path + " - " + e.getMessage());
+            }
         }
 
         courses.put("demonew", new Course("demonew"));
