@@ -43,27 +43,10 @@ public class PrimaryController {
 
     @FXML
     private void initialize() {
-//        setBackground();
         loadCardsToGridView();
         initializeFilters();
     }
 
-
-//    private void setBackground(){
-//        Image backgroundImage = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/background.jpg")).toExternalForm());
-//        BackgroundImage backgroundImg = new BackgroundImage(
-//                backgroundImage,
-//                BackgroundRepeat.NO_REPEAT,
-//                BackgroundRepeat.NO_REPEAT,
-//                BackgroundPosition.DEFAULT,
-//                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
-//
-//        // Create a Background with the BackgroundImage
-//        Background background = new Background(backgroundImg);
-//        filters.setBackground(background);
-//        searchHBox.setBackground(background);
-//        allFilterOptions.setBackground(background);
-//    }
 
     private void initializeFilters() {
         HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions = App.getFilterOptions();
@@ -263,6 +246,10 @@ public class PrimaryController {
             File chosenFile = fileChooser.showSaveDialog(mainWindow);
 
             App.saveCurrentCourseLogToFile(chosenFile);
+
+
+            App.saveCourseHistory(chosenFile.getPath());
+
         }
     }
 
@@ -294,6 +281,7 @@ public class PrimaryController {
         App.currentLoadedCourseFile = newFile;
         System.out.println(newFile.getAbsolutePath());
         }catch (Exception e){
+            System.out.println("abort save");
             saveAsCourseAction();
         }
     }

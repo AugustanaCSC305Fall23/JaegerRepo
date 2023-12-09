@@ -1,0 +1,157 @@
+{
+  "courseName": "demo Course 9",
+  "lessonsInCourse": [
+    {
+      "selectedCardViews": [
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/2.png"
+          },
+          "cardId": 1,
+          "equipments": [
+            "Stick",
+            "Band"
+          ],
+          "cardTitle": "Open Shoulder Drill",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "s30allshapesopen shoulder drillnfallstickband\"shoulder flexibility "
+        },
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/3.png"
+          },
+          "cardId": 2,
+          "equipments": [
+            "Pacman",
+            "tall block",
+            "resi"
+          ],
+          "cardTitle": "Half Handstand",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "h5floorhandstandhalf handstandnfbabipacmantall blockresi\"l handstand "
+        },
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/6.png"
+          },
+          "cardId": 5,
+          "equipments": [
+            "Mini Tramp Table Trainer"
+          ],
+          "cardTitle": "Jump Fly Back",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "hs5floorhandspringsjump fly backnfabimini tramp table trainer 2 incher\" "
+        },
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/9.png"
+          },
+          "cardId": 8,
+          "equipments": [
+            "Panel Mat"
+          ],
+          "cardTitle": "Off A Spring Board",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "r6floorround off progressionoff a spring boardnfipanel mat junior board\" "
+        },
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/5.png"
+          },
+          "cardId": 4,
+          "equipments": [
+            "Barrel"
+          ],
+          "cardTitle": "Front Walkover Over a Barrel",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "w4floorwalkoversfront walkover over a barrelffabibarrel elevated surface\" "
+        },
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/1.png"
+          },
+          "cardId": 0,
+          "equipments": [
+            "None"
+          ],
+          "cardTitle": "Hollow",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "s1allshapeshollownfallnone\"hollow "
+        }
+      ],
+      "lessonName": "hello gello",
+      "lessonIndex": 1,
+      "equipments": [
+        "Stick",
+        "Band",
+        "Pacman",
+        "tall block",
+        "resi",
+        "Mini Tramp Table Trainer",
+        "Panel Mat",
+        "Barrel",
+        "None"
+      ]
+    }
+  ]
+}

@@ -188,8 +188,10 @@ public class SelectOptionPopUp {
         while (!cardBox.getItems().isEmpty()) {
             cardBox.getItems().remove(0);
         }
-        for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
-            cardBox.getItems().add(cardView.getCardTitle());
+        if(App.getCurrentSelectedLesson().getSelectedCardViews()!= null) {
+            for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
+                cardBox.getItems().add(cardView.getCardTitle());
+            }
         }
     }
 
@@ -197,9 +199,11 @@ public class SelectOptionPopUp {
         while (!equipmentBox.getItems().isEmpty()) {
             equipmentBox.getItems().remove(0);
         }
-        for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
-            for (String e : cardView.getEquipments()) {
-                equipmentBox.getItems().add(e);
+        if (App.getCurrentSelectedLesson().getSelectedCardViews()!= null) {
+            for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
+                for (String e : cardView.getEquipments()) {
+                    equipmentBox.getItems().add(e);
+                }
             }
         }
     }

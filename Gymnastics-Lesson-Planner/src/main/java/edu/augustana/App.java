@@ -50,15 +50,23 @@ public class App extends Application {
         cardDatabase = new CardDatabase();
         cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");
         filterDatabase = new FilterDatabase(cardDatabase);
+        loadCourseHistory();
 
         courses = new HashMap<>();
-        courses.put("demo course 1", new Course("demo Course 1"));
-        courses.get("demo course 1").addData(new Lesson("Demo Lesson 1"));
-        courses.get("demo course 1").addData(new Lesson("Demo Lesson 2"));
-        courses.put("demo course 2", new Course("demo Course 2"));
-        courses.get("demo course 2").addData(new Lesson("Demo Lesson 1"));
-        courses.get("demo course 2").addData(new Lesson("Demo Lesson 2"));
-        courses.get("demo course 2").addData(new Lesson("Demo Lesson 3"));
+
+        for (String path: historyPaths){
+            File f = new File(path);
+            Course loadedCourse = Course.loadFromFile(f);
+            System.out.println(loadedCourse.getName());
+            loadedCourse.setCourseName(removeFileExtension(f.getName()));
+            courses.put(removeFileExtension(f.getName()),loadedCourse);
+            System.out.println(loadedCourse.getName());
+        }
+
+        courses.put("demonew", new Course("demonew"));
+        courses.get("demonew").addData(new Lesson("this is new"));
+
+
 
         filteredData = FilterDatabase.allData;
         Scene scene = new Scene(loadFXML("primary"), 1400, 760);
@@ -179,6 +187,14 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+    private String removeFileExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex != -1 && lastDotIndex > 0) {
+            return fileName.substring(0, lastDotIndex);
+        } else {
+            return fileName;
+        }
     }
 }
 

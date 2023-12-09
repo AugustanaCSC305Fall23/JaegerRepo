@@ -21,7 +21,7 @@
     -fx-background-radius: 20;
     -fx-text-fill: black; 
     -fx-font-size: 12;
-    -fx-pref-width: 180;
+    -fx-min-width: 180;
     -fx-pref-height: 16;
 }
 
@@ -30,7 +30,7 @@
         -fx-background-radius: 20;
         -fx-text-fill: black;
         -fx-font-size: 12;
-        -fx-pref-width: 180;
+        -fx-min-width: 180;
         -fx-pref-height: 16;
 }
 

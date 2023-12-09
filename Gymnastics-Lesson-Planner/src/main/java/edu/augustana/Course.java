@@ -30,18 +30,39 @@ public class Course{
         lessonsInCourse.add(newLesson);
     }
 
-    public void saveToFile(File logFile) throws IOException {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
-                .registerTypeAdapter(HBox.class, new HBoxSerializer())
-                .create();
+//    public void saveToFile(File logFile) throws IOException {
+//        Gson gson = new GsonBuilder()
+//                .setPrettyPrinting()
+//                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
+//                .registerTypeAdapter(HBox.class, new HBoxSerializer())
+//                .create();
+//
+//        String serializedMovieLogText = gson.toJson(this);
+//        PrintWriter writer = new PrintWriter(new FileWriter(logFile));
+//        writer.println(serializedMovieLogText);
+//        writer.close();
+//    }
+public void saveToFile(File logFile) throws IOException {
+    Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
+            .registerTypeAdapter(HBox.class, new HBoxSerializer())
+            .create();
 
-        String serializedMovieLogText = gson.toJson(this);
-        PrintWriter writer = new PrintWriter(new FileWriter(logFile));
-        writer.println(serializedMovieLogText);
-        writer.close();
+    String serializedMovieLogText = gson.toJson(this);
+
+    // Check if the serialized text is not null and logFile is not null before creating the PrintWriter
+    if (serializedMovieLogText != null && logFile != null) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(logFile))) {
+            writer.println(serializedMovieLogText);
+        } catch (IOException e) {
+            // Handle or log the IOException
+            e.printStackTrace();
+        }
+    } else {
+        System.err.println("Failed to serialize the object to JSON or logFile is null.");
     }
+}
 
     public static Course loadFromFile(File logFile) throws IOException {
         FileReader reader = new FileReader(logFile);
@@ -50,5 +71,9 @@ public class Course{
                 .registerTypeAdapter(HBox.class, new HBoxSerializer())
                 .create();
         return gson.fromJson(reader, Course.class);
+    }
+
+    public void setCourseName(String name){
+        this.courseName = name;
     }
 }
