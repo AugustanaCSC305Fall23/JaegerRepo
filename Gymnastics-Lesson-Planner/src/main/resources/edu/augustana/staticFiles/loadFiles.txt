@@ -1,12 +1,2 @@
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
-C:\Users\bibhu\Desktop\a.course
+C:\Users\bibhu\Desktop\courses backup\aaa.course
+C:\Users\bibhu\Desktop\courses backup\bb.course

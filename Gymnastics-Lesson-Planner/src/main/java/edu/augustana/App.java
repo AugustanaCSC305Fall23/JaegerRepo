@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,6 +23,9 @@ import java.util.*;
  */
 public class App extends Application {
     public static final String[] OS = System.getProperty("os.name").split(",");
+    private static final Image trashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/trashCan.png")).toExternalForm());
+    private static final Image redTrashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redTrashCan.png")).toExternalForm());
+
     public static String pathToTargetFolder;
     public static String pathToResourcesFolder;
     public static HashMap<String, List<String>> filteredData = new HashMap<>();
@@ -29,7 +34,6 @@ public class App extends Application {
     public static Stage primaryStage;
     public static HashMap<String, String> historyPaths;
     private static FilterDatabase filterDatabase;
-    private static HashMap<String, Course> courses;
     private static Course currentSelectedCourse = null;
     private static Lesson currentSelectedLesson = null;
     private static Label selectedCourseLabel;
@@ -48,17 +52,13 @@ public class App extends Application {
         filteredData.put("Equipments", new ArrayList<>());
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
     public static FilterDatabase getFilterDatabase() {
         return filterDatabase;
-    }
-
-    public static HashMap<String, Course> getCourses() {
-        return courses;
     }
 
     public static boolean isLessonSelected() {
@@ -75,8 +75,12 @@ public class App extends Application {
 
     public static void setCurrentSelectedLesson(Lesson lesson) {
         currentSelectedLesson = lesson;
-        selectedLessonLabel.setText(" ");
-        selectedLessonLabel.setText(lesson.getName());
+        if (lesson == null){
+            selectedLessonLabel.setText("No lesson selected");
+        }else {
+            selectedLessonLabel.setText(" ");
+            selectedLessonLabel.setText(lesson.getName());
+        }
     }
 
     public static void saveCurrentCourseLogToFile(File chosenFile) throws IOException {
@@ -84,8 +88,18 @@ public class App extends Application {
         currentLoadedCourseFile = chosenFile;
     }
 
-    public static void addCourseToCourses(Course courseToAdd) {
-        courses.putIfAbsent(courseToAdd.getName(), courseToAdd);
+    public static boolean addCourseToCourses(Course courseToAdd) {
+        if (historyPaths.get(courseToAdd.getName()) == null){
+            setCurrentSelectedCourse(courseToAdd);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static void addLessonToLessons(Lesson lessonToAdd){
+        getCurrentSelectedCourse().addData(lessonToAdd);
+        setCurrentSelectedLesson(lessonToAdd);
     }
 
     public static void launchPrinting() {
@@ -93,6 +107,7 @@ public class App extends Application {
     }
 
     public static void saveCourseHistory() throws IOException {
+        clearHistory();
         File file = new File("src/main/resources/edu/augustana/staticFiles/loadFiles.txt");
         for (String path: historyPaths.values()){
             try (FileWriter writer = new FileWriter(file, true)) {
@@ -110,17 +125,28 @@ public class App extends Application {
             throw new RuntimeException(e);
         }
     }
+    public static void addToHistory(String fileName, File logFile) throws IOException {
+        if (App.historyPaths.get(fileName) != null){
+            if (!App.historyPaths.get(fileName).equalsIgnoreCase(logFile.getAbsolutePath())){
+                App.historyPaths.put(fileName + "_new", logFile.getAbsolutePath());
+            }
+        }else{
+            App.historyPaths.put(fileName, logFile.getAbsolutePath());
+        }
+        saveCourseHistory();
+    }
 
-    private static void loadCourseHistory() throws IOException {
+    public static void loadCourseHistory() throws IOException {
         // Read all lines from the file into a Set of Strings
         historyPaths = new HashMap<>();
         for (String path : Files.readAllLines(Paths.get("src/main/resources/edu/augustana/staticFiles/loadFiles.txt"))) {
             try {
                 File f = new File(path);
+                String fileName = removeFileExtension(f.getName());
                 Course loadedCourse = Course.loadFromFile(f);
-                loadedCourse.setCourseName(removeFileExtension(f.getName()));
-                courses.put(removeFileExtension(f.getName()), loadedCourse);
-                historyPaths.put(loadedCourse.getName(), path);
+                addToHistory(fileName, f);
+                loadedCourse.setCourseName(fileName);
+                historyPaths.put(removeFileExtension(loadedCourse.getName()), path);
             } catch (Exception e) {
                 System.out.println("file not found");
             }
@@ -134,7 +160,12 @@ public class App extends Application {
 
     public static void setCurrentSelectedCourse(Course course) {
         currentSelectedCourse = course;
-        selectedCourseLabel.setText(course.getName());
+        if (course == null){
+            selectedCourseLabel.setText("No course selected");
+            setCurrentSelectedLesson(null);
+        }else {
+            selectedCourseLabel.setText(course.getName());
+        }
     }
 
     public static void main(String[] args) {
@@ -165,13 +196,7 @@ public class App extends Application {
         filterDatabase = new FilterDatabase();
         filterDatabase.addFilterOptions(cardDatabase.getCards());
 
-        courses = new HashMap<>();
         loadCourseHistory();
-
-        courses = new HashMap<>();
-        courses.put("demonew", new Course("demonew"));
-        courses.get("demonew").addData(new Lesson("this is new"));
-
         filteredData = FilterDatabase.allData;
         Scene scene = new Scene(loadFXML("primary"), 1400, 760);
 
@@ -185,6 +210,15 @@ public class App extends Application {
         VBox labels = ((VBox) ((VBox) (scene.getRoot().getChildrenUnmodifiable().get(1))).getChildren().get(0));
         selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
         selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
+    }
+    public static ImageView getDeleteIcon(){
+        ImageView deleteIcon = new ImageView(trashCan);
+        deleteIcon.setPreserveRatio(true);
+        deleteIcon.setFitWidth(30);
+        deleteIcon.setOnMouseEntered(event -> deleteIcon.setImage(redTrashCan));
+        deleteIcon.setOnMouseExited(event -> deleteIcon.setImage(trashCan));
+
+        return deleteIcon;
     }
 }
 

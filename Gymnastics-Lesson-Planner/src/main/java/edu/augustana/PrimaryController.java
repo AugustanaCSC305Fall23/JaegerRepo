@@ -1,10 +1,8 @@
 package edu.augustana;
 
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -217,8 +215,9 @@ public class PrimaryController {
         while (!equipmentsBox.getItems().isEmpty()){
             equipmentsBox.getItems().remove(0);
         }
+
         for (String e: equipments){
-            equipmentsBox.getItems().add(hBoxForListView(e));
+            equipmentsBox.getItems().add(hBoxForEquipmentBox(e));
         }
     }
 
@@ -227,7 +226,14 @@ public class PrimaryController {
             cardBox.getItems().remove(0);
         }
         for (CardView cardView: cards){
-            cardBox.getItems().add(new HBoxForListView(cardView));
+            HBoxForListView hBox = new HBoxForListView(cardView);
+            hBox.getDeleteIcon().setOnMouseClicked(event -> {
+                App.getCurrentSelectedLesson().removeData(cardView);
+                resetCardBox(App.getCurrentSelectedLesson().getSelectedCardViews());
+                resetEquipmentBox(App.getCurrentSelectedLesson().getEquipments());
+                addCardsToHBoxToGrid(" ", App.getCurrentSelectedLesson());
+            });
+            cardBox.getItems().add(hBox);
         }
     }
 
@@ -243,7 +249,7 @@ public class PrimaryController {
         }
     }
 
-    private static HBox hBoxForListView(String e){
+    private static HBox hBoxForEquipmentBox(String e){
         Label label = new Label(e);
         HBox wrapper = new HBox(3);
         wrapper.setAlignment(Pos.CENTER);
@@ -269,7 +275,7 @@ public class PrimaryController {
                 currCourseLabel.setText(fileName);
             }
 
-            App.historyPaths.put(fileName, chosenFile.getAbsolutePath());
+            App.addToHistory(fileName, chosenFile);
             App.saveCourseHistory();
             App.saveCurrentCourseLogToFile(chosenFile);
             return fileName;
@@ -281,11 +287,11 @@ public class PrimaryController {
 
     @FXML
     private void saveCourseAction() throws IOException {
-        if (App.currentLoadedCourseFile == null){
+        if (App.historyPaths.get(App.getCurrentSelectedCourse().getName()) == null){
             saveAsCourseAction();
-        }else {
-            Files.deleteIfExists(App.currentLoadedCourseFile.toPath());
-            App.saveCurrentCourseLogToFile(App.currentLoadedCourseFile);
+        }else{
+            Files.deleteIfExists(Path.of(App.historyPaths.get(App.getCurrentSelectedCourse().getName())));
+            App.saveCurrentCourseLogToFile(new File(App.historyPaths.get(App.getCurrentSelectedCourse().getName())));
         }
     }
 
@@ -297,7 +303,7 @@ public class PrimaryController {
     @FXML
     private void showSelectCoursePlanPopUpWindow(){
         selectCoursePopUp = new SelectOptionPopUp("Course");
-        selectLessonPopUp = selectCoursePopUp.initializeCourseInWindow(App.getCourses());
+        selectLessonPopUp = selectCoursePopUp.initializeCourseInWindow();
         selectCoursePopUp.getPopUpWindow().show();
     }
 

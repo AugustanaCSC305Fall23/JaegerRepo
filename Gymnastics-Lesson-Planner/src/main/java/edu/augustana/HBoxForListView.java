@@ -13,9 +13,7 @@ import java.util.Objects;
 
 public class HBoxForListView extends HBox{
     private CardView cardView;
-    private static final Image trashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/trashCan.png")).toExternalForm());
-    private static final Image redTrashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redTrashCan.png")).toExternalForm());
-    private ArrayList<HBox> equipmentHBoxes;
+    private ImageView deleteIcon;
     public HBoxForListView(CardView cardView){
         super(5);
         this.cardView = cardView;
@@ -25,11 +23,7 @@ public class HBoxForListView extends HBox{
         VBox imageVbox = new VBox();
         imageVbox.setAlignment(Pos.CENTER_RIGHT);
         Label label = new Label(cardView.getCardTitle());
-        ImageView deleteIcon = new ImageView(trashCan);
-        deleteIcon.setPreserveRatio(true);
-        deleteIcon.setFitWidth(30);
-        deleteIcon.setOnMouseEntered(event -> deleteIcon.setImage(redTrashCan));
-        deleteIcon.setOnMouseExited(event -> deleteIcon.setImage(trashCan));
+        deleteIcon = App.getDeleteIcon();
         super.getChildren().addAll(label);
 
 
@@ -40,5 +34,13 @@ public class HBoxForListView extends HBox{
             imageVbox.getChildren().add(deleteIcon);
         });
         super.setOnMouseExited(event -> super.getChildren().remove(1));
+    }
+
+    public CardView getCardView() {
+        return cardView;
+    }
+
+    public ImageView getDeleteIcon() {
+        return deleteIcon;
     }
 }

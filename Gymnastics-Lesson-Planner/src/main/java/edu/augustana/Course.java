@@ -70,12 +70,18 @@ public void saveToFile(File logFile) throws IOException {
                 .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
                 .registerTypeAdapter(HBox.class, new HBoxSerializer())
                 .create();
-        Course leadedCourse = gson.fromJson(reader, Course.class);
+        Course loadedCourse = gson.fromJson(reader, Course.class);
         reader.close();
-        return leadedCourse;
+        String fileName = App.removeFileExtension(logFile.getName());
+        App.addToHistory(fileName, logFile);
+        loadedCourse.setCourseName(fileName);
+        return loadedCourse;
     }
 
     public void setCourseName(String name){
         this.courseName = name;
+    }
+    public void removeLesson(int index){
+        lessonsInCourse.remove(index);
     }
 }
