@@ -1,0 +1,61 @@
+{
+  "courseName": "ture",
+  "lessonsInCourse": [
+    {
+      "selectedCardViews": [
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/2.png"
+          },
+          "cardId": "1",
+          "equipments": [
+            "Stick",
+            "Band"
+          ],
+          "cardTitle": "Open Shoulder Drill",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "s30allshapesopen shoulder drillnfallstickband\"shoulder flexibility "
+        },
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/3.png"
+          },
+          "cardId": "2",
+          "equipments": [
+            "Pacman",
+            "Tall Block",
+            "Resi"
+          ],
+          "cardTitle": "Half Handstand",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "h5floorhandstandhalf handstandnfbabipacmantall blockresi\"l handstand "
+        }
+      ],
+      "cardIds": [
+        "1",
+        "2"
+      ],
+      "lessonName": "ad"
+    }
+  ]
+}

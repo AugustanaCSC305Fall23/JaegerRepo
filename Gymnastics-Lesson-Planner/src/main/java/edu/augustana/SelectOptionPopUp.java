@@ -30,7 +30,6 @@ public class SelectOptionPopUp {
 
     public SelectOptionPopUp(String optionType) {
         this.optionType = optionType;
-
         popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.initOwner(App.primaryStage);

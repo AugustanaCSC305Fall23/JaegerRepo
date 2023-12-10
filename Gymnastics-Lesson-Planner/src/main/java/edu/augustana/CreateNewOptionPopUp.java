@@ -49,14 +49,30 @@ public class CreateNewOptionPopUp {
         label.setFont(new Font("Segoe UI Variable Display Semil", 35));
 
         TextField optionTypeName = new TextField();
+        optionTypeName.setStyle("-fx-background-radius: 20;");
+        optionTypeName.setPrefWidth(200);
 
-        contentVBox.getChildren().addAll(label, optionTypeName);
+        HBox hboc = new HBox();
+        hboc.getChildren().add(optionTypeName);
+        hboc.setAlignment(Pos.CENTER);
+
+        contentVBox.getChildren().addAll(label, hboc);
 
         Button loadOptionButton = new Button("Create New");
+        loadOptionButton.setStyle("-fx-background-color: #34c6a4;" +
+                "-fx-background-radius: 20;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-size: 12;" +
+                "-fx-pref-height: 20;"
+        );
         loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
-        loadOptionButton.setOnMouseClicked(event -> {
-        });
         loadOptionButton.setOnMouseClicked(event -> createClicked(optionTypeName.getText()));
+        loadOptionButton.setOnMouseExited(e->loadOptionButton.setStyle("-fx-background-color: #34c6a4;" +
+                "-fx-background-radius: 20;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-size: 12;" +
+                "-fx-pref-height: 20;"
+        ));
         contentVBox.getChildren().add(loadOptionButton);
 
         Scene scene = new Scene(contentVBox, 600, 400);
