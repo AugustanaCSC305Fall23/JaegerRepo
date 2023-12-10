@@ -21,7 +21,7 @@ public class CardView{
     private final HBox buttonAndFavButton;
     private final HBox favoriteButtonWrapper;
     private boolean isSelected = false;
-    private boolean isFavorite = false;
+    private boolean isFavorite;
     private String searchString;
     public CardView(Card card){
         equipments = card.getEquipment();
@@ -32,7 +32,7 @@ public class CardView{
         cardId = card.getCardId();
 
         searchString = setUpSearchString(card).toLowerCase();
-
+        isFavorite = false;
 
         ImageView addButton = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
         addButton.setFitWidth(30);
@@ -102,6 +102,7 @@ public class CardView{
     }
     public boolean addButtonClicked(){
         if (isSelected){
+            System.out.println(addButtonWrapper.getChildren());
             ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
         }else {
             ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));

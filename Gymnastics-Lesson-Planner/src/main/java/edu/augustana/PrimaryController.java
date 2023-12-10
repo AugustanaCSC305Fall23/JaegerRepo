@@ -7,10 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.stage.*;
 
 import java.nio.file.*;
 
@@ -135,7 +132,6 @@ public class PrimaryController {
     }
 
     private void loadCardsToGridView() {
-
         addCardsToHBoxToGrid(" ");
     }
 
@@ -161,6 +157,7 @@ public class PrimaryController {
                 System.out.println(subCategory);
                 for (CardView cardView: App.getFilterDatabase().getFilterOptions().get(category).get(subCategory)){
                     if (!loadedCards.contains(cardView.getCardId()) && cardView.getSearchString().contains(searchValue.toLowerCase())) {
+
                         if (currCol == 3) {
                             //creating a new HBox or row after 3 cards are added
                             cardGrid.add(row, 0, currRow);
@@ -199,8 +196,8 @@ public class PrimaryController {
                 addCardToCardBox(cardView);
                 addEquipmentToEquipmentBox(cardView.getEquipments());
             }else{
-                removeCardToCardBox(cardView);
-                removeEquipmentToEquipmentBox(cardView.getEquipments());
+                removeCardFromCardBox(cardView);
+                removeEquipmentFromEquipmentBox(cardView.getEquipments());
             }
         }else{
             showSelectCoursePlanPopUpWindow();
@@ -221,7 +218,7 @@ public class PrimaryController {
             }
     }
 
-    public void removeEquipmentToEquipmentBox(ArrayList<String> equipments){
+    public void removeEquipmentFromEquipmentBox(ArrayList<String> equipments){
         for (String e: equipments){
             if (App.getCurrentSelectedLesson().removeEquipment(e)) {
                 equipmentsBox.getItems().remove(e);
@@ -229,63 +226,49 @@ public class PrimaryController {
         }
     }
 
-    public void removeCardToCardBox(CardView cardView){
+    public void removeCardFromCardBox(CardView cardView){
         if (App.getCurrentSelectedLesson().removeData(cardView)) {
             cardBox.getItems().remove(cardView.getCardTitle());
         }
     }
 
     @FXML
-    public void saveAsCourseAction() throws IOException {
+    public String saveAsCourseAction() throws IOException {
         if (App.isCourseSelected()) {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save the course");
             FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Course (*.course)", "*.course");
             fileChooser.getExtensionFilters().add(filter);
+            fileChooser.setInitialFileName(App.getCurrentSelectedCourse().getName());
             Window mainWindow = equipmentsBox.getScene().getWindow();
             File chosenFile = fileChooser.showSaveDialog(mainWindow);
 
+            String fileName = App.removeFileExtension(chosenFile.getName());
+            if (!fileName.equals(App.getCurrentSelectedCourse().getName())){
+                App.getCurrentSelectedCourse().setCourseName(fileName);
+                currCourseLabel.setText(fileName);
+            }
+
+            App.historyPaths.put(fileName, chosenFile.getAbsolutePath());
+            App.saveCourseHistory();
             App.saveCurrentCourseLogToFile(chosenFile);
-
-
-            App.saveCourseHistory(chosenFile.getPath());
-
+            return fileName;
+        }else{
+            showSelectCoursePlanPopUpWindow();
+            return "";
         }
     }
 
     @FXML
     private void saveCourseAction() throws IOException {
-        File chosenFile = App.currentLoadedCourseFile;
-
-        // Create a new file in the same directory as the original file
-        try {
-            File newFile = new File(chosenFile.getParent(), "new_" + chosenFile.getName());
-
-        // Save the current course log to the new file
-        App.saveCurrentCourseLogToFile(newFile);
-        if (chosenFile.exists() && newFile.exists()) {
-            Path oldPath = chosenFile.toPath();
-            Path newFilePath = newFile.toPath();
-
-            try {
-                // Rename the new file to the same name as the old file
-                Files.move(newFilePath, newFilePath.resolveSibling(oldPath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("File renamed and replaced successfully.");
-            } catch (IOException e) {
-                System.err.println("Error renaming file: " + e.getMessage());
-            }
-        } else {
-            System.err.println("Files do not exist.");
-        }
-
-        App.currentLoadedCourseFile = newFile;
-        System.out.println(newFile.getAbsolutePath());
-        }catch (Exception e){
-            System.out.println("abort save");
+        if (App.currentLoadedCourseFile == null){
             saveAsCourseAction();
+        }else {
+            Files.deleteIfExists(App.currentLoadedCourseFile.toPath());
+            App.saveCurrentCourseLogToFile(App.currentLoadedCourseFile);
+            System.out.println("saved");
         }
     }
-
 
     @FXML
     private void printLessonAction(){
@@ -301,8 +284,6 @@ public class PrimaryController {
 
     @FXML
     private void showSelectLessonPlanPopUpWindow(){
-        cardBox.getItems().removeAll();
-        equipmentsBox.getItems().removeAll();
         if (App.isCourseSelected()) {
             selectLessonPopUp.getoptionsVBox().getChildren().removeAll();
             selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
@@ -383,3 +364,27 @@ public class PrimaryController {
         addCardsToHBoxToGrid(searchValue.getText());
     }
 }
+
+//            File chosenFile = new File(path);
+//            // Create a new file in the same directory as the original file
+//            File newFile = new File(chosenFile.getParent(), "new_" + chosenFile.getName());
+//
+//            // Save the current course log to the new file
+//            App.saveCurrentCourseLogToFile(newFile);
+//            if (chosenFile.exists() && newFile.exists()) {
+//                Path oldPath = chosenFile.toPath();
+//                Path newFilePath = newFile.toPath();
+//
+//                try {
+//                    // Rename the new file to the same name as the old file
+//                    Files.move(newFilePath, newFilePath.resolveSibling(oldPath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+//                    System.out.println("File renamed and replaced successfully.");
+//                } catch (IOException e) {
+//                    System.err.println("Error renaming file: " + e.getMessage());
+//                }
+//            } else {
+//                System.err.println("Files do not exist.");
+//            }
+//
+//            App.currentLoadedCourseFile = newFile;
+//            System.out.println(newFile.getAbsolutePath());

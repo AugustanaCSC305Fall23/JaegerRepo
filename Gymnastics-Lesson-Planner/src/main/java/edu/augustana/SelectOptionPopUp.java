@@ -29,8 +29,6 @@ public class SelectOptionPopUp {
     private Stage popUpWindow;
     private final String optionType;
     private VBox optionsVBox;
-    //    private Label selectedCourseLabel;
-//    private Label selectedLessonLabel;
     private ObservableList<Node> windowContent = App.primaryStage.getScene().getRoot().getChildrenUnmodifiable();
     private ListView<String> cardBox = ((ListView<String>) ((VBox) windowContent.get(2)).getChildren().get(2));
     private ListView<String> equipmentBox = ((ListView<String>) ((VBox) windowContent.get(2)).getChildren().get(4));
@@ -165,10 +163,11 @@ public class SelectOptionPopUp {
     }
 
     public void initializeLessonInWindow(ArrayList<Lesson> data) {
+        equipmentBox.getItems().removeAll();
+        cardBox.getItems().removeAll();
         while (!optionsVBox.getChildren().isEmpty()) {
             optionsVBox.getChildren().remove(0);
         }
-
         for (Lesson lesson : data) {
             addOptionToContentVBox(lesson.getName()).setOnMouseClicked(event -> {
                 App.setCurrentSelectedLesson(lesson);
@@ -207,7 +206,6 @@ public class SelectOptionPopUp {
             }
         }
     }
-
     private Button addOptionToContentVBox(String buttonName) {
         Button option = new Button(buttonName);
         setOptionButtonStyle(option);

@@ -1,12 +1,18 @@
 package edu.augustana;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+
+import java.io.*;
 import java.util.*;
 
 public class FilterDatabase {
     private HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions =  new HashMap<>();
     public static HashMap<String, List<String>> allData;
 
-    public FilterDatabase(CardDatabase cards){
+    public FilterDatabase(){
         filterOptions = new HashMap<>();
         filterOptions.put("Event", new TreeMap<>());
         filterOptions.put("Gender", new TreeMap<>());
@@ -20,8 +26,6 @@ public class FilterDatabase {
         allData.put("ModelSex", new ArrayList<>());
         allData.put("Level", new ArrayList<>());
         allData.put("Equipments", new ArrayList<>());
-
-        addFilterOptions(cards.getCards());
     }
 
     public void addFilterOptions(HashMap<Integer, Card> cards){
@@ -72,4 +76,34 @@ public class FilterDatabase {
         return filterOptions;
     }
 
+    public static void saveFilterDatabase(File logFile){
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
+                .registerTypeAdapter(HBox.class, new HBoxSerializer())
+                .create();
+
+        String serializedCourseLogText = gson.toJson(App.getFilterDatabase().getFilterOptions());
+
+        // Check if the serialized text is not null and logFile is not null before creating the PrintWriter
+        if (serializedCourseLogText!= null && logFile != null) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile))) {
+                writer.println(serializedCourseLogText);
+            } catch (IOException e) {
+                // Handle or log the IOException
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("Failed to serialize the object to JSON or logFile is null.");
+        }
+    }
+
+    public static FilterDatabase loadFromFile(File logFile) throws IOException {
+        FileReader reader = new FileReader(logFile);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
+                .registerTypeAdapter(HBox.class, new HBoxSerializer())
+                .create();
+        return gson.fromJson(reader, FilterDatabase.class);
+    }
 }

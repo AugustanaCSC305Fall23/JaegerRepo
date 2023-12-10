@@ -49,12 +49,12 @@ public void saveToFile(File logFile) throws IOException {
             .registerTypeAdapter(HBox.class, new HBoxSerializer())
             .create();
 
-    String serializedMovieLogText = gson.toJson(this);
+    String serializedCourseLogText = gson.toJson(this);
 
     // Check if the serialized text is not null and logFile is not null before creating the PrintWriter
-    if (serializedMovieLogText != null && logFile != null) {
+    if (serializedCourseLogText!= null && logFile != null) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(logFile))) {
-            writer.println(serializedMovieLogText);
+            writer.println(serializedCourseLogText);
         } catch (IOException e) {
             // Handle or log the IOException
             e.printStackTrace();
@@ -65,12 +65,15 @@ public void saveToFile(File logFile) throws IOException {
 }
 
     public static Course loadFromFile(File logFile) throws IOException {
+        System.out.println(logFile);
         FileReader reader = new FileReader(logFile);
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
                 .registerTypeAdapter(HBox.class, new HBoxSerializer())
                 .create();
-        return gson.fromJson(reader, Course.class);
+        Course leadedCourse = gson.fromJson(reader, Course.class);
+        reader.close();
+        return leadedCourse;
     }
 
     public void setCourseName(String name){
