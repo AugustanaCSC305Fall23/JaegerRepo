@@ -35,7 +35,7 @@ public class App extends Application {
     private static Lesson currentSelectedLesson = null;
     private static Label selectedCourseLabel;
     private static Label selectedLessonLabel;
-
+    
     public static HashMap<String, TreeMap<String, Collection<CardView>>> getFilterOptions() {
         return filterDatabase.getFilterOptions();
     }
