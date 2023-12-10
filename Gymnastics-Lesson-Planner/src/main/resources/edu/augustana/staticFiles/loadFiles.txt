@@ -1,4 +1,2 @@
-C:\Users\bibhu\Desktop\1.course
-C:\Users\bibhu\Desktop\2.course
-C:\Users\bibhu\Desktop\3.course
-C:\Users\bibhu\Desktop\hehe.course
+C:\Users\bibhu\Desktop\courses backup\aaa.course
+C:\Users\bibhu\Desktop\courses backup\bb.course

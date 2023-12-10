@@ -81,4 +81,7 @@ public void saveToFile(File logFile) throws IOException {
     public void setCourseName(String name){
         this.courseName = name;
     }
+    public void removeLesson(int index){
+        lessonsInCourse.remove(index);
+    }
 }

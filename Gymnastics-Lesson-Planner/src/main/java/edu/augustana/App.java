@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,6 +23,9 @@ import java.util.*;
  */
 public class App extends Application {
     public static final String[] OS = System.getProperty("os.name").split(",");
+    private static final Image trashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/trashCan.png")).toExternalForm());
+    private static final Image redTrashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redTrashCan.png")).toExternalForm());
+
     public static String pathToTargetFolder;
     public static String pathToResourcesFolder;
     public static HashMap<String, List<String>> filteredData = new HashMap<>();
@@ -70,8 +75,12 @@ public class App extends Application {
 
     public static void setCurrentSelectedLesson(Lesson lesson) {
         currentSelectedLesson = lesson;
-        selectedLessonLabel.setText(" ");
-        selectedLessonLabel.setText(lesson.getName());
+        if (lesson == null){
+            selectedLessonLabel.setText("No lesson selected");
+        }else {
+            selectedLessonLabel.setText(" ");
+            selectedLessonLabel.setText(lesson.getName());
+        }
     }
 
     public static void saveCurrentCourseLogToFile(File chosenFile) throws IOException {
@@ -116,17 +125,18 @@ public class App extends Application {
             throw new RuntimeException(e);
         }
     }
-    public static void addToHistory(String fileName, File logFile){
+    public static void addToHistory(String fileName, File logFile) throws IOException {
         if (App.historyPaths.get(fileName) != null){
             if (!App.historyPaths.get(fileName).equalsIgnoreCase(logFile.getAbsolutePath())){
                 App.historyPaths.put(fileName + "_new", logFile.getAbsolutePath());
-                System.out.println("course.java 78 new was added");
             }
         }else{
             App.historyPaths.put(fileName, logFile.getAbsolutePath());
         }
+        saveCourseHistory();
     }
-    private static void loadCourseHistory() throws IOException {
+
+    public static void loadCourseHistory() throws IOException {
         // Read all lines from the file into a Set of Strings
         historyPaths = new HashMap<>();
         for (String path : Files.readAllLines(Paths.get("src/main/resources/edu/augustana/staticFiles/loadFiles.txt"))) {
@@ -150,7 +160,12 @@ public class App extends Application {
 
     public static void setCurrentSelectedCourse(Course course) {
         currentSelectedCourse = course;
-        selectedCourseLabel.setText(course.getName());
+        if (course == null){
+            selectedCourseLabel.setText("No course selected");
+            setCurrentSelectedLesson(null);
+        }else {
+            selectedCourseLabel.setText(course.getName());
+        }
     }
 
     public static void main(String[] args) {
@@ -195,6 +210,15 @@ public class App extends Application {
         VBox labels = ((VBox) ((VBox) (scene.getRoot().getChildrenUnmodifiable().get(1))).getChildren().get(0));
         selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
         selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
+    }
+    public static ImageView getDeleteIcon(){
+        ImageView deleteIcon = new ImageView(trashCan);
+        deleteIcon.setPreserveRatio(true);
+        deleteIcon.setFitWidth(30);
+        deleteIcon.setOnMouseEntered(event -> deleteIcon.setImage(redTrashCan));
+        deleteIcon.setOnMouseExited(event -> deleteIcon.setImage(trashCan));
+
+        return deleteIcon;
     }
 }
 
