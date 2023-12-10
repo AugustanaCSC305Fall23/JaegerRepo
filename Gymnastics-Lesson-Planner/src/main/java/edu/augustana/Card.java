@@ -23,7 +23,6 @@ public class Card {
         this.event = csvData[1];
         this.category = csvData[2];
         this.title = csvData[3];
-//        this.filePath = App.imagesFilePath + "/" + csvData[4] + "/" + csvData[5];
         this.filePath = App.class.getResource("staticFiles/" + csvData[4] + "/" + csvData[5]);
 
         this.gender = csvData[6];
@@ -77,14 +76,13 @@ public class Card {
             if (equipment.contains("/")) {
                 for (String e : equipment.split("/")) {
                     e = e.trim().replaceAll("[\"]", "");
-                    equipmentsAsList.add(e);
+                    equipmentsAsList.add(App.toTitleCase(e));
                 }
             } else {
                 equipment = equipment.trim().replaceAll("[\"]", "");
-                equipmentsAsList.add(equipment);
+                equipmentsAsList.add(App.toTitleCase(equipment));
             }
         }
-
         return equipmentsAsList;
     }
 

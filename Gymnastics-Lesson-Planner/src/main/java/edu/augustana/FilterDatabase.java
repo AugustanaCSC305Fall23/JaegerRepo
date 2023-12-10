@@ -35,13 +35,36 @@ public class FilterDatabase {
             String gender = cards.get(cardId).getGender();
             String modelSex = cards.get(cardId).getModelSex();
 
+            if (event.equalsIgnoreCase("all")){
+                for (String subCategory: filterOptions.get("Event").keySet()){
+                    addToFilterOptions("Event", subCategory, currCard);
+                }
+            }else{
+                addToFilterOptions("Event", event, currCard);
+            }
 
-            addToFilterOptions("Event", event, currCard);
-            addToFilterOptions("Gender", gender, currCard);
-            addToFilterOptions("ModelSex", modelSex, currCard);
+            if (gender.equalsIgnoreCase("n")){
+                addToFilterOptions("Gender", "M", currCard);
+                addToFilterOptions("Gender", "F", currCard);
+            }else {
+                addToFilterOptions("Gender", gender, currCard);
+            }
+            if (modelSex.equalsIgnoreCase("n")){
+                addToFilterOptions("ModelSex", "M", currCard);
+                addToFilterOptions("ModelSex", "F", currCard);
+            }else {
+                addToFilterOptions("ModelSex", modelSex, currCard);
+            }
 
             for (String l: cards.get(cardId).getLevels()){
-                addToFilterOptions("Level", l, currCard);
+                if (l.equalsIgnoreCase("all")){
+                    for (String subCategory: filterOptions.get("Level").keySet()){
+                        addToFilterOptions("Level", subCategory, currCard);
+                    }
+                }else{
+                    addToFilterOptions("Level", l, currCard);
+                }
+
             }
             ArrayList<String> equipments = cards.get(cardId).getEquipment();
             for (String equipment : equipments) {

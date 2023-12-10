@@ -12,10 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.stage.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +34,9 @@ public class SelectOptionPopUp {
         popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.initOwner(App.primaryStage);
+        if (optionType.equalsIgnoreCase("lesson")) {
+            popUpWindow.initStyle(StageStyle.UNDECORATED);
+        }
         VBox contentVBox = new VBox(15);
         contentVBox.setAlignment(Pos.CENTER);
 
