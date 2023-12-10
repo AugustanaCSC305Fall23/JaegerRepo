@@ -203,7 +203,12 @@ public class SelectOptionPopUp {
         option.setOnMouseExited(e -> setOptionButtonStyle(option));
         HBox optionAndDeleteIconWrapper = new HBox(5);
         optionAndDeleteIconWrapper.setAlignment(Pos.CENTER);
-        optionAndDeleteIconWrapper.getChildren().addAll(option, deleteIcon);
+        optionAndDeleteIconWrapper.getChildren().addAll(option);
+
+        optionAndDeleteIconWrapper.setOnMouseEntered(e->optionAndDeleteIconWrapper.getChildren().addAll(deleteIcon));
+        optionAndDeleteIconWrapper.setOnMouseExited(e-> optionAndDeleteIconWrapper.getChildren().remove(deleteIcon));
+
+
         optionsVBox.getChildren().add(optionAndDeleteIconWrapper);
         return option;
     }
