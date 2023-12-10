@@ -245,7 +245,7 @@ public class PrimaryController {
 
     private static HBox hBoxForListView(String e){
         Label label = new Label(e);
-        HBox wrapper = new HBox(5);
+        HBox wrapper = new HBox(3);
         wrapper.setAlignment(Pos.CENTER);
         wrapper.setPadding(new Insets(3, 3, 3, 3));
         wrapper.setStyle("-fx-border-color: black");
