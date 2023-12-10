@@ -23,8 +23,8 @@ import java.util.*;
  */
 public class App extends Application {
     public static final String[] OS = System.getProperty("os.name").split(",");
-    private static final Image trashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/trashCan.png")).toExternalForm());
-    private static final Image redTrashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redTrashCan.png")).toExternalForm());
+    public static final Image trashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/trashCan.png")).toExternalForm());
+    public static final Image redTrashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redTrashCan.png")).toExternalForm());
 
     public static String pathToTargetFolder;
     public static String pathToResourcesFolder;
@@ -217,6 +217,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(700);
+        primaryStage.setMaximized(true);
         primaryStage.show();
 
         VBox labels = ((VBox) ((VBox) (scene.getRoot().getChildrenUnmodifiable().get(1))).getChildren().get(0));

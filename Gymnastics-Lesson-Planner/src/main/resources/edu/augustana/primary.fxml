@@ -71,6 +71,7 @@
                   <VBox fx:id="allFilterOptions" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="302.0" />
                </content>
             </ScrollPane>
+            <Button mnemonicParsing="false" onAction="#showAboutSection" text="ABOUT" />
          </children>
       </VBox>
    </left>

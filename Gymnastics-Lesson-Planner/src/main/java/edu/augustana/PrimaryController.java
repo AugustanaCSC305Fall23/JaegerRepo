@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.*;
@@ -386,5 +387,45 @@ public class PrimaryController {
     @FXML
     private void searchClicked(){
         addCardsToHBoxToGrid(searchValue.getText());
+    }
+    @FXML
+    private void showAboutSection(){
+        Stage aboutWidow = new Stage();
+
+        aboutWidow.initModality(Modality.APPLICATION_MODAL);
+        aboutWidow.initOwner(App.primaryStage);
+        aboutWidow.setMinWidth(600);
+        aboutWidow.setMinHeight(400);
+        aboutWidow.setMaxHeight(400);
+        aboutWidow.setMaxWidth(600);
+        VBox contentVBox = new VBox(15);
+        contentVBox.setAlignment(Pos.CENTER);
+        contentVBox.getChildren().add(new Label("Supervisor"));
+        contentVBox.getChildren().add(getNameAndImage("Forrest Stonedahl", App.trashCan));
+
+        contentVBox.getChildren().add(new Label("Developers"));
+        contentVBox.getChildren().add(getNameAndImage("Drishtant Bhandari", App.trashCan));
+        contentVBox.getChildren().add(getNameAndImage("Aakriti Bhandari", App.trashCan));
+        contentVBox.getChildren().add(getNameAndImage("Sara Zbir", App.trashCan));
+        contentVBox.getChildren().add(getNameAndImage("Bibhu Lamichhane", App.trashCan));
+
+        contentVBox.getChildren().add(new Label("Product Designer"));
+        contentVBox.getChildren().add(getNameAndImage(" Samantha Keehn", App.trashCan));
+
+        ScrollPane scrollPane = new ScrollPane(contentVBox);
+        Scene scene = new Scene(scrollPane, 600, 400);
+        aboutWidow.setScene(scene);
+        aboutWidow.show();
+    }
+
+    private HBox getNameAndImage(String n, Image image){
+        HBox nameAndImage = new HBox(30);
+        nameAndImage.setAlignment(Pos.CENTER);
+        Label name = new Label(n);
+        ImageView img = new ImageView(image);
+        img.setPreserveRatio(true);
+        img.setFitWidth(100);
+        nameAndImage.getChildren().addAll(name, img);
+        return nameAndImage;
     }
 }
