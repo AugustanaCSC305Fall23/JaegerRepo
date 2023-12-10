@@ -48,7 +48,7 @@ public class App extends Application {
         filteredData.put("Equipments", new ArrayList<>());
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
@@ -84,8 +84,19 @@ public class App extends Application {
         currentLoadedCourseFile = chosenFile;
     }
 
-    public static void addCourseToCourses(Course courseToAdd) {
-        courses.putIfAbsent(courseToAdd.getName(), courseToAdd);
+    public static boolean addCourseToCourses(Course courseToAdd) {
+        if (courses.get(courseToAdd.getName()) != null){
+            return false;
+        }else {
+            courses.put(courseToAdd.getName(), courseToAdd);
+            setCurrentSelectedCourse(courseToAdd);
+            return true;
+        }
+    }
+
+    public static void addLessonToLessons(Lesson lessonToAdd){
+        getCurrentSelectedCourse().addData(lessonToAdd);
+        setCurrentSelectedLesson(lessonToAdd);
     }
 
     public static void launchPrinting() {

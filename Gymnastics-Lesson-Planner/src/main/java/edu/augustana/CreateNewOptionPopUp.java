@@ -2,6 +2,7 @@ package edu.augustana;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -35,12 +36,7 @@ public class CreateNewOptionPopUp {
             backgroundImage = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/lessonbackground.jpg")).toExternalForm());
         }
         // Create a BackgroundImage
-        BackgroundImage backgroundImg = new BackgroundImage(
-                backgroundImage,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
+        BackgroundImage backgroundImg = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
 
         // Create a Background with the BackgroundImage
         Background background = new Background(backgroundImg);
@@ -54,21 +50,39 @@ public class CreateNewOptionPopUp {
 
         TextField optionTypeName = new TextField();
 
-        contentVBox.getChildren().add(label);
+        contentVBox.getChildren().addAll(label, optionTypeName);
 
         Button loadOptionButton = new Button("Create");
-        loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-background-radius: 20;" +
-                        "-fx-text-fill: #34c6a4;" +
-                        "-fx-font-size: 12;" +
-                        "-fx-pref-height: 20;"));
+        loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
         loadOptionButton.setOnMouseClicked(event -> {
-//        loadButtonClick();
         });
+        loadOptionButton.setOnMouseClicked(event -> createClicked(optionTypeName.getText()));
         contentVBox.getChildren().add(loadOptionButton);
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
+    }
+
+    public Stage getPopUpWindow() {
+        return popUpWindow;
+    }
+    private void createClicked(String name){
+        if (optionType.equalsIgnoreCase("course")){
+            if (!App.addCourseToCourses(new Course(name))){
+                showAlert();
+            }
+        }else{
+            App.addLessonToLessons(new Lesson(name));
+        }
+    }
+
+    private void showAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Invalid Name");
+        alert.setHeaderText(null);
+        alert.setContentText("A " + optionType + " of this name already exists");
+
+        // Show the alert and wait for the user to close it
+        alert.showAndWait();
     }
 }

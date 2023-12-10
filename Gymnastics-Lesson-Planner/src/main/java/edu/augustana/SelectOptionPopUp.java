@@ -1,7 +1,6 @@
 package edu.augustana;
 
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,11 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-
 public class SelectOptionPopUp {
-
-    private Stage popUpWindow;
     private final String optionType;
+    private Stage popUpWindow;
     private VBox optionsVBox;
     private ObservableList<Node> windowContent = App.primaryStage.getScene().getRoot().getChildrenUnmodifiable();
     private ListView<String> cardBox = ((ListView<String>) ((VBox) windowContent.get(2)).getChildren().get(2));
@@ -49,12 +46,7 @@ public class SelectOptionPopUp {
             backgroundImage = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/lessonbackground.jpg")).toExternalForm());
         }
         // Create a BackgroundImage
-        BackgroundImage backgroundImg = new BackgroundImage(
-                backgroundImage,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
+        BackgroundImage backgroundImg = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false));
 
         // Create a Background with the BackgroundImage
         Background background = new Background(backgroundImg);
@@ -72,15 +64,18 @@ public class SelectOptionPopUp {
         contentVBox.getChildren().add(label);
         contentVBox.getChildren().add(optionsVBox);
 
+        Button createOptionButton = new Button("Create a " + optionType);
+        setLoadButtonStyle(createOptionButton);
+        createOptionButton.setOnMouseEntered(e -> createOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
+        createOptionButton.setOnMouseExited(e -> setLoadButtonStyle(createOptionButton));
+        createOptionButton.setOnMouseClicked(event -> {
+            createButtonClick();
+        });
+
         Button loadOptionButton = new Button("Load a " + optionType);
         setLoadButtonStyle(loadOptionButton);
-        loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle(
-                "-fx-background-color: white;" +
-                        "-fx-background-radius: 20;" +
-                        "-fx-text-fill: #34c6a4;" +
-                        "-fx-font-size: 12;" +
-                        "-fx-pref-height: 20;"));
-        loadOptionButton.setOnMouseExited(e-> setLoadButtonStyle(loadOptionButton));
+        loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
+        loadOptionButton.setOnMouseExited(e -> setLoadButtonStyle(loadOptionButton));
         loadOptionButton.setOnMouseClicked(event -> {
             try {
                 loadButtonClick();
@@ -88,26 +83,31 @@ public class SelectOptionPopUp {
                 throw new RuntimeException(e);
             }
         });
-        contentVBox.getChildren().add(loadOptionButton);
+
+        HBox createLoadWrapper = new HBox(5);
+        createLoadWrapper.setAlignment(Pos.CENTER);
+        createLoadWrapper.getChildren().addAll(createOptionButton, loadOptionButton);
+        contentVBox.getChildren().add(createLoadWrapper);
         if (optionType.equalsIgnoreCase("course")) {
             Button clearHist = new Button("Clear History");
             setClearStyle(clearHist);
-            clearHist.setOnMouseEntered(e -> clearHist.setStyle(
-                            "-fx-background-color: white;" +
-                            "-fx-background-radius: 20;" +
-                            "-fx-text-fill: #cf5d66;" +
-                            "-fx-font-size: 12;" +
-                            "-fx-pref-height: 20;"));
+            clearHist.setOnMouseEntered(e -> clearHist.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #cf5d66;-fx-font-size: 12;-fx-pref-height: 20;"));
             clearHist.setOnMouseExited(e -> setClearStyle(clearHist));
             clearHist.setOnMouseClicked(e -> App.clearHistory());
-            contentVBox.getChildren().add(clearHist);
+            createLoadWrapper.getChildren().add(clearHist);
         }
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
     }
 
-    private void setLoadButtonStyle(Button button){
+    private void createButtonClick() {
+        popUpWindow.close();
+        CreateNewOptionPopUp createNewOptionPopUp = new CreateNewOptionPopUp(optionType);
+        createNewOptionPopUp.getPopUpWindow().show();
+    }
+
+    private void setLoadButtonStyle(Button button) {
         button.setStyle("-fx-background-color: #34c6a4;" +
                 "-fx-background-radius: 20;" +
                 "-fx-text-fill: white;" +
@@ -115,6 +115,7 @@ public class SelectOptionPopUp {
                 "-fx-pref-height: 20;"
         );
     }
+
     private void setClearStyle(Button button) {
         button.setStyle("-fx-background-color: #cf5d66;" +
                 "-fx-background-radius: 20;" +
@@ -184,7 +185,7 @@ public class SelectOptionPopUp {
         while (!cardBox.getItems().isEmpty()) {
             cardBox.getItems().remove(0);
         }
-        if(App.getCurrentSelectedLesson().getSelectedCardViews()!= null) {
+        if (App.getCurrentSelectedLesson().getSelectedCardViews() != null) {
             for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
                 cardBox.getItems().add(cardView.getCardTitle());
             }
@@ -195,7 +196,7 @@ public class SelectOptionPopUp {
         while (!equipmentBox.getItems().isEmpty()) {
             equipmentBox.getItems().remove(0);
         }
-        if (App.getCurrentSelectedLesson().getSelectedCardViews()!= null) {
+        if (App.getCurrentSelectedLesson().getSelectedCardViews() != null) {
             for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
                 for (String e : cardView.getEquipments()) {
                     equipmentBox.getItems().add(e);
@@ -203,6 +204,7 @@ public class SelectOptionPopUp {
             }
         }
     }
+
     private Button addOptionToContentVBox(String buttonName) {
         Button option = new Button(buttonName);
         setOptionButtonStyle(option);
@@ -218,7 +220,8 @@ public class SelectOptionPopUp {
         optionsVBox.getChildren().add(option);
         return option;
     }
-    private void setOptionButtonStyle(Button button){
+
+    private void setOptionButtonStyle(Button button) {
         button.setStyle("-fx-background-color: #447ca4;" +
                 "-fx-background-radius: 20;" +
                 "-fx-text-fill: white;" +
@@ -227,12 +230,10 @@ public class SelectOptionPopUp {
                 "-fx-pref-height: 20;"
         );
     }
+
     public VBox getoptionsVBox() {
         return optionsVBox;
     }
-
-
-
 
 
 }
