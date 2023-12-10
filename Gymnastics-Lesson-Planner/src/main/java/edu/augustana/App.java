@@ -180,7 +180,19 @@ public class App extends Application {
             return fileName;
         }
     }
+    public static String toTitleCase(String input) {
+        if (input == null || input.isEmpty()) return input;
 
+        StringBuilder titleCase = new StringBuilder();
+        boolean convertNext = true;
+
+        for (char ch : input.toCharArray()) {
+            titleCase.append(convertNext ? Character.toTitleCase(ch) : Character.toLowerCase(ch));
+            convertNext = Character.isSpaceChar(ch);
+        }
+
+        return titleCase.toString();
+    }
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
