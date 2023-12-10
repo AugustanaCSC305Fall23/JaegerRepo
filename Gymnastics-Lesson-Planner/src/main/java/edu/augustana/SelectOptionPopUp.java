@@ -19,6 +19,7 @@ import javafx.stage.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -149,15 +150,22 @@ public class SelectOptionPopUp {
         return popUpWindow;
     }
 
-    public SelectOptionPopUp initializeCourseInWindow(HashMap<String, Course> data) {
+    public SelectOptionPopUp initializeCourseInWindow(){
         selectLessonPopUp = new SelectOptionPopUp("Lesson");
-        for (Course course : data.values()) {
-            addOptionToContentVBox(course.getName()).setOnMouseClicked(event -> {
-                App.setCurrentSelectedCourse(course);
-                getPopUpWindow().close();
-                selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
-                selectLessonPopUp.getPopUpWindow().show();
-            });
+        for (String fileName: App.historyPaths.keySet()){
+            try {
+                System.out.println(App.historyPaths.get(fileName));
+                Course loadedCourse = Course.loadFromFile(new File(App.historyPaths.get(fileName)));
+                addOptionToContentVBox(fileName).setOnMouseClicked(event -> {
+                    App.setCurrentSelectedCourse(loadedCourse);
+                    getPopUpWindow().close();
+                    selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
+                    selectLessonPopUp.getPopUpWindow().show();
+                });
+            }catch (IOException e){
+                App.historyPaths.remove(fileName);
+                System.out.println("hereeeeeeee");
+            }
         }
         return selectLessonPopUp;
     }
@@ -176,36 +184,8 @@ public class SelectOptionPopUp {
         }
     }
 
-    private void resetCardBoxAndEquipmentBox() {
-        resetCardBox();
-        resetEquipmentBox();
-    }
-
-    private void resetCardBox() {
-        while (!cardBox.getItems().isEmpty()) {
-            cardBox.getItems().remove(0);
-        }
-        if (App.getCurrentSelectedLesson().getSelectedCardViews() != null) {
-            for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
-                cardBox.getItems().add(cardView.getCardTitle());
-            }
-        }
-    }
-
-    private void resetEquipmentBox() {
-        while (!equipmentBox.getItems().isEmpty()) {
-            equipmentBox.getItems().remove(0);
-        }
-        if (App.getCurrentSelectedLesson().getSelectedCardViews() != null) {
-            for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
-                for (String e : cardView.getEquipments()) {
-                    equipmentBox.getItems().add(e);
-                }
-            }
-        }
-    }
-
     private Button addOptionToContentVBox(String buttonName) {
+        System.out.println(buttonName);
         Button option = new Button(buttonName);
         setOptionButtonStyle(option);
         option.setOnMouseEntered(e -> option.setStyle(
@@ -234,6 +214,5 @@ public class SelectOptionPopUp {
     public VBox getoptionsVBox() {
         return optionsVBox;
     }
-
 
 }

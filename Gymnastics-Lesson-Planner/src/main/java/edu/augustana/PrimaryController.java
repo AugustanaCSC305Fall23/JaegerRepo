@@ -269,7 +269,7 @@ public class PrimaryController {
                 currCourseLabel.setText(fileName);
             }
 
-            App.historyPaths.put(fileName, chosenFile.getAbsolutePath());
+            App.addToHistory(fileName, chosenFile);
             App.saveCourseHistory();
             App.saveCurrentCourseLogToFile(chosenFile);
             return fileName;
@@ -281,11 +281,11 @@ public class PrimaryController {
 
     @FXML
     private void saveCourseAction() throws IOException {
-        if (App.currentLoadedCourseFile == null){
+        if (App.historyPaths.get(App.getCurrentSelectedCourse().getName()) == null){
             saveAsCourseAction();
-        }else {
-            Files.deleteIfExists(App.currentLoadedCourseFile.toPath());
-            App.saveCurrentCourseLogToFile(App.currentLoadedCourseFile);
+        }else{
+            Files.deleteIfExists(Path.of(App.historyPaths.get(App.getCurrentSelectedCourse().getName())));
+            App.saveCurrentCourseLogToFile(new File(App.historyPaths.get(App.getCurrentSelectedCourse().getName())));
         }
     }
 
@@ -297,7 +297,7 @@ public class PrimaryController {
     @FXML
     private void showSelectCoursePlanPopUpWindow(){
         selectCoursePopUp = new SelectOptionPopUp("Course");
-        selectLessonPopUp = selectCoursePopUp.initializeCourseInWindow(App.getCourses());
+        selectLessonPopUp = selectCoursePopUp.initializeCourseInWindow();
         selectCoursePopUp.getPopUpWindow().show();
     }
 

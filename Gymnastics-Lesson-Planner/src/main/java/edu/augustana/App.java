@@ -29,7 +29,6 @@ public class App extends Application {
     public static Stage primaryStage;
     public static HashMap<String, String> historyPaths;
     private static FilterDatabase filterDatabase;
-    private static HashMap<String, Course> courses;
     private static Course currentSelectedCourse = null;
     private static Lesson currentSelectedLesson = null;
     private static Label selectedCourseLabel;
@@ -57,10 +56,6 @@ public class App extends Application {
         return filterDatabase;
     }
 
-    public static HashMap<String, Course> getCourses() {
-        return courses;
-    }
-
     public static boolean isLessonSelected() {
         return currentSelectedLesson != null;
     }
@@ -85,12 +80,11 @@ public class App extends Application {
     }
 
     public static boolean addCourseToCourses(Course courseToAdd) {
-        if (courses.get(courseToAdd.getName()) != null){
-            return false;
-        }else {
-            courses.put(courseToAdd.getName(), courseToAdd);
+        if (historyPaths.get(courseToAdd.getName()) == null){
             setCurrentSelectedCourse(courseToAdd);
             return true;
+        }else {
+            return false;
         }
     }
 
@@ -104,6 +98,7 @@ public class App extends Application {
     }
 
     public static void saveCourseHistory() throws IOException {
+        clearHistory();
         File file = new File("src/main/resources/edu/augustana/staticFiles/loadFiles.txt");
         for (String path: historyPaths.values()){
             try (FileWriter writer = new FileWriter(file, true)) {
@@ -121,17 +116,27 @@ public class App extends Application {
             throw new RuntimeException(e);
         }
     }
-
+    public static void addToHistory(String fileName, File logFile){
+        if (App.historyPaths.get(fileName) != null){
+            if (!App.historyPaths.get(fileName).equalsIgnoreCase(logFile.getAbsolutePath())){
+                App.historyPaths.put(fileName + "_new", logFile.getAbsolutePath());
+                System.out.println("course.java 78 new was added");
+            }
+        }else{
+            App.historyPaths.put(fileName, logFile.getAbsolutePath());
+        }
+    }
     private static void loadCourseHistory() throws IOException {
         // Read all lines from the file into a Set of Strings
         historyPaths = new HashMap<>();
         for (String path : Files.readAllLines(Paths.get("src/main/resources/edu/augustana/staticFiles/loadFiles.txt"))) {
             try {
                 File f = new File(path);
+                String fileName = removeFileExtension(f.getName());
                 Course loadedCourse = Course.loadFromFile(f);
-                loadedCourse.setCourseName(removeFileExtension(f.getName()));
-                courses.put(removeFileExtension(f.getName()), loadedCourse);
-                historyPaths.put(loadedCourse.getName(), path);
+                addToHistory(fileName, f);
+                loadedCourse.setCourseName(fileName);
+                historyPaths.put(removeFileExtension(loadedCourse.getName()), path);
             } catch (Exception e) {
                 System.out.println("file not found");
             }
@@ -176,13 +181,7 @@ public class App extends Application {
         filterDatabase = new FilterDatabase();
         filterDatabase.addFilterOptions(cardDatabase.getCards());
 
-        courses = new HashMap<>();
         loadCourseHistory();
-
-        courses = new HashMap<>();
-        courses.put("demonew", new Course("demonew"));
-        courses.get("demonew").addData(new Lesson("this is new"));
-
         filteredData = FilterDatabase.allData;
         Scene scene = new Scene(loadFXML("primary"), 1400, 760);
 

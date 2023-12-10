@@ -52,7 +52,7 @@ public class CreateNewOptionPopUp {
 
         contentVBox.getChildren().addAll(label, optionTypeName);
 
-        Button loadOptionButton = new Button("Create");
+        Button loadOptionButton = new Button("Create New");
         loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
         loadOptionButton.setOnMouseClicked(event -> {
         });
@@ -66,13 +66,20 @@ public class CreateNewOptionPopUp {
     public Stage getPopUpWindow() {
         return popUpWindow;
     }
+
     private void createClicked(String name){
         if (optionType.equalsIgnoreCase("course")){
             if (!App.addCourseToCourses(new Course(name))){
                 showAlert();
+            }else {
+                popUpWindow.close();
+                SelectOptionPopUp lessonSelection = new SelectOptionPopUp("lesson");
+                lessonSelection.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
+                lessonSelection.getPopUpWindow().show();
             }
         }else{
             App.addLessonToLessons(new Lesson(name));
+            popUpWindow.close();
         }
     }
 
