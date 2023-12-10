@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+
 public class Printing {
     private static Label jobStatus = new Label();
     private ImageView imageView = new ImageView();
@@ -75,6 +76,16 @@ public class Printing {
 
         Button printButton = new Button("Print");
         printButton.setOnAction(e -> printAction((VBox) imagesScroll.getContent()));
+        printButton.setStyle("-fx-background-color: #ADD8E6;"+
+        "-fx-background-radius: 20;"+
+        "-fx-text-fill: black;");
+
+        printButton.setOnMouseEntered(e->printButton.setStyle("-fx-background-color: #69d1c0;"+
+                "-fx-background-radius: 20;"+
+                "-fx-text-fill: black;"));
+        printButton.setOnMouseExited(e->printButton.setStyle("-fx-background-color: #ADD8E6;"+"-fx-background-radius: 20;"+
+                "-fx-text-fill: black;"));
+
 
         HBox jobStatusBox = new HBox(5, new Label("Print Job Staus: "), jobStatus);
         HBox buttonBox = new HBox(5, printButton);
