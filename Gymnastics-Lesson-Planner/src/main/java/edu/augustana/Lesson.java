@@ -28,7 +28,7 @@ public class Lesson{
 
     public boolean removeData(CardView cardView){
         if (cardIds.contains(cardView.getCardId())){
-            selectedCardViews.remove(cardView);
+            selectedCardViews.remove(cardIds.indexOf(cardView.getCardId()));
             cardIds.remove(cardView.getCardId());
             return true;
         }
