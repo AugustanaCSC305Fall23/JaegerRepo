@@ -31,6 +31,7 @@ public class SelectOptionPopUp {
     public SelectOptionPopUp(String optionType) {
         this.optionType = optionType;
         popUpWindow = new Stage();
+        popUpWindow.setResizable(false);
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.initOwner(App.primaryStage);
         if (optionType.equalsIgnoreCase("lesson")) {
@@ -98,6 +99,7 @@ public class SelectOptionPopUp {
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
+
     }
 
     private void createButtonClick() {
