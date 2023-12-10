@@ -1,0 +1,60 @@
+{
+  "courseName": "sc",
+  "lessonsInCourse": [
+    {
+      "selectedCardViews": [
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/3.png"
+          },
+          "cardId": "2",
+          "equipments": [
+            "Pacman",
+            "tall block",
+            "resi"
+          ],
+          "cardTitle": "Half Handstand",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "h5floorhandstandhalf handstandnfbabipacmantall blockresi\"l handstand "
+        },
+        {
+          "cardImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/Demo1/6.png"
+          },
+          "cardId": "5",
+          "equipments": [
+            "Mini Tramp Table Trainer"
+          ],
+          "cardTitle": "Jump Fly Back",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "searchString": "hs5floorhandspringsjump fly backnfabimini tramp table trainer 2 incher\" "
+        }
+      ],
+      "cardIds": [
+        "2",
+        "5"
+      ],
+      "lessonName": "s"
+    }
+  ]
+}
