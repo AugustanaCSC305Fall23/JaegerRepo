@@ -35,7 +35,6 @@ public class SelectOptionPopUp {
     private SelectOptionPopUp selectLessonPopUp;
 
     public SelectOptionPopUp(String optionType) {
-        System.out.println();
         this.optionType = optionType;
 
         popUpWindow = new Stage();
@@ -171,7 +170,6 @@ public class SelectOptionPopUp {
         for (Lesson lesson : data) {
             addOptionToContentVBox(lesson.getName()).setOnMouseClicked(event -> {
                 App.setCurrentSelectedLesson(lesson);
-                resetCardBoxAndEquipmentBox();
                 getPopUpWindow().close();
             });
         }
@@ -180,7 +178,6 @@ public class SelectOptionPopUp {
     private void resetCardBoxAndEquipmentBox() {
         resetCardBox();
         resetEquipmentBox();
-        System.out.println();
     }
 
     private void resetCardBox() {

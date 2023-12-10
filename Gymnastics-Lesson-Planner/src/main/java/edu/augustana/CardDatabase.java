@@ -16,7 +16,6 @@ public class CardDatabase {
     }
 
     public void addCardPack(String filePath) throws IOException {
-        System.out.println(filePath);
         BufferedReader br = new BufferedReader(new FileReader("/"+ filePath));
         String line = br.readLine();
         while ((line = br.readLine()) != null) {

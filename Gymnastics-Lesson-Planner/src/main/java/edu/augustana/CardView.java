@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class CardView{
     private final ImageView cardImage;
-    private final int cardId;
+    private final String cardId;
     private final ArrayList<String> equipments;
     private final String cardTitle;
     private final HBox addButtonWrapper;
@@ -29,7 +29,7 @@ public class CardView{
         cardImage = new ImageView(new Image(card.getFilePath()));
         cardImage.setFitWidth(250);
         cardImage.setPreserveRatio(true);
-        cardId = card.getCardId();
+        cardId = String.valueOf(card.getCardId());
 
         searchString = setUpSearchString(card).toLowerCase();
         isFavorite = false;
@@ -102,13 +102,21 @@ public class CardView{
     }
     public boolean addButtonClicked(){
         if (isSelected){
-            System.out.println(addButtonWrapper.getChildren());
-            ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+            unSelect();
         }else {
-            ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));
+            select();
         }
-        isSelected = !isSelected;
         return isSelected;
+    }
+    public void select(){
+        isSelected = true;
+        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));
+    }
+
+    public void unSelect(){
+        isSelected = false;
+        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+
     }
     public VBox getCardView(){
         VBox finalCardView = new VBox(cardImage, buttonAndFavButton);
@@ -118,6 +126,7 @@ public class CardView{
 
         return finalCardView;
     }
+
     private HBox combineButtonAndFavButton(){
         HBox buttonAndCode = new HBox();
         buttonAndCode.getChildren().addAll(favoriteButtonWrapper, addButtonWrapper);
@@ -139,7 +148,7 @@ public class CardView{
         }
         isFavorite = !isFavorite;
     }
-    public int getCardId() {
+    public String getCardId() {
         return cardId;
     }
 
@@ -153,5 +162,8 @@ public class CardView{
 
     public String getSearchString() {
         return searchString;
+    }
+    public boolean getIsSelected(){
+        return isSelected;
     }
 }

@@ -54,7 +54,6 @@ public class FilterDatabase {
                 }
             }
         }
-        System.out.println(filterOptions.get("Event"));
     }
 
     private void addToFilterOptions(String category, String subCategory, Card card){

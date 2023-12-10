@@ -5,23 +5,19 @@ import java.util.ArrayList;
 
 public class Lesson{
     private final ArrayList<CardView> selectedCardViews;
+    private final ArrayList<String> cardIds = new ArrayList<>();
     private final String lessonName;
-    private static int TotalLessonIndex = 0;
-    private final int lessonIndex;
-    private ArrayList<String> equipments;
     public Lesson(String lessonName){
-        equipments = new ArrayList<>();
         selectedCardViews = new ArrayList<>();
         this.lessonName = lessonName;
-        Lesson.TotalLessonIndex++;
-        lessonIndex = Lesson.TotalLessonIndex;
     }
     public ArrayList<CardView> getSelectedCardViews() {
         return selectedCardViews;
     }
 
     public boolean addData(CardView cardView){
-        if (!selectedCardViews.contains(cardView)) {
+        if (!cardIds.contains(cardView.getCardId())) {
+            cardIds.add(cardView.getCardId());
             selectedCardViews.add(cardView);
             return true;
         }else{
@@ -31,41 +27,31 @@ public class Lesson{
     }
 
     public boolean removeData(CardView cardView){
-        if (selectedCardViews.contains(cardView)){
+        if (cardIds.contains(cardView.getCardId())){
             selectedCardViews.remove(cardView);
+            cardIds.remove(cardView.getCardId());
             return true;
         }
         return false;
-    }
-
-    public int getLessonIndex() {
-        return lessonIndex;
-    }
-
-    public static int getTotalLessonIndex() {
-        return TotalLessonIndex;
     }
 
     public String getName() {
         return lessonName;
     }
 
-    public boolean addEquipment(String newEquipment){
-        if (equipments.contains(newEquipment)){
-            return false;
+    public ArrayList<String> getEquipments() {
+        ArrayList<String> equipments = new ArrayList<>();
+        for (CardView cardView: selectedCardViews) {
+            for (String e : cardView.getEquipments()) {
+                if (!equipments.contains(e)) {
+                    equipments.add(e);
+                }
+            }
         }
-        equipments.add(newEquipment);
-        return true;
+        return equipments;
     }
 
-    public boolean removeEquipment(String equipment){
-        if (equipments.contains(equipment)){
-            equipments.remove(equipment);
-            return true;
-        }
-        return false;
-    }
-    public ArrayList<String> getEquipments() {
-        return equipments;
+    public ArrayList<String> getCardIds(){
+        return cardIds;
     }
 }

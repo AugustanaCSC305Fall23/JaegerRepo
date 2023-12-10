@@ -65,7 +65,6 @@ public void saveToFile(File logFile) throws IOException {
 }
 
     public static Course loadFromFile(File logFile) throws IOException {
-        System.out.println(logFile);
         FileReader reader = new FileReader(logFile);
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(ImageView.class, new ImageViewSerializer())

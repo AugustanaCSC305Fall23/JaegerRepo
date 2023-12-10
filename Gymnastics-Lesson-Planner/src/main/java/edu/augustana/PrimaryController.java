@@ -1,8 +1,10 @@
 package edu.augustana;
 
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -23,11 +25,11 @@ public class PrimaryController {
     @FXML
     private VBox allFilterOptions;
     @FXML
-    private ListView<String> cardBox;
+    private ListView<HBox> cardBox;
     @FXML
     private ScrollPane scrollPane;
     @FXML
-    private ListView<String> equipmentsBox;
+    private ListView<HBox> equipmentsBox;
     @FXML
     private Label currLessonLabel;
     @FXML
@@ -42,8 +44,12 @@ public class PrimaryController {
     private void initialize() {
         loadCardsToGridView();
         initializeFilters();
+        currLessonLabel.textProperty().addListener((observable, oldValue, newValue) -> {
+            resetEquipmentBox(App.getCurrentSelectedLesson().getEquipments());
+            resetCardBox(App.getCurrentSelectedLesson().getSelectedCardViews());
+            addCardsToHBoxToGrid(" ", App.getCurrentSelectedLesson());
+        });
     }
-
 
     private void initializeFilters() {
         HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions = App.getFilterOptions();
@@ -128,14 +134,15 @@ public class PrimaryController {
         Scene scene = button.getScene();
         VBox filterOptions = (VBox) scene.lookup("#" + button.getText() + "FilterOptions");
         filterOptions.setVisible(!filterOptions.visibleProperty().getValue());
-
     }
 
     private void loadCardsToGridView() {
         addCardsToHBoxToGrid(" ");
     }
-
-    private void addCardsToHBoxToGrid(String searchValue) {
+    private void addCardsToHBoxToGrid(String searchValue){
+        addCardsToHBoxToGrid(searchValue, new Lesson("place holder"));
+    }
+    private void addCardsToHBoxToGrid(String searchValue, Lesson currLesson) {
         GridPane cardGrid = new GridPane();
         cardGrid.setVgap(10);
 
@@ -144,7 +151,7 @@ public class PrimaryController {
         cardGrid.getColumnConstraints().add(colConstraints);
 
 
-        ArrayList<Integer> loadedCards = new ArrayList<>();
+        ArrayList<String> loadedCards = new ArrayList<>();
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(null);
         scrollPane.setContent(cardGrid);
@@ -154,10 +161,13 @@ public class PrimaryController {
         HBox row = new HBox();
         for (String category: App.filteredData.keySet()){
             for (String subCategory: App.filteredData.get(category)){
-                System.out.println(subCategory);
                 for (CardView cardView: App.getFilterDatabase().getFilterOptions().get(category).get(subCategory)){
                     if (!loadedCards.contains(cardView.getCardId()) && cardView.getSearchString().contains(searchValue.toLowerCase())) {
-
+                        if (currLesson.getCardIds().contains(cardView.getCardId())){
+                            cardView.select();
+                        }else{
+                            cardView.unSelect();
+                        }
                         if (currCol == 3) {
                             //creating a new HBox or row after 3 cards are added
                             cardGrid.add(row, 0, currRow);
@@ -177,7 +187,6 @@ public class PrimaryController {
                         cardView.getCardImage().setOnMouseClicked(e -> {
                             magnifyImage(cardView.getCardImage());
                         });
-
                         row.getChildren().add(cardView.getCardView());
                         currCol++;
                         loadedCards.add(cardView.getCardId());
@@ -194,44 +203,55 @@ public class PrimaryController {
         if (App.isCourseSelected()) {
             if (cardView.addButtonClicked()) {
                 addCardToCardBox(cardView);
-                addEquipmentToEquipmentBox(cardView.getEquipments());
+                resetEquipmentBox(App.getCurrentSelectedLesson().getEquipments());
             }else{
                 removeCardFromCardBox(cardView);
-                removeEquipmentFromEquipmentBox(cardView.getEquipments());
+                resetEquipmentBox(App.getCurrentSelectedLesson().getEquipments());
             }
         }else{
             showSelectCoursePlanPopUpWindow();
         }
     }
 
-    public void addEquipmentToEquipmentBox(ArrayList<String> equipments){
+    public void resetEquipmentBox(ArrayList<String> equipments){
+        while (!equipmentsBox.getItems().isEmpty()){
+            equipmentsBox.getItems().remove(0);
+        }
         for (String e: equipments){
-            if (App.getCurrentSelectedLesson().addEquipment(e)) {
-                equipmentsBox.getItems().add(e);
-            }
+            equipmentsBox.getItems().add(hBoxForListView(e));
+        }
+    }
+
+    public void resetCardBox(ArrayList<CardView> cards){
+        while (!cardBox.getItems().isEmpty()){
+            cardBox.getItems().remove(0);
+        }
+        for (CardView cardView: cards){
+            cardBox.getItems().add(new HBoxForListView(cardView));
         }
     }
 
     public void addCardToCardBox(CardView cardView){
-        if (App.getCurrentSelectedLesson().addData(cardView)) {
-                cardBox.getItems().add(cardView.getCardTitle());
-            }
-    }
-
-    public void removeEquipmentFromEquipmentBox(ArrayList<String> equipments){
-        for (String e: equipments){
-            if (App.getCurrentSelectedLesson().removeEquipment(e)) {
-                equipmentsBox.getItems().remove(e);
-            }
+        if (App.getCurrentSelectedLesson().addData(cardView)){
+            resetCardBox(App.getCurrentSelectedLesson().getSelectedCardViews());
         }
     }
 
     public void removeCardFromCardBox(CardView cardView){
         if (App.getCurrentSelectedLesson().removeData(cardView)) {
-            cardBox.getItems().remove(cardView.getCardTitle());
+            resetCardBox(App.getCurrentSelectedLesson().getSelectedCardViews());
         }
     }
 
+    private static HBox hBoxForListView(String e){
+        Label label = new Label(e);
+        HBox wrapper = new HBox(5);
+        wrapper.setAlignment(Pos.CENTER);
+        wrapper.setPadding(new Insets(3, 3, 3, 3));
+        wrapper.setStyle("-fx-border-color: black");
+        wrapper.getChildren().add(label);
+        return wrapper;
+    }
     @FXML
     public String saveAsCourseAction() throws IOException {
         if (App.isCourseSelected()) {
@@ -266,7 +286,6 @@ public class PrimaryController {
         }else {
             Files.deleteIfExists(App.currentLoadedCourseFile.toPath());
             App.saveCurrentCourseLogToFile(App.currentLoadedCourseFile);
-            System.out.println("saved");
         }
     }
 
@@ -358,33 +377,8 @@ public class PrimaryController {
         saveAsLessonButton.setOnMouseExited(e->saveAsLessonButton.setStyle("-fx-background-color:   #ADD8E6;"));
     }
 
-
     @FXML
     private void searchClicked(){
         addCardsToHBoxToGrid(searchValue.getText());
     }
 }
-
-//            File chosenFile = new File(path);
-//            // Create a new file in the same directory as the original file
-//            File newFile = new File(chosenFile.getParent(), "new_" + chosenFile.getName());
-//
-//            // Save the current course log to the new file
-//            App.saveCurrentCourseLogToFile(newFile);
-//            if (chosenFile.exists() && newFile.exists()) {
-//                Path oldPath = chosenFile.toPath();
-//                Path newFilePath = newFile.toPath();
-//
-//                try {
-//                    // Rename the new file to the same name as the old file
-//                    Files.move(newFilePath, newFilePath.resolveSibling(oldPath.getFileName()), StandardCopyOption.REPLACE_EXISTING);
-//                    System.out.println("File renamed and replaced successfully.");
-//                } catch (IOException e) {
-//                    System.err.println("Error renaming file: " + e.getMessage());
-//                }
-//            } else {
-//                System.err.println("Files do not exist.");
-//            }
-//
-//            App.currentLoadedCourseFile = newFile;
-//            System.out.println(newFile.getAbsolutePath());

@@ -28,14 +28,13 @@ public class App extends Application {
     public static ArrayList<SubCategoryButton> currentSelectedButtons = new ArrayList<>();
     public static Stage primaryStage;
     public static HashMap<String, String> historyPaths;
-    private static CardDatabase cardDatabase;
     private static FilterDatabase filterDatabase;
     private static HashMap<String, Course> courses;
     private static Course currentSelectedCourse = null;
     private static Lesson currentSelectedLesson = null;
     private static Label selectedCourseLabel;
     private static Label selectedLessonLabel;
-    
+
     public static HashMap<String, TreeMap<String, Collection<CardView>>> getFilterOptions() {
         return filterDatabase.getFilterOptions();
     }
@@ -76,6 +75,7 @@ public class App extends Application {
 
     public static void setCurrentSelectedLesson(Lesson lesson) {
         currentSelectedLesson = lesson;
+        selectedLessonLabel.setText(" ");
         selectedLessonLabel.setText(lesson.getName());
     }
 
@@ -118,10 +118,8 @@ public class App extends Application {
             try {
                 File f = new File(path);
                 Course loadedCourse = Course.loadFromFile(f);
-                System.out.println(loadedCourse.getName());
                 loadedCourse.setCourseName(removeFileExtension(f.getName()));
                 courses.put(removeFileExtension(f.getName()), loadedCourse);
-                System.out.println(loadedCourse.getName());
                 historyPaths.put(loadedCourse.getName(), path);
             } catch (Exception e) {
                 System.out.println("file not found");
@@ -161,7 +159,7 @@ public class App extends Application {
         }
         pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
 
-        cardDatabase = new CardDatabase();
+        CardDatabase cardDatabase = new CardDatabase();
         cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");
 
         filterDatabase = new FilterDatabase();
@@ -169,7 +167,6 @@ public class App extends Application {
 
         courses = new HashMap<>();
         loadCourseHistory();
-        System.out.println(historyPaths);
 
         courses = new HashMap<>();
         courses.put("demonew", new Course("demonew"));
