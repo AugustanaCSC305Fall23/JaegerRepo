@@ -24,15 +24,15 @@ public class Card {
     private String dir;
     private String fileName;
 
-    public Card(String[] csvData){
+    public Card(String[] csvData, String newDirName){
         this.code = csvData[0];
         this.event = csvData[1];
         this.category = csvData[2];
         this.title = csvData[3];
-        String folderFilePath = "staticFiles/CardData/" + csvData[4] + "/";
+        String folderFilePath = "staticFiles/CardData/" + newDirName + "/";
         this.filePath = App.class.getResource(folderFilePath + csvData[5]);
         this.thumbnailFilePath = Objects.requireNonNull(App.class.getResource(folderFilePath + "thumbs/" + App.removeFileExtension(csvData[5]) + ".jpg").toExternalForm());
-        System.out.println(csvData[4] + "/" + csvData[5]);
+        System.out.println(newDirName + "/" + csvData[5]);
         this.gender = csvData[6];
         this.modelSex = csvData[7];
         this.levels = csvData[8].split(" ");

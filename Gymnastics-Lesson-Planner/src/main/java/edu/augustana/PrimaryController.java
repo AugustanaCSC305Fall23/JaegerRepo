@@ -149,7 +149,6 @@ public class PrimaryController {
         colConstraints.setHgrow(javafx.scene.layout.Priority.ALWAYS);
         cardGrid.getColumnConstraints().add(colConstraints);
 
-
         ArrayList<String> loadedCards = new ArrayList<>();
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(null);
@@ -447,16 +446,36 @@ public class PrimaryController {
         File selectedDirectory = directoryChooser.showDialog(App.primaryStage);
         if (checkDirectory(selectedDirectory)){
             try {
-                moveDirectory(selectedDirectory.getPath(), App.pathToCardDataFolder);
-                System.out.println("Directory moved successfully.");
+                String destinationFolderCount = String.valueOf(Objects.requireNonNull(new File(App.pathToCardDataFolder).list()).length);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Loading the data please wait....");
+                alert.setHeaderText(null);
+                alert.show();
+                copyDirectory(selectedDirectory, new File(App.pathToCardDataFolder, destinationFolderCount));
+                alert.close();
+                alert.setContentText("Directory moved successfully.\nPlease restart the app to see changes.");
+                alert.showAndWait();
             } catch (Exception e) {
                 System.err.println("Error moving directory: " + e.getMessage());
             }
         }
     }
 
-    private static void moveDirectory(String sourcePath, String destinationPath) throws IOException {
-        Files.move(Paths.get(sourcePath), Paths.get(destinationPath), StandardCopyOption.REPLACE_EXISTING);
+    private void copyDirectory(File source, File destination) throws IOException {
+        if (source.isDirectory()) {
+            if (!destination.exists()) {
+                destination.mkdir();
+            }
+
+            String[] files = source.list();
+            if (files != null) {
+                for (String file : files) {
+                    copyDirectory(new File(source, file), new File(destination, file));
+                }
+            }
+        } else {
+            Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     private static boolean checkDirectory(File selectedDirectory) {

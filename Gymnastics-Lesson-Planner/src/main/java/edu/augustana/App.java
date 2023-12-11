@@ -200,6 +200,26 @@ public class App extends Application {
 
         return titleCase.toString();
     }
+    public static void loadCards(){
+        CardDatabase cardDatabase = new CardDatabase();
+        try {
+            for (String f: new File(pathToCardDataFolder).list()){
+                File selectedDirectory = new File(pathToCardDataFolder, f);
+                File[] csvFiles = selectedDirectory.listFiles((dir, name) -> name.endsWith(".csv"));
+                if (csvFiles != null && csvFiles.length > 0) {
+                    System.out.println("CSV file found: " + csvFiles[0].getName());
+                }
+                cardDatabase.addCardPack(String.valueOf(new File(selectedDirectory, csvFiles[0].getName())), f);
+            }
+        }catch (Exception e){
+            System.out.println("data not found");
+        }
+        System.out.println("added the cards in the card database");
+        filterDatabase = new FilterDatabase();
+        filterDatabase.addFilterOptions(cardDatabase.getCards());
+
+        filteredData = FilterDatabase.allData;
+    }
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
@@ -210,16 +230,8 @@ public class App extends Application {
         pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
         pathToCardDataFolder = pathToResourcesFolder + "staticFiles/CardData/";
 
-        CardDatabase cardDatabase = new CardDatabase();
-        cardDatabase.addCardPack(pathToCardDataFolder + "Demo1/Demo1.csv");
-
-
-        System.out.println("added the cards in the card database");
-        filterDatabase = new FilterDatabase();
-        filterDatabase.addFilterOptions(cardDatabase.getCards());
-
+        loadCards();
         loadCourseHistory();
-        filteredData = FilterDatabase.allData;
         Scene scene = new Scene(loadFXML("primary"), 1400, 760);
 
         File cssFile = new File(pathToTargetFolder + "staticFiles/cssFiles/style.css");
