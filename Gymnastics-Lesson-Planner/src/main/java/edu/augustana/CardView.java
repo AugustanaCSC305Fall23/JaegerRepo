@@ -20,6 +20,7 @@ public class CardView{
     private final HBox favoriteButtonWrapper;
     private boolean isSelected = false;
     private boolean isFavorite;
+    private String code;
     private String searchString;
     private String event;
     private String gender;
@@ -38,6 +39,7 @@ public class CardView{
         modelSex = card.getModelSex();
         levels = card.getLevels();
         mainImageFilePath = card.getFilePath();
+        code = card.getCode();
 
         searchString = setUpSearchString(card).toLowerCase();
         isFavorite = false;
@@ -74,6 +76,11 @@ public class CardView{
 
         return searchString + " ";
     }
+
+    public String getCode() {
+        return code;
+    }
+
     private void setUpToolTips(){
         Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card."){{
             setStyle("-fx-font-size: 14;");
