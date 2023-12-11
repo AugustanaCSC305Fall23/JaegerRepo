@@ -26,6 +26,9 @@ public class HBoxForListView extends HBox{
         deleteIcon = App.getDeleteIcon();
         super.getChildren().addAll(label);
 
+        super.setMinHeight(33);
+        super.setMaxHeight(33);
+
         super.setOnMouseEntered(event -> {
             super.getChildren().add(imageVbox);
             imageVbox.getChildren().add(deleteIcon);
