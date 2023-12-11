@@ -22,15 +22,16 @@ public class HBoxForListView extends HBox {
         super.setAlignment(Pos.CENTER);
 
 
-        this.setOnMouseClicked(e-> {
-            showImage(cardView);
-        });
+
         VBox imageVbox = new VBox();
         imageVbox.setAlignment(Pos.CENTER_RIGHT);
         imageVbox.setPadding(new Insets(0, 0, 0, 0));
 
         Label label = new Label(cardView.getCardTitle());
         deleteIcon = App.getDeleteIcon();
+        label.setOnMouseClicked(e-> {
+            showImage(cardView);
+        });
 
         label.setMinWidth(150); // Adjust the width as needed
         imageVbox.setMaxWidth(20);
