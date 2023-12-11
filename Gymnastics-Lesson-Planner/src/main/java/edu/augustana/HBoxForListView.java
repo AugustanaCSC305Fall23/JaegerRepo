@@ -2,10 +2,13 @@ package edu.augustana;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class HBoxForListView extends HBox {
     private CardView cardView;
@@ -18,6 +21,10 @@ public class HBoxForListView extends HBox {
         super.setPadding(new Insets(0, 0, 0, 0));
         super.setAlignment(Pos.CENTER);
 
+
+        this.setOnMouseClicked(e-> {
+            showImage(cardView);
+        });
         VBox imageVbox = new VBox();
         imageVbox.setAlignment(Pos.CENTER_RIGHT);
         imageVbox.setPadding(new Insets(0, 0, 0, 0));
@@ -38,6 +45,23 @@ public class HBoxForListView extends HBox {
 
         super.setOnMouseEntered(event -> imageVbox.setVisible(true));
         super.setOnMouseExited(event -> imageVbox.setVisible(false));
+    }
+
+    private void showImage(CardView card) {
+        ImageView newImage = card.getMainImage();
+        Stage popUpWindow = new Stage();
+        popUpWindow.setResizable(false);
+        popUpWindow.initModality(Modality.APPLICATION_MODAL);
+        popUpWindow.initOwner(App.primaryStage);
+        VBox contentVBox = new VBox();
+        contentVBox.setAlignment(Pos.CENTER);
+        newImage.setFitWidth(600);
+        newImage.setPreserveRatio(true);
+//        newImage.preserveRatioProperty();
+        contentVBox.getChildren().add(newImage);
+        Scene scene = new Scene(contentVBox, 600, 420);
+        popUpWindow.setScene(scene);
+        popUpWindow.show();
     }
 
     public CardView getCardView() {

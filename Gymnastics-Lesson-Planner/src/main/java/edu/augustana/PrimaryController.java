@@ -400,7 +400,7 @@ public class PrimaryController {
     }
 
     @FXML
-    private void magnifyImage(ImageView image) {
+    public void magnifyImage(ImageView image) {
         ImageView newImage = new ImageView(image.getImage());
         Stage popUpWindow = new Stage();
         popUpWindow.setResizable(false);
