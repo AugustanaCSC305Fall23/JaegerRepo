@@ -4,9 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -18,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
 public class SelectOptionPopUp {
     private final String optionType;
@@ -252,27 +251,35 @@ public class SelectOptionPopUp {
         return option;
     }
 
+
+
     private ImageView getDeleteIcon(String buttonName, int index) {
         ImageView deleteIcon = App.getDeleteIcon();
         deleteIcon.setOnMouseClicked(event -> {
-            if (optionType.equalsIgnoreCase("course")) {
-                new File(App.historyPaths.get(buttonName)).delete();
-                App.historyPaths.remove(buttonName);
-                try {
-                    App.saveCourseHistory();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Delete Confirmation");
+            alert.setContentText("Are you sure you want to delete the item?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (optionType.equalsIgnoreCase("course")) {
+                    new File(App.historyPaths.get(buttonName)).delete();
+                    App.historyPaths.remove(buttonName);
+                    try {
+                        App.saveCourseHistory();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    initializeCourseInWindow();
+                    App.setCurrentSelectedCourse(null);
+                } else {
+                    App.getCurrentSelectedCourse().removeLesson(index);
+                    initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
                 }
-                initializeCourseInWindow();
-                App.setCurrentSelectedCourse(null);
-            } else {
-                App.getCurrentSelectedCourse().removeLesson(index);
-                initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
             }
         });
         return deleteIcon;
     }
-
     private void setOptionButtonStyle(Button button) {
         button.setStyle("-fx-background-color: #447ca4;" +
                 "-fx-background-radius: 20;" +
