@@ -539,7 +539,7 @@ public class PrimaryController {
                 alert.show();
                 copyDirectory(selectedDirectory, new File(App.pathToCardDataFolder, destinationFolderCount));
                 alert.close();
-                alert.setContentText("Directory moved successfully.\nPlease restart the app to see changes.");
+                alert.setContentText("Cards added successfully.\nPlease restart the app to see changes.");
                 alert.showAndWait();
             } catch (Exception e) {
                 System.err.println("Error moving directory: " + e.getMessage());

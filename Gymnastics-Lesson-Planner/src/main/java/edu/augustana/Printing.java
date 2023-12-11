@@ -201,7 +201,6 @@ public class Printing {
             if (printed) {
                 job.endJob();
                 printingWindow.close();
-
             } else {
                 jobStatus.textProperty().unbind();
                 jobStatus.setText("Printing Failed");
