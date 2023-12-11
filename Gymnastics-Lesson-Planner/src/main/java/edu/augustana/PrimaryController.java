@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.*;
 
 import java.nio.file.*;
@@ -388,6 +390,13 @@ public class PrimaryController {
     private void searchClicked(){
         addCardsToHBoxToGrid(searchValue.getText());
     }
+    private Label getHeaderLabelForAbout(String name){
+        Label header = new Label(name);
+        header.setFont(new Font(15));
+        header.setStyle("-fx-background-color: #d4f7fa; -fx-text-fill: #333333; -fx-font-weight: bold; -fx-padding: 5px 10px;");
+        return header;
+    }
+
     @FXML
     private void showAboutSection(){
         Stage aboutWindow = new Stage();
@@ -399,31 +408,45 @@ public class PrimaryController {
         aboutWindow.setMaxHeight(400);
         aboutWindow.setMaxWidth(600);
         VBox contentVBox = new VBox(15);
-        contentVBox.setAlignment(Pos.CENTER_RIGHT);
-        contentVBox.getChildren().add(new Label("Supervisor"));
-        contentVBox.getChildren().add(getNameAndImage("Forrest Stonedahl", App.trashCan));
+        contentVBox.setAlignment(Pos.CENTER);
+        contentVBox.getChildren().add(getHeaderLabelForAbout("Supervisor"));
+        Image supervisorImage = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/supervisor.png")).toExternalForm());
+        contentVBox.getChildren().add(getNameAndImage("Forrest Stonedahl", supervisorImage));
 
-        contentVBox.getChildren().add(new Label("Developers"));
-        contentVBox.getChildren().add(getNameAndImage("Drishtant Bhandari", App.trashCan));
-        contentVBox.getChildren().add(getNameAndImage("Aakriti Bhandari", App.trashCan));
-        contentVBox.getChildren().add(getNameAndImage("Sara Zbir", App.trashCan));
-        contentVBox.getChildren().add(getNameAndImage("Bibhu Lamichhane", App.trashCan));
+        contentVBox.getChildren().add(getHeaderLabelForAbout("Developers"));
+        Image developerFImage = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/developerF.png")).toExternalForm());
+        Image developerMImage = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/developerM.png")).toExternalForm());
+        contentVBox.getChildren().add(getNameAndImage("Drishtant Bhandari", developerMImage));
+        contentVBox.getChildren().add(getNameAndImage("Aakriti Bhandari", developerFImage));
+        contentVBox.getChildren().add(getNameAndImage("Sara Zbir", developerFImage));
+        contentVBox.getChildren().add(getNameAndImage("Bibhu Lamichhane", developerMImage));
 
-        contentVBox.getChildren().add(new Label("Product Designer"));
-        contentVBox.getChildren().add(getNameAndImage(" Samantha Keehn", App.trashCan));
+        contentVBox.getChildren().add(getHeaderLabelForAbout("Product Designer"));
+        Image productDesigner = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/graphic-designer.png")).toExternalForm());
+        contentVBox.getChildren().add(getNameAndImage(" Samantha Keehn", productDesigner));
+
+        contentVBox.setStyle("-fx-background-color: linear-gradient(to bottom, #f5f5f5, #c4e7fb); -fx-padding: 20px; -fx-border-radius: 5px;");
+
 
         ScrollPane scrollPane = new ScrollPane(contentVBox);
+        scrollPane.setStyle("-fx-background: transparent; -fx-border-radius: 5px;");
+        scrollPane.setFitToWidth(true);
         Scene scene = new Scene(scrollPane, 600, 400);
+        scene.setFill(Color.TRANSPARENT);
+
         aboutWindow.setScene(scene);
         aboutWindow.show();
     }
+
     private HBox getNameAndImage(String n, Image image){
         HBox nameAndImage = new HBox(30);
         nameAndImage.setAlignment(Pos.CENTER);
         Label name = new Label(n);
+        name.setStyle("-fx-text-fill: #333333;");
         ImageView img = new ImageView(image);
+        img.setFitWidth(80);
+
         img.setPreserveRatio(true);
-        img.setFitWidth(100);
         nameAndImage.getChildren().addAll(name, img);
         return nameAndImage;
     }
