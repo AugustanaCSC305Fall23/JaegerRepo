@@ -88,14 +88,14 @@ public class SelectOptionPopUp {
         createLoadWrapper.setAlignment(Pos.CENTER);
         createLoadWrapper.getChildren().addAll(createOptionButton, loadOptionButton);
         contentVBox.getChildren().add(createLoadWrapper);
-        if (optionType.equalsIgnoreCase("course")) {
-            Button clearHist = new Button("Clear History");
-            setClearStyle(clearHist);
-            clearHist.setOnMouseEntered(e -> clearHist.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #cf5d66;-fx-font-size: 12;-fx-pref-height: 20;"));
-            clearHist.setOnMouseExited(e -> setClearStyle(clearHist));
-            clearHist.setOnMouseClicked(e -> App.clearHistory());
-            createLoadWrapper.getChildren().add(clearHist);
-        }
+//        if (optionType.equalsIgnoreCase("course")) {
+//            Button clearHist = new Button("Clear History");
+//            setClearStyle(clearHist);
+//            clearHist.setOnMouseEntered(e -> clearHist.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #cf5d66;-fx-font-size: 12;-fx-pref-height: 20;"));
+//            clearHist.setOnMouseExited(e -> setClearStyle(clearHist));
+//            clearHist.setOnMouseClicked(e -> App.clearHistory());
+//            createLoadWrapper.getChildren().add(clearHist);
+//        }
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);

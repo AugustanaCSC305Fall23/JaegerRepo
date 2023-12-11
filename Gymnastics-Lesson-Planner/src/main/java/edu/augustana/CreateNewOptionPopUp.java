@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.Objects;
 
@@ -26,6 +27,9 @@ public class CreateNewOptionPopUp {
         popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.initOwner(App.primaryStage);
+        if (optionType.equalsIgnoreCase("lesson")) {
+            popUpWindow.initStyle(StageStyle.UNDECORATED);
+        }
         VBox contentVBox = new VBox(15);
         contentVBox.setAlignment(Pos.CENTER);
 
