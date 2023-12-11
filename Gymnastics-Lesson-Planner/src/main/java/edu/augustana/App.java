@@ -25,6 +25,12 @@ public class App extends Application {
     public static final String[] OS = System.getProperty("os.name").split(",");
     public static final Image trashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/trashCan.png")).toExternalForm());
     public static final Image redTrashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redTrashCan.png")).toExternalForm());
+//    public static final Image img = new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg");
+    public static Image addButton = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm());
+    public static Image heartButton = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm());
+    public static Image fillAddButton = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/fillAdd.png")).toExternalForm());
+    public static Image fillHeartButton = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/fillHeart.png")).toExternalForm());
+    public static Image selected = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm());
 
     public static String pathToTargetFolder;
     public static String pathToResourcesFolder;
@@ -203,8 +209,11 @@ public class App extends Application {
         pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
 
         CardDatabase cardDatabase = new CardDatabase();
-        cardDatabase.addCardPack(pathToTargetFolder + "staticFiles/Demo1/DEMO1.csv");
+//        cardDatabase.addCardPack(pathToResourcesFolder + "staticFiles/StressTest/StressTest.csv");
+        cardDatabase.addCardPack(pathToResourcesFolder + "staticFiles/Demo1/Demo1.csv");
 
+
+        System.out.println("added the cards in the card database");
         filterDatabase = new FilterDatabase();
         filterDatabase.addFilterOptions(cardDatabase.getCards());
 

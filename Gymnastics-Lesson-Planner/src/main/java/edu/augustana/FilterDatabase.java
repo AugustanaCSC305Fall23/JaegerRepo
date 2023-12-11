@@ -28,9 +28,9 @@ public class FilterDatabase {
         allData.put("Equipments", new ArrayList<>());
     }
 
-    public void addFilterOptions(HashMap<Integer, Card> cards){
+    public void addFilterOptions(HashMap<Integer, CardView> cards){
         for (int cardId: cards.keySet()) {
-            Card currCard = cards.get(cardId);
+            CardView currCard = cards.get(cardId);
             String event = cards.get(cardId).getEvent();
             String gender = cards.get(cardId).getGender();
             String modelSex = cards.get(cardId).getModelSex();
@@ -66,7 +66,7 @@ public class FilterDatabase {
                 }
 
             }
-            ArrayList<String> equipments = cards.get(cardId).getEquipment();
+            ArrayList<String> equipments = cards.get(cardId).getEquipments();
             for (String equipment : equipments) {
                 if (equipment.contains("/")) {
                     for (String e : equipment.split("/")) {
@@ -79,17 +79,17 @@ public class FilterDatabase {
         }
     }
 
-    private void addToFilterOptions(String category, String subCategory, Card card){
+    private void addToFilterOptions(String category, String subCategory, CardView card){
         if (!filterOptions.get(category).containsKey(subCategory)){
             filterOptions.get(category).put(subCategory, new HashSet<>());
         }
         if (!allData.get(category).contains(subCategory)) {
             allData.get(category).add(subCategory);
         }
-        filterOptions.get(category).get(subCategory).add(new CardView(card));
+        filterOptions.get(category).get(subCategory).add(card);
     }
 
-    private void addFormattedEquipment(String equipment, Card card){
+    private void addFormattedEquipment(String equipment, CardView card){
         equipment = equipment.trim().replaceAll("\"", "");
         addToFilterOptions("Equipments", equipment, card);
     }

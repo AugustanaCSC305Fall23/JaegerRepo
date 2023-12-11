@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -23,24 +22,32 @@ public class CardView{
     private boolean isSelected = false;
     private boolean isFavorite;
     private String searchString;
+    private String event;
+    private String gender;
+    private String modelSex;
+    private ArrayList<String> levels;
     public CardView(Card card){
         equipments = card.getEquipment();
         cardTitle = card.getTitle();
-        cardImage = new ImageView(new Image(card.getFilePath()));
+        cardImage = new ImageView(new Image(card.getThumbnailFilePath()));
         cardImage.setFitWidth(250);
         cardImage.setPreserveRatio(true);
         cardId = String.valueOf(card.getCardId());
+        event = card.getEvent();
+        gender = card.getGender();
+        modelSex = card.getModelSex();
+        levels = card.getLevels();
 
         searchString = setUpSearchString(card).toLowerCase();
         isFavorite = false;
 
-        ImageView addButton = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+        ImageView addButton = new ImageView(App.addButton);
         addButton.setFitWidth(30);
         addButton.setPreserveRatio(true);
         addButtonWrapper = new HBox(addButton);
         addButtonWrapper.setPadding(new Insets(5, 5, 5, 150));
 
-        ImageView favoriteButton = new ImageView(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm()));
+        ImageView favoriteButton = new ImageView(App.heartButton);
         favoriteButton.setFitWidth(30);
         favoriteButton.setPreserveRatio(true);
         favoriteButtonWrapper = new HBox(favoriteButton);
@@ -79,23 +86,23 @@ public class CardView{
     public void hoverFeatures(){
         addButtonWrapper.setOnMouseEntered(event -> {
             if (!isSelected){
-                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/fillAdd.png")).toExternalForm()));
+                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.fillAddButton);
             }
         });
         addButtonWrapper.setOnMouseExited(event -> {
             if (!isSelected){
-                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.addButton);
             }
         });
 
         favoriteButtonWrapper.setOnMouseEntered(event -> {
             if (!isFavorite){
-                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/fillHeart.png")).toExternalForm()));
+                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.fillHeartButton);
             }
         });
         favoriteButtonWrapper.setOnMouseExited(event -> {
             if (!isFavorite){
-                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm()));
+                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.heartButton);
             }
         });
 
@@ -110,12 +117,12 @@ public class CardView{
     }
     public void select(){
         isSelected = true;
-        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/selected.png")).toExternalForm()));
+        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.selected);
     }
 
     public void unSelect(){
         isSelected = false;
-        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm()));
+        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.addButton);
 
     }
     public VBox getCardView(){
@@ -133,6 +140,9 @@ public class CardView{
         buttonAndCode.setAlignment(Pos.CENTER);
         return buttonAndCode;
     }
+    public ArrayList<String> getLevels(){
+        return levels;
+    }
 
     public HBox getAddButton(){
         return addButtonWrapper;
@@ -142,9 +152,9 @@ public class CardView{
 
     private void changeFavoriteWhenClicked(){
         if(isFavorite){
-            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm()));
+            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.heartButton);
         }else {
-            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/filledHeart.png")).toExternalForm()));
+            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.fillHeartButton);
         }
         isFavorite = !isFavorite;
     }
@@ -165,5 +175,18 @@ public class CardView{
     }
     public boolean getIsSelected(){
         return isSelected;
+    }
+
+
+    public String getEvent() {
+        return event;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getModelSex() {
+        return modelSex;
     }
 }

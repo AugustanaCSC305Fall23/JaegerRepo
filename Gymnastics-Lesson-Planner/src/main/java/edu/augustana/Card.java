@@ -1,8 +1,11 @@
 package edu.augustana;
 
+import javafx.scene.image.Image;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Card {
     private final String code;
@@ -17,14 +20,21 @@ public class Card {
     private final String[] keywords;
     private final int cardId;
     private static int cardIndex = 0;
+    private String thumbnailFilePath;
+    private String dir;
+    private String fileName;
 
     public Card(String[] csvData){
         this.code = csvData[0];
         this.event = csvData[1];
         this.category = csvData[2];
         this.title = csvData[3];
-        this.filePath = App.class.getResource("staticFiles/" + csvData[4] + "/" + csvData[5]);
-
+        String folderFilePath = "staticFiles/" + csvData[4] + "/";
+        this.filePath = App.class.getResource(folderFilePath + csvData[5]);
+        this.thumbnailFilePath = Objects.requireNonNull(App.class.getResource(folderFilePath + "thumbs/" + App.removeFileExtension(csvData[5]) + ".jpg").toExternalForm());
+        this.dir = csvData[4];
+        this.fileName = csvData[5];
+        System.out.println(csvData[4] + "/" + csvData[5]);
         this.gender = csvData[6];
         this.modelSex = csvData[7];
         this.levels = csvData[8].split(" ");
@@ -32,6 +42,10 @@ public class Card {
         this.keywords = csvData[10].split(", ");
         cardId = cardIndex;
         cardIndex++;
+    }
+
+    public String getThumbnailFilePath() {
+        return thumbnailFilePath;
     }
 
     public int getCardId() {

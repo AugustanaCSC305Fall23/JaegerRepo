@@ -404,10 +404,10 @@ public class PrimaryController {
         contentVBox.getChildren().add(getNameAndImage("Forrest Stonedahl", App.trashCan));
 
         contentVBox.getChildren().add(new Label("Developers"));
-        contentVBox.getChildren().add(getNameAndImage("Drishtant Bhandari", App.trashCan));
-        contentVBox.getChildren().add(getNameAndImage("Aakriti Bhandari", App.trashCan));
-        contentVBox.getChildren().add(getNameAndImage("Sara Zbir", App.trashCan));
-        contentVBox.getChildren().add(getNameAndImage("Bibhu Lamichhane", App.trashCan));
+        contentVBox.getChildren().add(getNameAndImage("Drishtant Bhandari", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
+        contentVBox.getChildren().add(getNameAndImage("Aakriti Bhandari", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
+        contentVBox.getChildren().add(getNameAndImage("Sara Zbir", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
+        contentVBox.getChildren().add(getNameAndImage("Bibhu Lamichhane", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
 
         contentVBox.getChildren().add(new Label("Product Designer"));
         contentVBox.getChildren().add(getNameAndImage(" Samantha Keehn", App.trashCan));

@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.HashMap;
 
 public class CardDatabase {
-    private final HashMap<Integer, Card> cardHashMap;
+    private final HashMap<Integer, CardView> cardHashMap;
 
     public CardDatabase() {
         cardHashMap = new HashMap<>();
@@ -21,11 +21,11 @@ public class CardDatabase {
         while ((line = br.readLine()) != null) {
             String[] cardData = line.split(",");    // "splitting using comma because it's a csv"
             Card newCard = new Card(cardData);
-            cardHashMap.put(newCard.getCardId(), newCard);
+            cardHashMap.put(newCard.getCardId(), new CardView(newCard));
         }
     }
 
-    public HashMap<Integer, Card> getCards() {
+    public HashMap<Integer, CardView> getCards() {
         return cardHashMap;
     }
 }
