@@ -25,7 +25,7 @@ public class App extends Application {
     public static final String[] OS = System.getProperty("os.name").split(",");
     public static final Image trashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/trashCan.png")).toExternalForm());
     public static final Image redTrashCan = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/redTrashCan.png")).toExternalForm());
-//    public static final Image img = new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg");
+    //    public static final Image img = new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg");
     public static Image addButton = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/add.png")).toExternalForm());
     public static Image heartButton = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/heart.png")).toExternalForm());
     public static Image fillAddButton = new Image(Objects.requireNonNull(App.class.getResource("staticFiles/images/fillAdd.png")).toExternalForm());
@@ -82,9 +82,9 @@ public class App extends Application {
 
     public static void setCurrentSelectedLesson(Lesson lesson) {
         currentSelectedLesson = lesson;
-        if (lesson == null){
+        if (lesson == null) {
             selectedLessonLabel.setText("No lesson selected");
-        }else {
+        } else {
             selectedLessonLabel.setText(" ");
             selectedLessonLabel.setText(lesson.getName());
         }
@@ -96,15 +96,15 @@ public class App extends Application {
     }
 
     public static boolean addCourseToCourses(Course courseToAdd) {
-        if (historyPaths.get(courseToAdd.getName()) == null){
+        if (historyPaths.get(courseToAdd.getName()) == null) {
             setCurrentSelectedCourse(courseToAdd);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public static void addLessonToLessons(Lesson lessonToAdd){
+    public static void addLessonToLessons(Lesson lessonToAdd) {
         getCurrentSelectedCourse().addData(lessonToAdd);
         setCurrentSelectedLesson(lessonToAdd);
     }
@@ -116,7 +116,7 @@ public class App extends Application {
     public static void saveCourseHistory() throws IOException {
         clearHistory();
         File file = new File("src/main/resources/edu/augustana/staticFiles/loadFiles.txt");
-        for (String path: historyPaths.values()){
+        for (String path : historyPaths.values()) {
             try (FileWriter writer = new FileWriter(file, true)) {
                 writer.write(path + "\n");
             }
@@ -132,12 +132,13 @@ public class App extends Application {
             throw new RuntimeException(e);
         }
     }
+
     public static void addToHistory(String fileName, File logFile) throws IOException {
-        if (App.historyPaths.get(fileName) != null){
-            if (!App.historyPaths.get(fileName).equalsIgnoreCase(logFile.getAbsolutePath())){
+        if (App.historyPaths.get(fileName) != null) {
+            if (!App.historyPaths.get(fileName).equalsIgnoreCase(logFile.getAbsolutePath())) {
                 App.historyPaths.put(fileName + "_new", logFile.getAbsolutePath());
             }
-        }else{
+        } else {
             App.historyPaths.put(fileName, logFile.getAbsolutePath());
         }
         saveCourseHistory();
@@ -167,10 +168,10 @@ public class App extends Application {
 
     public static void setCurrentSelectedCourse(Course course) {
         currentSelectedCourse = course;
-        if (course == null){
+        if (course == null) {
             selectedCourseLabel.setText("No course selected");
             setCurrentSelectedLesson(null);
-        }else {
+        } else {
             selectedCourseLabel.setText(course.getName());
         }
     }
@@ -187,6 +188,7 @@ public class App extends Application {
             return fileName;
         }
     }
+
     public static String toTitleCase(String input) {
         if (input == null || input.isEmpty()) return input;
 
@@ -200,10 +202,11 @@ public class App extends Application {
 
         return titleCase.toString();
     }
-    public static void loadCards(){
+
+    public static void loadCards() {
         CardDatabase cardDatabase = new CardDatabase();
         try {
-            for (String f: new File(pathToCardDataFolder).list()){
+            for (String f : new File(pathToCardDataFolder).list()) {
                 File selectedDirectory = new File(pathToCardDataFolder, f);
                 File[] csvFiles = selectedDirectory.listFiles((dir, name) -> name.endsWith(".csv"));
                 if (csvFiles != null && csvFiles.length > 0) {
@@ -211,7 +214,7 @@ public class App extends Application {
                 }
                 cardDatabase.addCardPack(String.valueOf(new File(selectedDirectory, csvFiles[0].getName())), f);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("data not found");
         }
         System.out.println("added the cards in the card database");
@@ -220,6 +223,16 @@ public class App extends Application {
 
         filteredData = FilterDatabase.allData;
     }
+
+    public static ImageView getDeleteIcon() {
+        ImageView deleteIcon = new ImageView(trashCan);
+        deleteIcon.setPreserveRatio(true);
+        deleteIcon.setFitWidth(30);
+        deleteIcon.setOnMouseEntered(event -> deleteIcon.setImage(redTrashCan));
+        deleteIcon.setOnMouseExited(event -> deleteIcon.setImage(trashCan));
+        return deleteIcon;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
@@ -245,15 +258,6 @@ public class App extends Application {
         VBox labels = ((VBox) ((VBox) (scene.getRoot().getChildrenUnmodifiable().get(1))).getChildren().get(0));
         selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
         selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
-    }
-
-    public static ImageView getDeleteIcon(){
-        ImageView deleteIcon = new ImageView(trashCan);
-        deleteIcon.setPreserveRatio(true);
-        deleteIcon.setFitWidth(30);
-        deleteIcon.setOnMouseEntered(event -> deleteIcon.setImage(redTrashCan));
-        deleteIcon.setOnMouseExited(event -> deleteIcon.setImage(trashCan));
-        return deleteIcon;
     }
 }
 

@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
-public class CardView{
+public class CardView {
     private final ImageView thumbnailImage;
     private final String cardId;
     private final ArrayList<String> equipments;
@@ -27,7 +27,8 @@ public class CardView{
     private String modelSex;
     private ArrayList<String> levels;
     private String mainImageFilePath;
-    public CardView(Card card){
+
+    public CardView(Card card) {
         equipments = card.getEquipment();
         cardTitle = card.getTitle();
         thumbnailImage = new ImageView(new Image(card.getThumbnailFilePath()));
@@ -62,15 +63,15 @@ public class CardView{
         setUpToolTips();
     }
 
-    private String setUpSearchString(Card card){
+    private String setUpSearchString(Card card) {
         StringBuilder searchString = new StringBuilder(card.getCode() + card.getEvent() + card.getCategory() + card.getTitle() + card.getGender() + card.getModelSex());
-        for (String l: card.getLevels()){
+        for (String l : card.getLevels()) {
             searchString.append(l);
         }
-        for (String e: card.getEquipment()){
+        for (String e : card.getEquipment()) {
             searchString.append(e);
         }
-        for (String k: card.getKeywords()){
+        for (String k : card.getKeywords()) {
             searchString.append(k);
         }
 
@@ -81,62 +82,67 @@ public class CardView{
         return code;
     }
 
-    private void setUpToolTips(){
-        Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card."){{
+    private void setUpToolTips() {
+        Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card.") {{
             setStyle("-fx-font-size: 14;");
             setShowDelay(javafx.util.Duration.millis(1000));
         }});
-        Tooltip.install(thumbnailImage, new Tooltip("Click to magnify the card."){{
+        Tooltip.install(thumbnailImage, new Tooltip("Click to magnify the card.") {{
             setStyle("-fx-font-size: 14;");
             setShowDelay(javafx.util.Duration.millis(1000));
         }});
     }
-    public void hoverFeatures(){
+
+    public void hoverFeatures() {
         addButtonWrapper.setOnMouseEntered(event -> {
-            if (!isSelected){
-                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.fillAddButton);
+            if (!isSelected) {
+                ((ImageView) addButtonWrapper.getChildren().get(0)).setImage(App.fillAddButton);
             }
         });
         addButtonWrapper.setOnMouseExited(event -> {
-            if (!isSelected){
-                ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.addButton);
+            if (!isSelected) {
+                ((ImageView) addButtonWrapper.getChildren().get(0)).setImage(App.addButton);
             }
         });
 
         favoriteButtonWrapper.setOnMouseEntered(event -> {
-            if (!isFavorite){
-                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.fillHeartButton);
+            if (!isFavorite) {
+                ((ImageView) favoriteButtonWrapper.getChildren().get(0)).setImage(App.fillHeartButton);
             }
         });
         favoriteButtonWrapper.setOnMouseExited(event -> {
-            if (!isFavorite){
-                ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.heartButton);
+            if (!isFavorite) {
+                ((ImageView) favoriteButtonWrapper.getChildren().get(0)).setImage(App.heartButton);
             }
         });
 
     }
-    public ImageView getMainImage(){
+
+    public ImageView getMainImage() {
         return new ImageView(new Image(mainImageFilePath));
     }
-    public boolean addButtonClicked(){
-        if (isSelected){
+
+    public boolean addButtonClicked() {
+        if (isSelected) {
             unSelect();
-        }else {
+        } else {
             select();
         }
         return isSelected;
     }
-    public void select(){
+
+    public void select() {
         isSelected = true;
-        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.selected);
+        ((ImageView) addButtonWrapper.getChildren().get(0)).setImage(App.selected);
     }
 
-    public void unSelect(){
+    public void unSelect() {
         isSelected = false;
-        ((ImageView)addButtonWrapper.getChildren().get(0)).setImage(App.addButton);
+        ((ImageView) addButtonWrapper.getChildren().get(0)).setImage(App.addButton);
 
     }
-    public VBox getCardView(){
+
+    public VBox getCardView() {
         VBox finalCardView = new VBox(thumbnailImage, buttonAndFavButton);
         finalCardView.setAlignment(Pos.CENTER);
         finalCardView.setSpacing(5);
@@ -145,30 +151,34 @@ public class CardView{
         return finalCardView;
     }
 
-    private HBox combineButtonAndFavButton(){
+    private HBox combineButtonAndFavButton() {
         HBox buttonAndCode = new HBox();
         buttonAndCode.getChildren().addAll(favoriteButtonWrapper, addButtonWrapper);
         buttonAndCode.setAlignment(Pos.CENTER);
         return buttonAndCode;
     }
-    public ArrayList<String> getLevels(){
+
+    public ArrayList<String> getLevels() {
         return levels;
     }
 
-    public HBox getAddButton(){
+    public HBox getAddButton() {
         return addButtonWrapper;
     }
 
-    public ImageView getThumbnailImage(){return thumbnailImage;}
+    public ImageView getThumbnailImage() {
+        return thumbnailImage;
+    }
 
-    private void changeFavoriteWhenClicked(){
-        if(isFavorite){
-            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.heartButton);
-        }else {
-            ((ImageView)favoriteButtonWrapper.getChildren().get(0)).setImage(App.fillHeartButton);
+    private void changeFavoriteWhenClicked() {
+        if (isFavorite) {
+            ((ImageView) favoriteButtonWrapper.getChildren().get(0)).setImage(App.heartButton);
+        } else {
+            ((ImageView) favoriteButtonWrapper.getChildren().get(0)).setImage(App.fillHeartButton);
         }
         isFavorite = !isFavorite;
     }
+
     public String getCardId() {
         return cardId;
     }
@@ -184,7 +194,8 @@ public class CardView{
     public String getSearchString() {
         return searchString;
     }
-    public boolean getIsSelected(){
+
+    public boolean getIsSelected() {
         return isSelected;
     }
 

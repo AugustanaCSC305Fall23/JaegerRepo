@@ -1,13 +1,12 @@
 package edu.augustana;
 
-import javafx.scene.image.Image;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class Card {
+    private static int cardIndex = 0;
     private final String code;
     private final String event;
     private final String category;
@@ -19,12 +18,11 @@ public class Card {
     private final String[] equipments;
     private final String[] keywords;
     private final int cardId;
-    private static int cardIndex = 0;
     private String thumbnailFilePath;
     private String dir;
     private String fileName;
 
-    public Card(String[] csvData, String newDirName){
+    public Card(String[] csvData, String newDirName) {
         this.code = csvData[0];
         this.event = csvData[1];
         this.category = csvData[2];
@@ -45,6 +43,7 @@ public class Card {
     public String getThumbnailFilePath() {
         return thumbnailFilePath;
     }
+
     public int getCardId() {
         return cardId;
     }

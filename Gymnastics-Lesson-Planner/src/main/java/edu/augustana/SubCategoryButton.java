@@ -3,7 +3,6 @@ package edu.augustana;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
 public class SubCategoryButton {
@@ -13,8 +12,8 @@ public class SubCategoryButton {
     public String buttonCategory;
     public Button mainButton;
 
-    public SubCategoryButton(String subCategoryName, String categoryName){
-        mainButton =  new Button(subCategoryName);
+    public SubCategoryButton(String subCategoryName, String categoryName) {
+        mainButton = new Button(subCategoryName);
 
         this.subCategoryButtonName = subCategoryName;
         buttonCategory = categoryName;
@@ -30,17 +29,17 @@ public class SubCategoryButton {
         return buttonClicked;
     }
 
-    public void click(){
-        if (buttonClicked){
+    public void click() {
+        if (buttonClicked) {
             buttonClicked = false;
             mainButton.setId("subCategoryButton");
             App.filteredData.remove(subCategoryButtonName);
             App.currentSelectedButtons.remove(this);
-            if (App.currentSelectedButtons.isEmpty()){
+            if (App.currentSelectedButtons.isEmpty()) {
                 App.filteredData = FilterDatabase.allData;
             }
-        }else{
-            if (App.currentSelectedButtons.isEmpty()){
+        } else {
+            if (App.currentSelectedButtons.isEmpty()) {
                 App.resetFilteredData();
             }
             buttonClicked = true;
@@ -60,7 +59,7 @@ public class SubCategoryButton {
         return buttonWrapper;
     }
 
-    public VBox getSubCategoryButtonWrapper(){
+    public VBox getSubCategoryButtonWrapper() {
         return buttonWrapper;
     }
 

@@ -11,18 +11,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Objects;
 
 public class CreateNewOptionPopUp {
-    private Stage popUpWindow;
     private final String optionType;
+    private Stage popUpWindow;
 
-    public CreateNewOptionPopUp(String optionType){
+    public CreateNewOptionPopUp(String optionType) {
         this.optionType = optionType;
 
         popUpWindow = new Stage();
@@ -74,7 +72,7 @@ public class CreateNewOptionPopUp {
         );
         loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
         loadOptionButton.setOnMouseClicked(event -> createClicked(optionTypeName.getText()));
-        loadOptionButton.setOnMouseExited(e->loadOptionButton.setStyle("-fx-background-color: #34c6a4;" +
+        loadOptionButton.setOnMouseExited(e -> loadOptionButton.setStyle("-fx-background-color: #34c6a4;" +
                 "-fx-background-radius: 20;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-size: 12;" +
@@ -90,19 +88,19 @@ public class CreateNewOptionPopUp {
         return popUpWindow;
     }
 
-    private void createClicked(String name){
-        if (name.isBlank()){
+    private void createClicked(String name) {
+        if (name.isBlank()) {
             showAlert("Name is required");
-        }else if (optionType.equalsIgnoreCase("course")){
-            if (!App.addCourseToCourses(new Course(name))){
+        } else if (optionType.equalsIgnoreCase("course")) {
+            if (!App.addCourseToCourses(new Course(name))) {
                 showAlert("A course of this name already exists");
-            }else {
+            } else {
                 popUpWindow.close();
                 SelectOptionPopUp lessonSelection = new SelectOptionPopUp("lesson");
                 lessonSelection.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
                 lessonSelection.getPopUpWindow().show();
             }
-        }else{
+        } else {
             App.addLessonToLessons(new Lesson(name));
             popUpWindow.close();
         }

@@ -1,161 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-
-<BorderPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.PrimaryController">
-   <left>
-      <VBox fx:id="filters" alignment="TOP_CENTER" fillWidth="false" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="121.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@staticFiles/images/logo.png" />
-               </image>
-            </ImageView>
-            <HBox alignment="CENTER">
-               <children>
-                  <HBox alignment="CENTER" onMouseClicked="#searchClicked" style="-fx-background-color: #d4f7fa; -fx-background-radius: 15;">
-                     <children>
-                        <TextField fx:id="searchValue" onKeyTyped="#searchClicked" style="-fx-background-radius: 15;">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </TextField>
-                        <ImageView fitHeight="33.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@staticFiles/images/search.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ImageView>
-                     </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets bottom="58.0" left="15.0" top="58.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </HBox>
-               </children>
-            </HBox>
-            <Label alignment="CENTER" style="-fx-background-color: #ADD8E6; -fx-background-radius: 10; -fx-text-fill: black;" text="Filters" textFill="WHITE">
-               <font>
-                  <Font size="21.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets left="40.0" right="40.0" />
-               </padding>
-            </Label>
-            <ScrollPane fx:id="filterScrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="400.0" style="-fx-padding: 0; -fx-background-color: transparent;">
-               <content>
-                  <VBox fx:id="allFilterOptions" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefWidth="302.0" />
-               </content>
-            </ScrollPane>
-            <ButtonBar prefHeight="34.0" prefWidth="225.0">
-              <buttons>
-                <Button mnemonicParsing="false" onAction="#addNewCardPack" prefHeight="26.0" prefWidth="114.0" style="-fx-background-radius: 20; -fx-background-color: #69c5d1; -fx-text-fill: white;" text="Add new cards" />
-                  <Button mnemonicParsing="false" onAction="#showAboutSection" style="-fx-background-radius: 20; -fx-background-color: #69d1c0;" text="ABOUT" textFill="WHITE" />
-              </buttons>
-            </ButtonBar>
-         </children>
-      </VBox>
-   </left>
-   <center>
-      <VBox fx:id="centerArea" alignment="TOP_CENTER" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
-         <children>
-            <VBox fx:id="selectCourseHbox" alignment="CENTER" spacing="10.0">
-               <children>
-                  <HBox alignment="CENTER" spacing="20.0">
-                     <children>
-                        <Label fx:id="currCourseLabel" alignment="CENTER" prefHeight="40.0" prefWidth="330.0" style="-fx-background-radius: 10; -fx-background-color: #d4f7fa;" text="No course Selected">
-                           <font>
-                              <Font name="Yu Gothic Regular" size="33.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="createcourseButton" mnemonicParsing="false" onAction="#showSelectCoursePlanPopUpWindow" onMouseEntered="#createCourseButtonMouseHover" onMouseExited="#createCourseButtonMouseExit" prefHeight="38.0" prefWidth="181.0" style="-fx-background-radius: 20; -fx-background-color: #69d1c0;" text="Select/Create Course" textFill="WHITE">
-                           <font>
-                              <Font size="16.0" />
-                           </font></Button>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="selectCourseLessonHbox" alignment="CENTER" spacing="20.0">
-                     <children>
-                        <Label fx:id="currLessonLabel" text="No Lesson Selected">
-                           <font>
-                              <Font name="Yu Gothic Medium" size="21.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="createlessonButton" mnemonicParsing="false" onAction="#showSelectLessonPlanPopUpWindow" onMouseEntered="#createlessonButtonMouseHover" onMouseExited="#createlessonButtonMouseExit" style="-fx-background-radius: 20; -fx-background-color: #69c5d1;" text="Select/Create Lesson" textFill="WHITE" />
-                     </children></HBox>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" top="10.0" />
-               </padding>
-            </VBox>
-            <ScrollPane fx:id="scrollPane" vbarPolicy="NEVER" />
-         </children>
-      </VBox>
-   </center>
-   <right>
-      <VBox fx:id="selectedArea" alignment="TOP_CENTER" prefHeight="613.0" prefWidth="205.0" spacing="10.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER" prefHeight="0.0" prefWidth="203.0" spacing="10.0">
-               <children>
-                  <Button fx:id="print" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#printLessonAction" onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;">
-                     <graphic>
-                        <ImageView fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@staticFiles/images/print.png" />
-                           </image>
-                        </ImageView>
-                     </graphic></Button>
-                  <Button fx:id="saveAsLessonButton" mnemonicParsing="false" onAction="#saveAsCourseAction" onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;" text="Save as" />
-                  <Button fx:id="saveLessonButton" mnemonicParsing="false" onAction="#saveCourseAction" onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;" text="Save" />
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </HBox>
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="64.0" style="-fx-background-color: #ADD8E6; -fx-background-radius: 20;" text="Cards">
-               <padding>
-                  <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
-               </padding>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <ListView fx:id="cardBox" prefWidth="200.0" />
-            <Label alignment="CENTER" prefHeight="30.0" prefWidth="105.0" style="-fx-background-color: #ADD8E6; -fx-background-radius: 20;" text="Equipments">
-               <padding>
-                  <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
-               </padding>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <ListView fx:id="equipmentsBox" prefWidth="200.0" />
-         </children>
-      </VBox>
-   </right>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="760.0" prefWidth="1500.0"
+            xmlns="http://javafx.com/javafx/20.0.1" fx:controller="edu.augustana.PrimaryController">
+    <left>
+        <VBox fx:id="filters" alignment="TOP_CENTER" fillWidth="false" style="-fx-border-color: grey;"
+              BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="121.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@staticFiles/images/logo.png"/>
+                    </image>
+                </ImageView>
+                <HBox alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER" onMouseClicked="#searchClicked"
+                              style="-fx-background-color: #d4f7fa; -fx-background-radius: 15;">
+                            <children>
+                                <TextField fx:id="searchValue" onKeyTyped="#searchClicked"
+                                           style="-fx-background-radius: 15;">
+                                    <HBox.margin>
+                                        <Insets/>
+                                    </HBox.margin>
+                                    <opaqueInsets>
+                                        <Insets/>
+                                    </opaqueInsets>
+                                </TextField>
+                                <ImageView fitHeight="33.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@staticFiles/images/search.png"/>
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets left="10.0"/>
+                                    </HBox.margin>
+                                </ImageView>
+                            </children>
+                            <opaqueInsets>
+                                <Insets/>
+                            </opaqueInsets>
+                            <HBox.margin>
+                                <Insets bottom="58.0" left="15.0" top="58.0"/>
+                            </HBox.margin>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                        </HBox>
+                    </children>
+                </HBox>
+                <Label alignment="CENTER"
+                       style="-fx-background-color: #ADD8E6; -fx-background-radius: 10; -fx-text-fill: black;"
+                       text="Filters" textFill="WHITE">
+                    <font>
+                        <Font size="21.0"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="20.0"/>
+                    </VBox.margin>
+                    <padding>
+                        <Insets left="40.0" right="40.0"/>
+                    </padding>
+                </Label>
+                <ScrollPane fx:id="filterScrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity"
+                            prefHeight="400.0" style="-fx-padding: 0; -fx-background-color: transparent;">
+                    <content>
+                        <VBox fx:id="allFilterOptions" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity"
+                              prefWidth="302.0"/>
+                    </content>
+                </ScrollPane>
+                <ButtonBar prefHeight="34.0" prefWidth="225.0">
+                    <buttons>
+                        <Button mnemonicParsing="false" onAction="#addNewCardPack" prefHeight="26.0" prefWidth="114.0"
+                                style="-fx-background-radius: 20; -fx-background-color: #69c5d1; -fx-text-fill: white;"
+                                text="Add new cards"/>
+                        <Button mnemonicParsing="false" onAction="#showAboutSection"
+                                style="-fx-background-radius: 20; -fx-background-color: #69d1c0;" text="ABOUT"
+                                textFill="WHITE"/>
+                    </buttons>
+                </ButtonBar>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox fx:id="centerArea" alignment="TOP_CENTER" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
+            <children>
+                <VBox fx:id="selectCourseHbox" alignment="CENTER" spacing="10.0">
+                    <children>
+                        <HBox alignment="CENTER" spacing="20.0">
+                            <children>
+                                <Label fx:id="currCourseLabel" alignment="CENTER" prefHeight="40.0" prefWidth="330.0"
+                                       style="-fx-background-radius: 10; -fx-background-color: #d4f7fa;"
+                                       text="No course Selected">
+                                    <font>
+                                        <Font name="Yu Gothic Regular" size="33.0"/>
+                                    </font>
+                                </Label>
+                                <Button fx:id="createcourseButton" mnemonicParsing="false"
+                                        onAction="#showSelectCoursePlanPopUpWindow"
+                                        onMouseEntered="#createCourseButtonMouseHover"
+                                        onMouseExited="#createCourseButtonMouseExit" prefHeight="38.0" prefWidth="181.0"
+                                        style="-fx-background-radius: 20; -fx-background-color: #69d1c0;"
+                                        text="Select/Create Course" textFill="WHITE">
+                                    <font>
+                                        <Font size="16.0"/>
+                                    </font>
+                                </Button>
+                            </children>
+                        </HBox>
+                        <HBox fx:id="selectCourseLessonHbox" alignment="CENTER" spacing="20.0">
+                            <children>
+                                <Label fx:id="currLessonLabel" text="No Lesson Selected">
+                                    <font>
+                                        <Font name="Yu Gothic Medium" size="21.0"/>
+                                    </font>
+                                </Label>
+                                <Button fx:id="createlessonButton" mnemonicParsing="false"
+                                        onAction="#showSelectLessonPlanPopUpWindow"
+                                        onMouseEntered="#createlessonButtonMouseHover"
+                                        onMouseExited="#createlessonButtonMouseExit"
+                                        style="-fx-background-radius: 20; -fx-background-color: #69c5d1;"
+                                        text="Select/Create Lesson" textFill="WHITE"/>
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" top="10.0"/>
+                    </padding>
+                </VBox>
+                <ScrollPane fx:id="scrollPane" vbarPolicy="NEVER"/>
+            </children>
+        </VBox>
+    </center>
+    <right>
+        <VBox fx:id="selectedArea" alignment="TOP_CENTER" prefHeight="613.0" prefWidth="205.0" spacing="10.0"
+              style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="203.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="print" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                                onAction="#printLessonAction" onMouseEntered="#hoverFeatures"
+                                style="-fx-background-color: #ADD8E6;">
+                            <graphic>
+                                <ImageView fitHeight="19.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@staticFiles/images/print.png"/>
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="saveAsLessonButton" mnemonicParsing="false" onAction="#saveAsCourseAction"
+                                onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;" text="Save as"/>
+                        <Button fx:id="saveLessonButton" mnemonicParsing="false" onAction="#saveCourseAction"
+                                onMouseEntered="#hoverFeatures" style="-fx-background-color: #ADD8E6;" text="Save"/>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                </HBox>
+                <Label alignment="CENTER" prefHeight="30.0" prefWidth="64.0"
+                       style="-fx-background-color: #ADD8E6; -fx-background-radius: 20;" text="Cards">
+                    <padding>
+                        <Insets bottom="2.0" left="10.0" right="10.0" top="2.0"/>
+                    </padding>
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                <ListView fx:id="cardBox" prefWidth="200.0"/>
+                <Label alignment="CENTER" prefHeight="30.0" prefWidth="105.0"
+                       style="-fx-background-color: #ADD8E6; -fx-background-radius: 20;" text="Equipments">
+                    <padding>
+                        <Insets bottom="2.0" left="10.0" right="10.0" top="2.0"/>
+                    </padding>
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                <ListView fx:id="equipmentsBox" prefWidth="200.0"/>
+            </children>
+        </VBox>
+    </right>
 </BorderPane>

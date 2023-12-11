@@ -21,7 +21,8 @@ public class Printing {
     private static Stage printingWindow;
     private static boolean addEquipments = true;
     private static boolean noImage = false;
-    private static VBox vBoxForCards ;
+    private static VBox vBoxForCards;
+
     public static void start() {
         VBox root = new VBox(5);
         root.setAlignment(Pos.CENTER);
@@ -63,7 +64,8 @@ public class Printing {
         printingWindow.setTitle("Print Option Example");
         printingWindow.show();
     }
-    private static void setupPrintingOptions(HBox printingOptions){
+
+    private static void setupPrintingOptions(HBox printingOptions) {
         ToggleGroup group = new ToggleGroup();
         RadioButton cardAndEquipment = new RadioButton("Cards and Equipments");
         RadioButton cardNoEquipment = new RadioButton("Only Cards");
@@ -89,7 +91,8 @@ public class Printing {
             addContentToPrintView();
         });
     }
-    private static Button setUpPrintButton(ScrollPane imagesScroll){
+
+    private static Button setUpPrintButton(ScrollPane imagesScroll) {
         Button printButton = new Button("Print");
         printButton.setOnAction(e -> printAction((VBox) imagesScroll.getContent()));
         printButton.setStyle("-fx-background-color: #ADD8E6;" +
@@ -105,9 +108,9 @@ public class Printing {
         return printButton;
     }
 
-    private static void addContentToPrintView(){
+    private static void addContentToPrintView() {
         ArrayList<String> loadedCards = new ArrayList<>();
-        while (!vBoxForCards.getChildren().isEmpty()){
+        while (!vBoxForCards.getChildren().isEmpty()) {
             vBoxForCards.getChildren().remove(0);
         }
         int currCol = 0;
@@ -122,7 +125,7 @@ public class Printing {
                 imageView.setFitWidth(220);
                 imageView.setPreserveRatio(true);
                 cardData.getChildren().add(imageView);
-            }else {
+            } else {
                 cardData.setStyle("-fx-border-color: black");
                 cardData.setPadding(new Insets(5, 5, 5, 5));
                 HBox cardInfo = new HBox(5);
@@ -162,9 +165,7 @@ public class Printing {
             vBoxForCards.getChildren().add(row);
         }
     }
-    private  void addNoImageContentToPrintView(){
 
-    }
     private static void printAction(VBox content) {
         jobStatus.textProperty().unbind();
         jobStatus.setText(("creating a printer job..."));
@@ -208,5 +209,9 @@ public class Printing {
         } else {
             jobStatus.setText("Could not create a printer job.");
         }
+    }
+
+    private void addNoImageContentToPrintView() {
+
     }
 }

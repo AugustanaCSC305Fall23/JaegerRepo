@@ -151,14 +151,14 @@ public class SelectOptionPopUp {
         return popUpWindow;
     }
 
-    public SelectOptionPopUp initializeCourseInWindow(){
+    public SelectOptionPopUp initializeCourseInWindow() {
         equipmentBox.getItems().removeAll();
         cardBox.getItems().removeAll();
-        while (!optionsVBox.getChildren().isEmpty()){
+        while (!optionsVBox.getChildren().isEmpty()) {
             optionsVBox.getChildren().remove(0);
         }
         selectLessonPopUp = new SelectOptionPopUp("Lesson");
-        for (String fileName: App.historyPaths.keySet()){
+        for (String fileName : App.historyPaths.keySet()) {
             try {
                 System.out.println(App.historyPaths.get(fileName));
                 Course loadedCourse = Course.loadFromFile(new File(App.historyPaths.get(fileName)));
@@ -168,7 +168,7 @@ public class SelectOptionPopUp {
                     selectLessonPopUp.initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
                     selectLessonPopUp.getPopUpWindow().show();
                 });
-            }catch (IOException e){
+            } catch (IOException e) {
                 App.historyPaths.remove(fileName);
                 System.out.println("hereeeeeeee");
             }
@@ -190,7 +190,7 @@ public class SelectOptionPopUp {
         }
     }
 
-//    private Button addOptionToContentVBox(String buttonName) {
+    //    private Button addOptionToContentVBox(String buttonName) {
 //        System.out.println(buttonName);
 //        Button option = new Button(buttonName);
 //        ImageView deleteIcon = getDeleteIcon(buttonName, optionsVBox.getChildren().size());
@@ -216,42 +216,42 @@ public class SelectOptionPopUp {
 //    }
 //
 //
-private Button addOptionToContentVBox(String buttonName) {
-    System.out.println(buttonName);
-    Button option = new Button(buttonName);
-    ImageView deleteIcon = getDeleteIcon(buttonName, optionsVBox.getChildren().size());
-    setOptionButtonStyle(option);
-
-    HBox optionAndDeleteIconWrapper = new HBox(5);
-    optionAndDeleteIconWrapper.setAlignment(Pos.CENTER);
-    optionAndDeleteIconWrapper.getChildren().addAll(option, deleteIcon);
-
-    deleteIcon.setVisible(false);
-
-    option.setOnMouseEntered(e -> {
-        option.setStyle(
-                "-fx-background-color: #4654a4;" +
-                        "-fx-background-radius: 20;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-size: 12;" +
-                        "-fx-min-width: 160;" +
-                        "-fx-pref-height: 20;");
-    });
-
-    option.setOnMouseExited(e -> {
+    private Button addOptionToContentVBox(String buttonName) {
+        System.out.println(buttonName);
+        Button option = new Button(buttonName);
+        ImageView deleteIcon = getDeleteIcon(buttonName, optionsVBox.getChildren().size());
         setOptionButtonStyle(option);
-    });
-    optionAndDeleteIconWrapper.setOnMouseEntered(e -> deleteIcon.setVisible(true));
-    optionAndDeleteIconWrapper.setOnMouseExited(e -> deleteIcon.setVisible(false));
 
-    optionsVBox.getChildren().add(optionAndDeleteIconWrapper);
-    return option;
-}
+        HBox optionAndDeleteIconWrapper = new HBox(5);
+        optionAndDeleteIconWrapper.setAlignment(Pos.CENTER);
+        optionAndDeleteIconWrapper.getChildren().addAll(option, deleteIcon);
+
+        deleteIcon.setVisible(false);
+
+        option.setOnMouseEntered(e -> {
+            option.setStyle(
+                    "-fx-background-color: #4654a4;" +
+                            "-fx-background-radius: 20;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-size: 12;" +
+                            "-fx-min-width: 160;" +
+                            "-fx-pref-height: 20;");
+        });
+
+        option.setOnMouseExited(e -> {
+            setOptionButtonStyle(option);
+        });
+        optionAndDeleteIconWrapper.setOnMouseEntered(e -> deleteIcon.setVisible(true));
+        optionAndDeleteIconWrapper.setOnMouseExited(e -> deleteIcon.setVisible(false));
+
+        optionsVBox.getChildren().add(optionAndDeleteIconWrapper);
+        return option;
+    }
 
     private ImageView getDeleteIcon(String buttonName, int index) {
         ImageView deleteIcon = App.getDeleteIcon();
         deleteIcon.setOnMouseClicked(event -> {
-            if (optionType.equalsIgnoreCase("course")){
+            if (optionType.equalsIgnoreCase("course")) {
                 new File(App.historyPaths.get(buttonName)).delete();
                 App.historyPaths.remove(buttonName);
                 try {
@@ -261,7 +261,7 @@ private Button addOptionToContentVBox(String buttonName) {
                 }
                 initializeCourseInWindow();
                 App.setCurrentSelectedCourse(null);
-            }else {
+            } else {
                 App.getCurrentSelectedCourse().removeLesson(index);
                 initializeLessonInWindow(App.getCurrentSelectedCourse().getLessons());
             }
