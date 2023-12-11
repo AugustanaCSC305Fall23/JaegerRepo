@@ -323,6 +323,7 @@ public class PrimaryController {
     private void magnifyImage(ImageView image){
         ImageView newImage = new ImageView(image.getImage());
         Stage popUpWindow = new Stage();
+        popUpWindow.setResizable(false);
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.initOwner(App.primaryStage);
         VBox contentVBox = new VBox();

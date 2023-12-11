@@ -50,7 +50,7 @@ public class CreateNewOptionPopUp {
 
         TextField optionTypeName = new TextField();
         optionTypeName.setStyle("-fx-background-radius: 20;");
-        optionTypeName.setPrefWidth(200);
+        optionTypeName.setMinWidth(200);
 
         HBox hboc = new HBox();
         hboc.getChildren().add(optionTypeName);

@@ -215,6 +215,41 @@ public class SelectOptionPopUp {
         return option;
     }
 
+    
+//private Button addOptionToContentVBox(String buttonName) {
+//    System.out.println(buttonName);
+//    Button option = new Button(buttonName);
+//    ImageView deleteIcon = getDeleteIcon(buttonName, optionsVBox.getChildren().size());
+//    setOptionButtonStyle(option);
+//
+//    HBox optionAndDeleteIconWrapper = new HBox(5);
+//    optionAndDeleteIconWrapper.setAlignment(Pos.CENTER);
+//    optionAndDeleteIconWrapper.getChildren().addAll(option, deleteIcon);
+//
+//    deleteIcon.setVisible(false);
+//
+//    option.setOnMouseEntered(e -> {
+//        option.setStyle(
+//                "-fx-background-color: #4654a4;" +
+//                        "-fx-background-radius: 20;" +
+//                        "-fx-text-fill: white;" +
+//                        "-fx-font-size: 12;" +
+//                        "-fx-min-width: 120;" +
+//                        "-fx-pref-height: 20;");
+//        deleteIcon.setVisible(true);
+//    });
+//
+//    option.setOnMouseExited(e -> {
+//        setOptionButtonStyle(option);
+//        deleteIcon.setVisible(false);
+//    });
+//    optionAndDeleteIconWrapper.setOnMouseEntered(e -> deleteIcon.setVisible(true));
+//    optionAndDeleteIconWrapper.setOnMouseExited(e -> deleteIcon.setVisible(false));
+//
+//    optionsVBox.getChildren().add(optionAndDeleteIconWrapper);
+//    return option;
+//}
+
     private ImageView getDeleteIcon(String buttonName, int index) {
         ImageView deleteIcon = App.getDeleteIcon();
         deleteIcon.setOnMouseClicked(event -> {

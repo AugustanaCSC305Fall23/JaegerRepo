@@ -1,0 +1,269 @@
+{
+  "courseName": "suru",
+  "lessonsInCourse": [
+    {
+      "selectedCardViews": [
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/2.jpg"
+          },
+          "cardId": "1",
+          "equipments": [
+            "Stick",
+            "Band"
+          ],
+          "cardTitle": "Open Shoulder Drill",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "S30",
+          "searchString": "s30allshapesopen shoulder drillnfallstickband\"shoulder flexibility ",
+          "event": "ALL",
+          "gender": "N",
+          "modelSex": "F",
+          "levels": [
+            "ALL"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/2.png"
+        },
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/3.jpg"
+          },
+          "cardId": "2",
+          "equipments": [
+            "Pacman",
+            "Tall Block",
+            "Resi"
+          ],
+          "cardTitle": "Half Handstand",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "H5",
+          "searchString": "h5floorhandstandhalf handstandnfbabipacmantall blockresi\"l handstand ",
+          "event": "Floor",
+          "gender": "N",
+          "modelSex": "F",
+          "levels": [
+            "B",
+            "AB",
+            "I"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/3.png"
+        },
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/6.jpg"
+          },
+          "cardId": "5",
+          "equipments": [
+            "Mini Tramp Table Trainer"
+          ],
+          "cardTitle": "Jump Fly Back",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "HS5",
+          "searchString": "hs5floorhandspringsjump fly backnfabimini tramp table trainer 2 incher\" ",
+          "event": "Floor",
+          "gender": "N",
+          "modelSex": "F",
+          "levels": [
+            "AB",
+            "I"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/6.png"
+        },
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/9.jpg"
+          },
+          "cardId": "8",
+          "equipments": [
+            "Panel Mat"
+          ],
+          "cardTitle": "Off A Spring Board",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "R6",
+          "searchString": "r6floorround off progressionoff a spring boardnfipanel mat junior board\" ",
+          "event": "Floor",
+          "gender": "N",
+          "modelSex": "F",
+          "levels": [
+            "I"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/9.png"
+        },
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/8.jpg"
+          },
+          "cardId": "7",
+          "equipments": [
+            "Panel Mat"
+          ],
+          "cardTitle": "Over a Mat with Foam Block",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "C3",
+          "searchString": "c3floorcartwheel progressionsover a mat with foam blocknfipanel mat foam block\" ",
+          "event": "Floor",
+          "gender": "N",
+          "modelSex": "F",
+          "levels": [
+            "I"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/8.png"
+        },
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/5.jpg"
+          },
+          "cardId": "4",
+          "equipments": [
+            "Barrel"
+          ],
+          "cardTitle": "Front Walkover Over a Barrel",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "W4",
+          "searchString": "w4floorwalkoversfront walkover over a barrelffabibarrel elevated surface\" ",
+          "event": "Floor",
+          "gender": "F",
+          "modelSex": "F",
+          "levels": [
+            "AB",
+            "I"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/5.png"
+        },
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/11.jpg"
+          },
+          "cardId": "10",
+          "equipments": [
+            "Low Bar"
+          ],
+          "cardTitle": "Glide Swing with Slider",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "B41A",
+          "searchString": "b41auneven barsbarsglide swing with slidernfabilow bar slider\" ",
+          "event": "Uneven Bars",
+          "gender": "N",
+          "modelSex": "F",
+          "levels": [
+            "AB",
+            "I"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/11.png"
+        },
+        {
+          "thumbnailImage": {
+            "imageUrl": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/thumbs/16.jpg"
+          },
+          "cardId": "15",
+          "equipments": [
+            "Tumble Track"
+          ],
+          "cardTitle": "Handstand Flatback",
+          "addButtonWrapper": {
+            "spacing": 0.0
+          },
+          "buttonAndFavButton": {
+            "spacing": 0.0
+          },
+          "favoriteButtonWrapper": {
+            "spacing": 0.0
+          },
+          "isSelected": true,
+          "isFavorite": false,
+          "code": "V4A",
+          "searchString": "v4avaultvaulthandstand flatbackffabitumble track 4-8 incher\" ",
+          "event": "Vault",
+          "gender": "F",
+          "modelSex": "F",
+          "levels": [
+            "AB",
+            "I"
+          ],
+          "mainImageFilePath": "file:/C:/Users/drish/OneDrive/Documents/Git/JaegerRepo/Gymnastics-Lesson-Planner/target/classes/edu/augustana/staticFiles/CardData/Demo1/16.png"
+        }
+      ],
+      "cardIds": [
+        "1",
+        "2",
+        "5",
+        "8",
+        "7",
+        "4",
+        "10",
+        "15"
+      ],
+      "lessonName": "mia"
+    }
+  ]
+}
