@@ -29,11 +29,9 @@ public class Card {
         this.event = csvData[1];
         this.category = csvData[2];
         this.title = csvData[3];
-        String folderFilePath = "staticFiles/" + csvData[4] + "/";
+        String folderFilePath = "staticFiles/CardData/" + csvData[4] + "/";
         this.filePath = App.class.getResource(folderFilePath + csvData[5]);
         this.thumbnailFilePath = Objects.requireNonNull(App.class.getResource(folderFilePath + "thumbs/" + App.removeFileExtension(csvData[5]) + ".jpg").toExternalForm());
-        this.dir = csvData[4];
-        this.fileName = csvData[5];
         System.out.println(csvData[4] + "/" + csvData[5]);
         this.gender = csvData[6];
         this.modelSex = csvData[7];
@@ -47,7 +45,6 @@ public class Card {
     public String getThumbnailFilePath() {
         return thumbnailFilePath;
     }
-
     public int getCardId() {
         return cardId;
     }

@@ -84,9 +84,11 @@ public class CreateNewOptionPopUp {
     }
 
     private void createClicked(String name){
-        if (optionType.equalsIgnoreCase("course")){
+        if (name.isBlank()){
+            showAlert("Name is required");
+        }else if (optionType.equalsIgnoreCase("course")){
             if (!App.addCourseToCourses(new Course(name))){
-                showAlert();
+                showAlert("A course of this name already exists");
             }else {
                 popUpWindow.close();
                 SelectOptionPopUp lessonSelection = new SelectOptionPopUp("lesson");
@@ -99,11 +101,11 @@ public class CreateNewOptionPopUp {
         }
     }
 
-    private void showAlert() {
+    private void showAlert(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Invalid Name");
         alert.setHeaderText(null);
-        alert.setContentText("A " + optionType + " of this name already exists");
+        alert.setContentText(msg);
 
         // Show the alert and wait for the user to close it
         alert.showAndWait();
