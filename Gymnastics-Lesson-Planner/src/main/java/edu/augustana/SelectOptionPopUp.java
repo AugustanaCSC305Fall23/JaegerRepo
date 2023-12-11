@@ -72,21 +72,25 @@ public class SelectOptionPopUp {
             createButtonClick();
         });
 
-        Button loadOptionButton = new Button("Load a " + optionType);
-        setLoadButtonStyle(loadOptionButton);
-        loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
-        loadOptionButton.setOnMouseExited(e -> setLoadButtonStyle(loadOptionButton));
-        loadOptionButton.setOnMouseClicked(event -> {
-            try {
-                loadButtonClick();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
         HBox createLoadWrapper = new HBox(5);
         createLoadWrapper.setAlignment(Pos.CENTER);
-        createLoadWrapper.getChildren().addAll(createOptionButton, loadOptionButton);
+        createLoadWrapper.getChildren().add(createOptionButton);
+
+        if (optionType.equalsIgnoreCase("course")) {
+            Button loadOptionButton = new Button("Load a " + optionType);
+            setLoadButtonStyle(loadOptionButton);
+            loadOptionButton.setOnMouseEntered(e -> loadOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
+            loadOptionButton.setOnMouseExited(e -> setLoadButtonStyle(loadOptionButton));
+            loadOptionButton.setOnMouseClicked(event -> {
+                try {
+                    loadButtonClick();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            createLoadWrapper.getChildren().add(loadOptionButton);
+        }
+
         contentVBox.getChildren().add(createLoadWrapper);
 //        if (optionType.equalsIgnoreCase("course")) {
 //            Button clearHist = new Button("Clear History");
