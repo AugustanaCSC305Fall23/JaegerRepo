@@ -390,16 +390,16 @@ public class PrimaryController {
     }
     @FXML
     private void showAboutSection(){
-        Stage aboutWidow = new Stage();
+        Stage aboutWindow = new Stage();
 
-        aboutWidow.initModality(Modality.APPLICATION_MODAL);
-        aboutWidow.initOwner(App.primaryStage);
-        aboutWidow.setMinWidth(600);
-        aboutWidow.setMinHeight(400);
-        aboutWidow.setMaxHeight(400);
-        aboutWidow.setMaxWidth(600);
+        aboutWindow.initModality(Modality.APPLICATION_MODAL);
+        aboutWindow.initOwner(App.primaryStage);
+        aboutWindow.setMinWidth(600);
+        aboutWindow.setMinHeight(400);
+        aboutWindow.setMaxHeight(400);
+        aboutWindow.setMaxWidth(600);
         VBox contentVBox = new VBox(15);
-        contentVBox.setAlignment(Pos.CENTER);
+        contentVBox.setAlignment(Pos.CENTER_RIGHT);
         contentVBox.getChildren().add(new Label("Supervisor"));
         contentVBox.getChildren().add(getNameAndImage("Forrest Stonedahl", App.trashCan));
 
@@ -414,9 +414,11 @@ public class PrimaryController {
 
         ScrollPane scrollPane = new ScrollPane(contentVBox);
         Scene scene = new Scene(scrollPane, 600, 400);
-        aboutWidow.setScene(scene);
-        aboutWidow.show();
+        aboutWindow.setScene(scene);
+        aboutWindow.show();
     }
+
+
 
     private HBox getNameAndImage(String n, Image image){
         HBox nameAndImage = new HBox(30);

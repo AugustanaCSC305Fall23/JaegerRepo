@@ -30,8 +30,8 @@ public class SelectOptionPopUp {
 
     public SelectOptionPopUp(String optionType) {
         this.optionType = optionType;
-
         popUpWindow = new Stage();
+        popUpWindow.setResizable(false);
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
         popUpWindow.initOwner(App.primaryStage);
         if (optionType.equalsIgnoreCase("lesson")) {
@@ -99,6 +99,7 @@ public class SelectOptionPopUp {
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
+
     }
 
     private void createButtonClick() {
@@ -204,7 +205,12 @@ public class SelectOptionPopUp {
         option.setOnMouseExited(e -> setOptionButtonStyle(option));
         HBox optionAndDeleteIconWrapper = new HBox(5);
         optionAndDeleteIconWrapper.setAlignment(Pos.CENTER);
-        optionAndDeleteIconWrapper.getChildren().addAll(option, deleteIcon);
+        optionAndDeleteIconWrapper.getChildren().addAll(option);
+
+        optionAndDeleteIconWrapper.setOnMouseEntered(e->optionAndDeleteIconWrapper.getChildren().addAll(deleteIcon));
+        optionAndDeleteIconWrapper.setOnMouseExited(e-> optionAndDeleteIconWrapper.getChildren().remove(deleteIcon));
+
+
         optionsVBox.getChildren().add(optionAndDeleteIconWrapper);
         return option;
     }
