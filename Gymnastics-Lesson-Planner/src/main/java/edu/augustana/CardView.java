@@ -9,10 +9,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class CardView{
-    private final ImageView cardImage;
+    private final ImageView thumbnailImage;
     private final String cardId;
     private final ArrayList<String> equipments;
     private final String cardTitle;
@@ -26,17 +25,19 @@ public class CardView{
     private String gender;
     private String modelSex;
     private ArrayList<String> levels;
+    private String mainImageFilePath;
     public CardView(Card card){
         equipments = card.getEquipment();
         cardTitle = card.getTitle();
-        cardImage = new ImageView(new Image(card.getThumbnailFilePath()));
-        cardImage.setFitWidth(250);
-        cardImage.setPreserveRatio(true);
+        thumbnailImage = new ImageView(new Image(card.getThumbnailFilePath()));
+        thumbnailImage.setFitWidth(250);
+        thumbnailImage.setPreserveRatio(true);
         cardId = String.valueOf(card.getCardId());
         event = card.getEvent();
         gender = card.getGender();
         modelSex = card.getModelSex();
         levels = card.getLevels();
+        mainImageFilePath = card.getFilePath();
 
         searchString = setUpSearchString(card).toLowerCase();
         isFavorite = false;
@@ -78,7 +79,7 @@ public class CardView{
             setStyle("-fx-font-size: 14;");
             setShowDelay(javafx.util.Duration.millis(1000));
         }});
-        Tooltip.install(cardImage, new Tooltip("Click to magnify the card."){{
+        Tooltip.install(thumbnailImage, new Tooltip("Click to magnify the card."){{
             setStyle("-fx-font-size: 14;");
             setShowDelay(javafx.util.Duration.millis(1000));
         }});
@@ -107,6 +108,9 @@ public class CardView{
         });
 
     }
+    public ImageView getMainImage(){
+        return new ImageView(new Image(mainImageFilePath));
+    }
     public boolean addButtonClicked(){
         if (isSelected){
             unSelect();
@@ -126,7 +130,7 @@ public class CardView{
 
     }
     public VBox getCardView(){
-        VBox finalCardView = new VBox(cardImage, buttonAndFavButton);
+        VBox finalCardView = new VBox(thumbnailImage, buttonAndFavButton);
         finalCardView.setAlignment(Pos.CENTER);
         finalCardView.setSpacing(5);
         finalCardView.setId("imageAndButton");
@@ -148,7 +152,7 @@ public class CardView{
         return addButtonWrapper;
     }
 
-    public ImageView getCardImage(){return cardImage;}
+    public ImageView getThumbnailImage(){return thumbnailImage;}
 
     private void changeFavoriteWhenClicked(){
         if(isFavorite){

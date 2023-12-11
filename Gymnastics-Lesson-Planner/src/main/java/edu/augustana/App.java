@@ -34,6 +34,7 @@ public class App extends Application {
 
     public static String pathToTargetFolder;
     public static String pathToResourcesFolder;
+    public static String pathToCardDataFolder;
     public static HashMap<String, List<String>> filteredData = new HashMap<>();
     public static File currentLoadedCourseFile = null;
     public static ArrayList<SubCategoryButton> currentSelectedButtons = new ArrayList<>();
@@ -207,10 +208,10 @@ public class App extends Application {
             pathToTargetFolder = "/" + pathToTargetFolder;
         }
         pathToResourcesFolder = pathToTargetFolder + "../../../../src/main/resources/edu/augustana/";
+        pathToCardDataFolder = pathToResourcesFolder + "staticFiles/CardData/";
 
         CardDatabase cardDatabase = new CardDatabase();
-//        cardDatabase.addCardPack(pathToResourcesFolder + "staticFiles/StressTest/StressTest.csv");
-        cardDatabase.addCardPack(pathToResourcesFolder + "staticFiles/Demo1/Demo1.csv");
+        cardDatabase.addCardPack(pathToCardDataFolder + "Demo1/Demo1.csv");
 
 
         System.out.println("added the cards in the card database");

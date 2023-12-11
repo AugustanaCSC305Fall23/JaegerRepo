@@ -9,7 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 
 public class Printing {
     private static Label jobStatus = new Label();
+    private static Stage printingWindow;
     private ImageView imageView = new ImageView();
 
     public static void start() {
@@ -39,17 +42,17 @@ public class Printing {
         int currRow = 0;
 
         HBox row = new HBox();
-        for (CardView cardView: App.getCurrentSelectedLesson().getSelectedCardViews()) {
+        for (CardView cardView : App.getCurrentSelectedLesson().getSelectedCardViews()) {
 
-            ImageView imageView = new ImageView(cardView.getCardImage().getImage());
+            ImageView imageView = cardView.getMainImage();
             imageView.setFitWidth(220);
             imageView.setPreserveRatio(true);
             VBox imageViewWrapper = new VBox(3);
             HBox currentEquipments = new HBox(5);
             currentEquipments.getChildren().add(new Label("Equipments: "));
-            for (String e: cardView.getEquipments()){
+            for (String e : cardView.getEquipments()) {
                 Label equipment = new Label(e);
-                equipment.setPadding(new Insets(0,3,3,3));
+                equipment.setPadding(new Insets(0, 3, 3, 3));
                 equipment.setStyle("-fx-border-color: black");
                 currentEquipments.getChildren().add(equipment);
             }
@@ -76,14 +79,14 @@ public class Printing {
 
         Button printButton = new Button("Print");
         printButton.setOnAction(e -> printAction((VBox) imagesScroll.getContent()));
-        printButton.setStyle("-fx-background-color: #ADD8E6;"+
-        "-fx-background-radius: 20;"+
-        "-fx-text-fill: black;");
+        printButton.setStyle("-fx-background-color: #ADD8E6;" +
+                "-fx-background-radius: 20;" +
+                "-fx-text-fill: black;");
 
-        printButton.setOnMouseEntered(e->printButton.setStyle("-fx-background-color: #69d1c0;"+
-                "-fx-background-radius: 20;"+
+        printButton.setOnMouseEntered(e -> printButton.setStyle("-fx-background-color: #69d1c0;" +
+                "-fx-background-radius: 20;" +
                 "-fx-text-fill: black;"));
-        printButton.setOnMouseExited(e->printButton.setStyle("-fx-background-color: #ADD8E6;"+"-fx-background-radius: 20;"+
+        printButton.setOnMouseExited(e -> printButton.setStyle("-fx-background-color: #ADD8E6;" + "-fx-background-radius: 20;" +
                 "-fx-text-fill: black;"));
 
 
@@ -92,7 +95,7 @@ public class Printing {
 
         root.getChildren().addAll(imagesScroll, jobStatusBox, buttonBox);
         Scene scene = new Scene(root, 480, 600);
-        Stage printingWindow = new Stage();
+        printingWindow = new Stage();
         printingWindow.initModality(Modality.APPLICATION_MODAL);
         printingWindow.initOwner(App.primaryStage);
 
@@ -135,6 +138,7 @@ public class Printing {
 
             if (printed) {
                 job.endJob();
+
             } else {
                 jobStatus.textProperty().unbind();
                 jobStatus.setText("Printing Failed");
@@ -142,73 +146,5 @@ public class Printing {
         } else {
             jobStatus.setText("Could not create a printer job.");
         }
-//        PrinterJob job = PrinterJob.createPrinterJob();
-//
-//        if(job != null){
-//            Printer printer = job.getPrinter();
-//
-//            double width = printData.getWidth();
-//            double height = printData.getHeight();
-//
-//            PrintResolution resolution = job.getJobSettings().getPrintResolution();
-//
-//            width /= resolution.getFeedResolution();
-//
-//            height /= resolution.getCrossFeedResolution();
-//
-//            double scaleX = pageLayout.getPrintableWidth()/width/600;
-//            double scaleY = pageLayout.getPrintableHeight()/height/600;
-//
-//            Scale scale = new Scale(scaleX, scaleY);
-//
-//            printData.getTransforms().add(scale);
-//
-//            boolean success = job.printPage(pageLayout, printData);
-//            if(success){
-//                job.endJob();
-//            }
-//        }
     }
-
-/**package edu.augustana;
- import javafx.application.Application;
- import javafx.print.PrinterJob;
- import javafx.scene.Node;
- import javafx.scene.Scene;
- import javafx.scene.control.Label;
- import javafx.scene.layout.StackPane;
- import javafx.stage.Stage;
-
- public class Printing extends Application {
-
-
-@Override public void start(Stage primaryStage) {
-Label label = new Label("Content to Print");
-
-StackPane root = new StackPane();
-root.getChildren().add(label);
-
-Scene scene = new Scene(root, 300, 200);
-
-primaryStage.setScene(scene);
-primaryStage.setTitle("Printable Node Example");
-primaryStage.show();
-
-// Print the content
-printNode(label);
-}
-
-private void printNode(Node node) {
-PrinterJob job = PrinterJob.createPrinterJob();
-if (job != null && job.showPrintDialog(node.getScene().getWindow())) {
-boolean success = job.printPage(node);
-if (success) {
-job.endJob();
-}
-}
-}
-
-public static void main(String[] args) {
-launch(args);
-}**/
 }

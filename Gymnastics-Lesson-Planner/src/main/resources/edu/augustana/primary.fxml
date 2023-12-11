@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
@@ -66,12 +67,17 @@
                   <Insets left="40.0" right="40.0" />
                </padding>
             </Label>
-            <ScrollPane fx:id="filterScrollPane" hbarPolicy="NEVER" style="-fx-padding: 0; -fx-background-color: transparent;">
+            <ScrollPane fx:id="filterScrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="400.0" style="-fx-padding: 0; -fx-background-color: transparent;">
                <content>
-                  <VBox fx:id="allFilterOptions" alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="302.0" />
+                  <VBox fx:id="allFilterOptions" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefWidth="302.0" />
                </content>
             </ScrollPane>
-            <Button mnemonicParsing="false" onAction="#showAboutSection" style="-fx-background-radius: 20; -fx-background-color: #69d1c0;" text="ABOUT" textFill="WHITE" />
+            <ButtonBar prefHeight="34.0" prefWidth="225.0">
+              <buttons>
+                <Button mnemonicParsing="false" onAction="#addNewCardPack" prefHeight="26.0" prefWidth="114.0" style="-fx-background-radius: 20; -fx-background-color: #69c5d1; -fx-text-fill: white;" text="Add new cards" />
+                  <Button mnemonicParsing="false" onAction="#showAboutSection" style="-fx-background-radius: 20; -fx-background-color: #69d1c0;" text="ABOUT" textFill="WHITE" />
+              </buttons>
+            </ButtonBar>
          </children>
       </VBox>
    </left>

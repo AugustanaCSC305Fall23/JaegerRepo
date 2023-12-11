@@ -183,8 +183,8 @@ public class PrimaryController {
                                 throw new RuntimeException(e);
                             }
                         });
-                        cardView.getCardImage().setOnMouseClicked(e -> {
-                            magnifyImage(cardView.getCardImage());
+                        cardView.getThumbnailImage().setOnMouseClicked(e -> {
+                            magnifyImage(cardView.getMainImage());
                         });
                         row.getChildren().add(cardView.getCardView());
                         currCol++;
@@ -404,10 +404,10 @@ public class PrimaryController {
         contentVBox.getChildren().add(getNameAndImage("Forrest Stonedahl", App.trashCan));
 
         contentVBox.getChildren().add(new Label("Developers"));
-        contentVBox.getChildren().add(getNameAndImage("Drishtant Bhandari", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
-        contentVBox.getChildren().add(getNameAndImage("Aakriti Bhandari", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
-        contentVBox.getChildren().add(getNameAndImage("Sara Zbir", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
-        contentVBox.getChildren().add(getNameAndImage("Bibhu Lamichhane", new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\edu\\augustana\\staticFiles\\Demo1\\thumbs\\1.jpg")));
+        contentVBox.getChildren().add(getNameAndImage("Drishtant Bhandari", App.trashCan));
+        contentVBox.getChildren().add(getNameAndImage("Aakriti Bhandari", App.trashCan));
+        contentVBox.getChildren().add(getNameAndImage("Sara Zbir", App.trashCan));
+        contentVBox.getChildren().add(getNameAndImage("Bibhu Lamichhane", App.trashCan));
 
         contentVBox.getChildren().add(new Label("Product Designer"));
         contentVBox.getChildren().add(getNameAndImage(" Samantha Keehn", App.trashCan));
@@ -417,9 +417,6 @@ public class PrimaryController {
         aboutWindow.setScene(scene);
         aboutWindow.show();
     }
-
-
-
     private HBox getNameAndImage(String n, Image image){
         HBox nameAndImage = new HBox(30);
         nameAndImage.setAlignment(Pos.CENTER);
@@ -429,5 +426,88 @@ public class PrimaryController {
         img.setFitWidth(100);
         nameAndImage.getChildren().addAll(name, img);
         return nameAndImage;
+    }
+
+    private static void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Invalid Directory");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+
+        // Show the alert and wait for the user to close it
+        alert.showAndWait();
+    }
+    @FXML
+    private void addNewCardPack(){
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select a Directory");
+
+        // Show the directory chooser dialog
+        File selectedDirectory = directoryChooser.showDialog(App.primaryStage);
+        if (checkDirectory(selectedDirectory)){
+            try {
+                moveDirectory(selectedDirectory.getPath(), App.pathToCardDataFolder);
+                System.out.println("Directory moved successfully.");
+            } catch (Exception e) {
+                System.err.println("Error moving directory: " + e.getMessage());
+            }
+        }
+    }
+
+    private static void moveDirectory(String sourcePath, String destinationPath) throws IOException {
+        Files.move(Paths.get(sourcePath), Paths.get(destinationPath), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    private static boolean checkDirectory(File selectedDirectory) {
+        if (!selectedDirectory.exists() || !selectedDirectory.isDirectory()) {
+            showAlert("Invalid directory path");
+            return false;
+        }
+
+        // Check for a CSV file
+        File[] csvFiles = selectedDirectory.listFiles((dir, name) -> name.endsWith(".csv"));
+        if (csvFiles != null && csvFiles.length > 0) {
+            System.out.println("CSV file found: " + csvFiles[0].getName());
+        } else {
+            showAlert("CSV file not found");
+            return false;
+        }
+
+        // Check for PNG images
+        File[] pngFiles = selectedDirectory.listFiles((dir, name) -> name.toLowerCase().endsWith(".png"));
+        if (pngFiles != null && pngFiles.length > 0) {
+            System.out.println("PNG images found: " + pngFiles.length);
+        } else {
+            showAlert("No PNG images found");
+            return false;
+        }
+
+        // Check for a 'thumbs' directory with JPG files
+        File thumbsDirectory = new File(selectedDirectory, "thumbs");
+        if (thumbsDirectory.isDirectory()) {
+            File[] jpgFilesInThumbs = thumbsDirectory.listFiles((dir, name) -> name.toLowerCase().endsWith(".jpg"));
+            if (jpgFilesInThumbs != null && jpgFilesInThumbs.length > 0) {
+                System.out.println("JPG files in 'thumbs' directory: " + jpgFilesInThumbs.length);
+            } else {
+                showAlert("No JPG files found in 'thumbs' directory");
+                return false;
+            }
+        } else {
+            showAlert("'thumbs' directory not found");
+            return false;
+        }
+
+        // Check for any other files in the directory
+        File[] otherFiles = selectedDirectory.listFiles(file -> !file.isDirectory() &&
+                !file.getName().endsWith(".csv") &&
+                !file.getName().toLowerCase().endsWith(".png") &&
+                !file.equals(thumbsDirectory));
+
+        if (otherFiles != null && otherFiles.length > 0) {
+            showAlert("Invalid files found in the directory");
+            return false;
+        }
+
+        return true;
     }
 }
