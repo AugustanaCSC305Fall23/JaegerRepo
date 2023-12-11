@@ -234,13 +234,13 @@ public class App extends Application {
         selectedCourseLabel = (Label) ((HBox) labels.getChildren().get(0)).getChildren().get(0);
         selectedLessonLabel = (Label) ((HBox) labels.getChildren().get(1)).getChildren().get(0);
     }
+
     public static ImageView getDeleteIcon(){
         ImageView deleteIcon = new ImageView(trashCan);
         deleteIcon.setPreserveRatio(true);
         deleteIcon.setFitWidth(30);
         deleteIcon.setOnMouseEntered(event -> deleteIcon.setImage(redTrashCan));
         deleteIcon.setOnMouseExited(event -> deleteIcon.setImage(trashCan));
-
         return deleteIcon;
     }
 }
