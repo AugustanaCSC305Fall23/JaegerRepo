@@ -412,7 +412,7 @@ public class PrimaryController {
         newImage.setPreserveRatio(true);
 //        newImage.preserveRatioProperty();
         contentVBox.getChildren().add(newImage);
-        Scene scene = new Scene(contentVBox, 600, 400);
+        Scene scene = new Scene(contentVBox, 600, 420);
         popUpWindow.setScene(scene);
         popUpWindow.show();
     }
