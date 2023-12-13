@@ -12,6 +12,12 @@ public class CardDatabase {
         cardHashMap = new HashMap<>();
     }
 
+    /**
+     * Adds a card pack to the database
+     * @param filePath: String of the file path to the csv file
+     * @param newDirName: String of the directory name of the card pack
+     * @throws IOException: Throws exception if file is not found
+     */
     public void addCardPack(String filePath, String newDirName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("/" + filePath));
         String line = br.readLine();

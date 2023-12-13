@@ -20,14 +20,18 @@ public class CardView {
     private final HBox favoriteButtonWrapper;
     private boolean isSelected = false;
     private boolean isFavorite;
-    private String code;
-    private String searchString;
-    private String event;
-    private String gender;
-    private String modelSex;
-    private ArrayList<String> levels;
-    private String mainImageFilePath;
+    private final String code;
+    private final String searchString;
+    private final String event;
+    private final String gender;
+    private final String modelSex;
+    private final ArrayList<String> levels;
+    private final String mainImageFilePath;
 
+    /**
+     * Constructor for CardView object
+     * @param card: Card object
+     */
     public CardView(Card card) {
         equipments = card.getEquipment();
         cardTitle = card.getTitle();
@@ -63,6 +67,11 @@ public class CardView {
         setUpToolTips();
     }
 
+    /**
+     * Sets up the search string for the card
+     * @param card: Card object
+     * @return: String of the search string
+     */
     private String setUpSearchString(Card card) {
         StringBuilder searchString = new StringBuilder(card.getCode() + card.getEvent() + card.getCategory() + card.getTitle() + card.getGender() + card.getModelSex());
         for (String l : card.getLevels()) {
@@ -82,6 +91,9 @@ public class CardView {
         return code;
     }
 
+    /**
+     * Sets up the tool tips for the card
+     */
     private void setUpToolTips() {
         Tooltip.install(buttonAndFavButton, new Tooltip("Click to add the card.") {{
             setStyle("-fx-font-size: 14;");
@@ -93,6 +105,9 @@ public class CardView {
         }});
     }
 
+    /**
+     * Sets up the hover features for the card
+     */
     public void hoverFeatures() {
         addButtonWrapper.setOnMouseEntered(event -> {
             if (!isSelected) {
@@ -118,10 +133,18 @@ public class CardView {
 
     }
 
+    /**
+     * Returns the main image of the card
+     * @return: ImageView of the main image of the card
+     */
     public ImageView getMainImage() {
         return new ImageView(new Image(mainImageFilePath));
     }
 
+    /**
+     * Calls the select and unselect methods based on the state of the addButton
+     * @return: Boolean of whether the addButton is selected or not
+     */
     public boolean addButtonClicked() {
         if (isSelected) {
             unSelect();
@@ -131,17 +154,28 @@ public class CardView {
         return isSelected;
     }
 
+    /**
+     * Selects the card
+     * Changes the image of the addButton to the selected image
+     */
     public void select() {
         isSelected = true;
         ((ImageView) addButtonWrapper.getChildren().get(0)).setImage(App.selected);
     }
 
+    /**
+     * Unselects the card
+     * Changes the image of the addButton to the unselected image
+     */
     public void unSelect() {
         isSelected = false;
         ((ImageView) addButtonWrapper.getChildren().get(0)).setImage(App.addButton);
-
     }
 
+    /**
+     * Returns the card view
+     * @return: VBox of the card view information
+     */
     public VBox getCardView() {
         VBox finalCardView = new VBox(thumbnailImage, buttonAndFavButton);
         finalCardView.setAlignment(Pos.CENTER);
@@ -151,12 +185,17 @@ public class CardView {
         return finalCardView;
     }
 
+    /**
+     * Combines the addButton and favoriteButton
+     * @return: HBox of the combined buttons
+     */
     private HBox combineButtonAndFavButton() {
         HBox buttonAndCode = new HBox();
         buttonAndCode.getChildren().addAll(favoriteButtonWrapper, addButtonWrapper);
         buttonAndCode.setAlignment(Pos.CENTER);
         return buttonAndCode;
     }
+
 
     public ArrayList<String> getLevels() {
         return levels;
@@ -170,6 +209,9 @@ public class CardView {
         return thumbnailImage;
     }
 
+    /**
+     * Updates the favorite button when clicked
+     */
     private void changeFavoriteWhenClicked() {
         if (isFavorite) {
             ((ImageView) favoriteButtonWrapper.getChildren().get(0)).setImage(App.heartButton);
@@ -194,11 +236,6 @@ public class CardView {
     public String getSearchString() {
         return searchString;
     }
-
-    public boolean getIsSelected() {
-        return isSelected;
-    }
-
 
     public String getEvent() {
         return event;

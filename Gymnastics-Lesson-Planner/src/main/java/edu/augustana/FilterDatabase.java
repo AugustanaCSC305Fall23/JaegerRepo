@@ -1,17 +1,14 @@
 package edu.augustana;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-
-import java.io.*;
 import java.util.*;
 
 public class FilterDatabase {
     public static HashMap<String, List<String>> allData;
-    private HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions = new HashMap<>();
+    private final HashMap<String, TreeMap<String, Collection<CardView>>> filterOptions;
 
+    /**
+     * Constructor for FilterDatabase object
+     */
     public FilterDatabase() {
         filterOptions = new HashMap<>();
         filterOptions.put("Event", new TreeMap<>());
@@ -28,37 +25,10 @@ public class FilterDatabase {
         allData.put("Equipments", new ArrayList<>());
     }
 
-    public static void saveFilterDatabase(File logFile) {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
-                .registerTypeAdapter(HBox.class, new HBoxSerializer())
-                .create();
-
-        String serializedCourseLogText = gson.toJson(App.getFilterDatabase().getFilterOptions());
-
-        // Check if the serialized text is not null and logFile is not null before creating the PrintWriter
-        if (serializedCourseLogText != null && logFile != null) {
-            try (PrintWriter writer = new PrintWriter(new FileWriter(logFile))) {
-                writer.println(serializedCourseLogText);
-            } catch (IOException e) {
-                // Handle or log the IOException
-                e.printStackTrace();
-            }
-        } else {
-            System.err.println("Failed to serialize the object to JSON or logFile is null.");
-        }
-    }
-
-    public static FilterDatabase loadFromFile(File logFile) throws IOException {
-        FileReader reader = new FileReader(logFile);
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
-                .registerTypeAdapter(HBox.class, new HBoxSerializer())
-                .create();
-        return gson.fromJson(reader, FilterDatabase.class);
-    }
-
+    /**
+     * Adds filter options to the filter database
+     * @param cards: HashMap of CardView objects
+     */
     public void addFilterOptions(HashMap<Integer, CardView> cards) {
         for (int cardId : cards.keySet()) {
             CardView currCard = cards.get(cardId);
@@ -110,6 +80,12 @@ public class FilterDatabase {
         }
     }
 
+    /**
+     * Adds a card to the filter options
+     * @param category: String of the category to add to
+     * @param subCategory: String of the subcategory to add to
+     * @param card: CardView object to add to the filter options
+     */
     private void addToFilterOptions(String category, String subCategory, CardView card) {
         if (!filterOptions.get(category).containsKey(subCategory)) {
             filterOptions.get(category).put(subCategory, new HashSet<>());
@@ -120,6 +96,11 @@ public class FilterDatabase {
         filterOptions.get(category).get(subCategory).add(card);
     }
 
+    /**
+     * Adds a formatted equipment to the filter options
+     * @param equipment: String of the equipment to add
+     * @param card: CardView object to add to the filter options
+     */
     private void addFormattedEquipment(String equipment, CardView card) {
         equipment = equipment.trim().replaceAll("\"", "");
         addToFilterOptions("Equipments", equipment, card);

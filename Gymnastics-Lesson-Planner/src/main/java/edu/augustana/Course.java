@@ -10,13 +10,23 @@ import java.util.ArrayList;
 
 public class Course {
     private String courseName;
-    private ArrayList<Lesson> lessonsInCourse;
+    private final ArrayList<Lesson> lessonsInCourse;
 
+    /**
+     * Constructor for Course object
+     * @param courseName: String of the name of the course
+     */
     public Course(String courseName) {
         this.courseName = courseName;
         lessonsInCourse = new ArrayList<>();
     }
 
+    /**
+     * Loads a course from a file
+     * @param logFile: File object of the file to load
+     * @return: Course object
+     * @throws IOException: Throws exception if file is not found
+     */
     public static Course loadFromFile(File logFile) throws IOException {
         FileReader reader = new FileReader(logFile);
         Gson gson = new GsonBuilder()
@@ -39,23 +49,19 @@ public class Course {
         return courseName;
     }
 
+    /**
+     * Adds a lesson to the course
+     * @param newLesson: Lesson object to add to the course
+     */
     public void addData(Lesson newLesson) {
         lessonsInCourse.add(newLesson);
     }
 
-    //    public void saveToFile(File logFile) throws IOException {
-//        Gson gson = new GsonBuilder()
-//                .setPrettyPrinting()
-//                .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
-//                .registerTypeAdapter(HBox.class, new HBoxSerializer())
-//                .create();
-//
-//        String serializedMovieLogText = gson.toJson(this);
-//        PrintWriter writer = new PrintWriter(new FileWriter(logFile));
-//        writer.println(serializedMovieLogText);
-//        writer.close();
-//    }
-    public void saveToFile(File logFile) throws IOException {
+    /**
+     * Saves the course to a file
+     * @param logFile: File object of the file to save to
+     */
+    public void saveToFile(File logFile){
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(ImageView.class, new ImageViewSerializer())
@@ -77,10 +83,18 @@ public class Course {
         }
     }
 
+    /**
+     * Sets the name of the course
+     * @param name: String of the name of the course
+     */
     public void setCourseName(String name) {
         this.courseName = name;
     }
 
+    /**
+     * Removes a lesson from the course
+     * @param index: int of the index of the lesson to remove
+     */
     public void removeLesson(int index) {
         lessonsInCourse.remove(index);
     }

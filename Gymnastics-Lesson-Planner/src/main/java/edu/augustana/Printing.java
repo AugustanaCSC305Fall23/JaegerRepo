@@ -15,17 +15,17 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 
 public class Printing {
-    private static Label jobStatus = new Label();
+    private static final Label jobStatus = new Label();
     private static Stage printingWindow;
     private static boolean addEquipments = true;
     private static boolean noImage = false;
     private static VBox vBoxForCards;
 
+    /**
+     * Creates a new window to print the selected cards
+     */
     public static void start() {
         VBox root = new VBox(5);
         root.setAlignment(Pos.CENTER);
@@ -45,7 +45,7 @@ public class Printing {
 
         Button printButton = setUpPrintButton(imagesScroll);
 
-        HBox jobStatusBox = new HBox(5, new Label("Print Job Staus: "), jobStatus);
+        HBox jobStatusBox = new HBox(5, new Label("Print Job Status: "), jobStatus);
         jobStatusBox.setAlignment(Pos.CENTER);
         HBox buttonBox = new HBox(5, printButton);
         buttonBox.setAlignment(Pos.CENTER);
@@ -68,6 +68,10 @@ public class Printing {
         printingWindow.show();
     }
 
+    /**
+     * Sets up the printing options
+     * @param printingOptions: HBox to add the printing options to
+     */
     private static void setupPrintingOptions(HBox printingOptions) {
         ToggleGroup group = new ToggleGroup();
         RadioButton cardAndEquipment = new RadioButton("Cards and Equipments");
@@ -95,6 +99,11 @@ public class Printing {
         });
     }
 
+    /**
+     * Sets up the print button
+     * @param imagesScroll: ScrollPane of the images to print
+     * @return: Button object
+     */
     private static Button setUpPrintButton(ScrollPane imagesScroll) {
         Button printButton = new Button("Print");
         printButton.setOnAction(e -> printAction((VBox) imagesScroll.getContent()));
@@ -111,6 +120,9 @@ public class Printing {
         return printButton;
     }
 
+    /**
+     * Adds the content to the printing view
+     */
     private static void addContentToPrintView() {
         ArrayList<String> loadedCards = new ArrayList<>();
         while (!vBoxForCards.getChildren().isEmpty()) {
@@ -119,12 +131,10 @@ public class Printing {
 
         for (String event: groupBasedOnEvents().keySet()) {
             int currCol = 0;
-            int currRow = 0;
             Label eventName = new Label(event);
             eventName.setStyle("-fx-font-size: 15; -fx-font-family: Calibri");
             vBoxForCards.getChildren().add(eventName);
             HBox row = new HBox();
-            HashMap<String, ArrayList<CardView>> data = groupBasedOnEvents();
 
             for (CardView cardView : groupBasedOnEvents().get(event)) {
                 VBox cardData = new VBox(3);
@@ -160,7 +170,6 @@ public class Printing {
                         vBoxForCards.getChildren().add(row);
                         row = new HBox();
                         currCol = 0;
-                        currRow++;
                     }
                     row.setAlignment(Pos.CENTER);
                     row.setSpacing(30);
@@ -176,6 +185,10 @@ public class Printing {
         }
     }
 
+    /**
+     * Groups the cards based on the events
+     * @return: HashMap of the events and the cards in the events
+     */
     private static HashMap<String, ArrayList<CardView>> groupBasedOnEvents(){
         HashMap<String, ArrayList<CardView>> eventGroupedCardViews = new HashMap<>();
         for (CardView cardView: App.getCurrentSelectedLesson().getSelectedCardViews()){
@@ -189,6 +202,11 @@ public class Printing {
         }
         return eventGroupedCardViews;
     }
+
+    /**
+     * Prints the content
+     * @param content: VBox of the content to print
+     */
     private static void printAction(VBox content) {
         jobStatus.textProperty().unbind();
         jobStatus.setText(("creating a printer job..."));
@@ -201,29 +219,34 @@ public class Printing {
             jobStatus.textProperty().bind(job.jobStatusProperty().asString());
             boolean printed = false;
 
-            int itemsPerPage = 3;
-            int remainingItems = content.getChildren().size();
-            int pageCount = (int) Math.ceil((double) remainingItems / itemsPerPage);
 
-            for (int pageIndex = 0; pageIndex < pageCount; pageIndex++) {
-                Pane printPane = new Pane();
-                int itemsOnThisPage = Math.min(itemsPerPage, remainingItems);
-
-                int i = 0;
-                while (i < itemsOnThisPage && (!content.getChildren().isEmpty())) {
-                    Node item = content.getChildren().get(0);
-                    if (item != null) {
-                        if (item instanceof Label){
-                            i--;
-                        }
-                        printPane.getChildren().add(item);
-                        content.getChildren().remove(item);
-                    }
-                    i++;
+                int itemsPerPage = 3;
+                if (noImage){
+                    itemsPerPage = 7;
                 }
-                printed = job.printPage(printPane);
-                remainingItems -= itemsOnThisPage;
-            }
+                int remainingItems = content.getChildren().size();
+                int pageCount = (int) Math.ceil((double) remainingItems / itemsPerPage);
+
+                for (int pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+                    Pane printPane = new Pane();
+                    int itemsOnThisPage = Math.min(itemsPerPage, remainingItems);
+
+                    int i = 0;
+                    while (i < itemsOnThisPage && (!content.getChildren().isEmpty())) {
+                        Node item = content.getChildren().get(0);
+                        if (item != null) {
+                            if (item instanceof Label) {
+                                i--;
+                            }
+                            printPane.getChildren().add(item);
+                            content.getChildren().remove(item);
+                        }
+                        i++;
+                    }
+                    printed = job.printPage(printPane);
+                    remainingItems -= itemsOnThisPage;
+                }
+
 
             if (printed) {
                 job.endJob();
@@ -235,9 +258,5 @@ public class Printing {
         } else {
             jobStatus.setText("Could not create a printer job.");
         }
-    }
-
-    private void addNoImageContentToPrintView() {
-
     }
 }

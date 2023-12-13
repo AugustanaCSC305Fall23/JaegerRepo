@@ -18,10 +18,13 @@ public class Card {
     private final String[] equipments;
     private final String[] keywords;
     private final int cardId;
-    private String thumbnailFilePath;
-    private String dir;
-    private String fileName;
+    private final String thumbnailFilePath;
 
+    /**
+     * Constructor for Card object
+     * @param csvData: String array of data from CSV file
+     * @param newDirName: String of the directory name of the card
+     */
     public Card(String[] csvData, String newDirName) {
         this.code = csvData[0];
         this.event = csvData[1];
@@ -29,7 +32,7 @@ public class Card {
         this.title = csvData[3];
         String folderFilePath = "staticFiles/CardData/" + newDirName + "/";
         this.filePath = App.class.getResource(folderFilePath + csvData[5]);
-        this.thumbnailFilePath = Objects.requireNonNull(App.class.getResource(folderFilePath + "thumbs/" + App.removeFileExtension(csvData[5]) + ".jpg").toExternalForm());
+        this.thumbnailFilePath = Objects.requireNonNull(Objects.requireNonNull(App.class.getResource(folderFilePath + "thumbs/" + App.removeFileExtension(csvData[5]) + ".jpg")).toExternalForm());
         System.out.println(newDirName + "/" + csvData[5]);
         this.gender = csvData[6];
         this.modelSex = csvData[7];
@@ -80,16 +83,20 @@ public class Card {
         return new ArrayList<>(Arrays.asList(levels));
     }
 
+    /**
+     * Returns an ArrayList of equipment
+     * @return: ArrayList of equipment
+     */
     public ArrayList<String> getEquipment() {
         ArrayList<String> equipmentsAsList = new ArrayList<>();
         for (String equipment : equipments) {
             if (equipment.contains("/")) {
                 for (String e : equipment.split("/")) {
-                    e = e.trim().replaceAll("[\"]", "");
+                    e = e.trim().replaceAll("\"", "");
                     equipmentsAsList.add(App.toTitleCase(e));
                 }
             } else {
-                equipment = equipment.trim().replaceAll("[\"]", "");
+                equipment = equipment.trim().replaceAll("\"", "");
                 equipmentsAsList.add(App.toTitleCase(equipment));
             }
         }

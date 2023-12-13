@@ -19,8 +19,12 @@ import java.util.Objects;
 
 public class CreateNewOptionPopUp {
     private final String optionType;
-    private Stage popUpWindow;
+    private final Stage popUpWindow;
 
+    /**
+     * Constructor for CreateNewOptionPopUp object
+     * @param optionType: String of the type of option to create
+     */
     public CreateNewOptionPopUp(String optionType) {
         this.optionType = optionType;
 
@@ -46,7 +50,7 @@ public class CreateNewOptionPopUp {
         contentVBox.setBackground(background);
 
 
-        // intialize data into the contentVBox
+        // initialize data into the contentVBox
         Label label = new Label("Create a " + optionType);
         label.setTextFill(Color.WHITE);
         label.setFont(new Font("Segoe UI Variable Display Semil", 35));
@@ -67,6 +71,19 @@ public class CreateNewOptionPopUp {
 
         contentVBox.getChildren().addAll(label, hboc);
 
+        Button loadOptionButton = getLoadOptionButton(optionTypeName);
+        contentVBox.getChildren().add(loadOptionButton);
+
+        Scene scene = new Scene(contentVBox, 600, 400);
+        popUpWindow.setScene(scene);
+    }
+
+    /**
+     * Creates a button to create a new option
+     * @param optionTypeName: TextField of the name of the option
+     * @return: Button object
+     */
+    private Button getLoadOptionButton(TextField optionTypeName) {
         Button loadOptionButton = new Button("Create New");
         loadOptionButton.setStyle("-fx-background-color: #34c6a4;" +
                 "-fx-background-radius: 20;" +
@@ -82,16 +99,17 @@ public class CreateNewOptionPopUp {
                 "-fx-font-size: 12;" +
                 "-fx-pref-height: 20;"
         ));
-        contentVBox.getChildren().add(loadOptionButton);
-
-        Scene scene = new Scene(contentVBox, 600, 400);
-        popUpWindow.setScene(scene);
+        return loadOptionButton;
     }
 
     public Stage getPopUpWindow() {
         return popUpWindow;
     }
 
+    /**
+     * Creates a new option
+     * @param name: String of the name of the option
+     */
     private void createClicked(String name) {
         if (name.isBlank()) {
             showAlert("Name is required");
@@ -110,6 +128,10 @@ public class CreateNewOptionPopUp {
         }
     }
 
+    /**
+     * Shows an alert
+     * @param msg: String of the message to show
+     */
     private void showAlert(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Invalid Name");

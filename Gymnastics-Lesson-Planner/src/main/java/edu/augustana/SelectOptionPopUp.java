@@ -20,11 +20,11 @@ import java.util.Optional;
 
 public class SelectOptionPopUp {
     private final String optionType;
-    private Stage popUpWindow;
-    private VBox optionsVBox;
-    private ObservableList<Node> windowContent = App.primaryStage.getScene().getRoot().getChildrenUnmodifiable();
-    private ListView<String> cardBox = ((ListView<String>) ((VBox) windowContent.get(2)).getChildren().get(2));
-    private ListView<String> equipmentBox = ((ListView<String>) ((VBox) windowContent.get(2)).getChildren().get(4));
+    private final Stage popUpWindow;
+    private final VBox optionsVBox;
+    private final ObservableList<Node> windowContent = App.primaryStage.getScene().getRoot().getChildrenUnmodifiable();
+    private final ListView<String> cardBox = ((ListView<String>) ((VBox) windowContent.get(2)).getChildren().get(2));
+    private final ListView<String> equipmentBox = ((ListView<String>) ((VBox) windowContent.get(2)).getChildren().get(4));
     private SelectOptionPopUp selectLessonPopUp;
 
     public SelectOptionPopUp(String optionType) {
@@ -52,7 +52,7 @@ public class SelectOptionPopUp {
         contentVBox.setBackground(background);
 
 
-        // intialize data into the contentVBox
+        // initialize data into the contentVBox
         Label label = new Label("Select a " + optionType);
         label.setTextFill(Color.WHITE);
         label.setFont(new Font("Segoe UI Variable Display Semil", 35));
@@ -67,9 +67,7 @@ public class SelectOptionPopUp {
         setLoadButtonStyle(createOptionButton);
         createOptionButton.setOnMouseEntered(e -> createOptionButton.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #34c6a4;-fx-font-size: 12;-fx-pref-height: 20;"));
         createOptionButton.setOnMouseExited(e -> setLoadButtonStyle(createOptionButton));
-        createOptionButton.setOnMouseClicked(event -> {
-            createButtonClick();
-        });
+        createOptionButton.setOnMouseClicked(event -> createButtonClick());
 
         HBox createLoadWrapper = new HBox(5);
         createLoadWrapper.setAlignment(Pos.CENTER);
@@ -91,14 +89,6 @@ public class SelectOptionPopUp {
         }
 
         contentVBox.getChildren().add(createLoadWrapper);
-//        if (optionType.equalsIgnoreCase("course")) {
-//            Button clearHist = new Button("Clear History");
-//            setClearStyle(clearHist);
-//            clearHist.setOnMouseEntered(e -> clearHist.setStyle("-fx-background-color: white;-fx-background-radius: 20;-fx-text-fill: #cf5d66;-fx-font-size: 12;-fx-pref-height: 20;"));
-//            clearHist.setOnMouseExited(e -> setClearStyle(clearHist));
-//            clearHist.setOnMouseClicked(e -> App.clearHistory());
-//            createLoadWrapper.getChildren().add(clearHist);
-//        }
 
         Scene scene = new Scene(contentVBox, 600, 400);
         popUpWindow.setScene(scene);
@@ -113,15 +103,6 @@ public class SelectOptionPopUp {
 
     private void setLoadButtonStyle(Button button) {
         button.setStyle("-fx-background-color: #34c6a4;" +
-                "-fx-background-radius: 20;" +
-                "-fx-text-fill: white;" +
-                "-fx-font-size: 12;" +
-                "-fx-pref-height: 20;"
-        );
-    }
-
-    private void setClearStyle(Button button) {
-        button.setStyle("-fx-background-color: #cf5d66;" +
                 "-fx-background-radius: 20;" +
                 "-fx-text-fill: white;" +
                 "-fx-font-size: 12;" +
@@ -173,7 +154,6 @@ public class SelectOptionPopUp {
                 });
             } catch (IOException e) {
                 App.historyPaths.remove(fileName);
-                System.out.println("hereeeeeeee");
             }
         }
         return selectLessonPopUp;
@@ -193,32 +173,6 @@ public class SelectOptionPopUp {
         }
     }
 
-    //    private Button addOptionToContentVBox(String buttonName) {
-//        System.out.println(buttonName);
-//        Button option = new Button(buttonName);
-//        ImageView deleteIcon = getDeleteIcon(buttonName, optionsVBox.getChildren().size());
-//        setOptionButtonStyle(option);
-//        option.setOnMouseEntered(e -> option.setStyle(
-//                "-fx-background-color: #4654a4;" +
-//                        "-fx-background-radius: 20;" +
-//                        "-fx-text-fill: white;" +
-//                        "-fx-font-size: 12;" +
-//                        "-fx-min-width: 120;" +
-//                        "-fx-pref-height: 20;"));
-//        option.setOnMouseExited(e -> setOptionButtonStyle(option));
-//        HBox optionAndDeleteIconWrapper = new HBox(5);
-//        optionAndDeleteIconWrapper.setAlignment(Pos.CENTER);
-//        optionAndDeleteIconWrapper.getChildren().addAll(option);
-//
-//        optionAndDeleteIconWrapper.setOnMouseEntered(e->optionAndDeleteIconWrapper.getChildren().addAll(deleteIcon));
-//        optionAndDeleteIconWrapper.setOnMouseExited(e-> optionAndDeleteIconWrapper.getChildren().remove(deleteIcon));
-//
-//
-//        optionsVBox.getChildren().add(optionAndDeleteIconWrapper);
-//        return option;
-//    }
-//
-//
     private Button addOptionToContentVBox(String buttonName) {
         System.out.println(buttonName);
         Button option = new Button(buttonName);
@@ -231,19 +185,15 @@ public class SelectOptionPopUp {
 
         deleteIcon.setVisible(false);
 
-        option.setOnMouseEntered(e -> {
-            option.setStyle(
-                    "-fx-background-color: #4654a4;" +
-                            "-fx-background-radius: 20;" +
-                            "-fx-text-fill: white;" +
-                            "-fx-font-size: 12;" +
-                            "-fx-min-width: 160;" +
-                            "-fx-pref-height: 20;");
-        });
+        option.setOnMouseEntered(e -> option.setStyle(
+                "-fx-background-color: #4654a4;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 12;" +
+                        "-fx-min-width: 160;" +
+                        "-fx-pref-height: 20;"));
 
-        option.setOnMouseExited(e -> {
-            setOptionButtonStyle(option);
-        });
+        option.setOnMouseExited(e -> setOptionButtonStyle(option));
         optionAndDeleteIconWrapper.setOnMouseEntered(e -> deleteIcon.setVisible(true));
         optionAndDeleteIconWrapper.setOnMouseExited(e -> deleteIcon.setVisible(false));
 
